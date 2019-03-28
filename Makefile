@@ -1,4 +1,4 @@
-.PHONY: lint clean
+.PHONY: build lint clean test docs
 
 all: build
 
@@ -12,3 +12,6 @@ check: test
 
 lint:
 	cpplint --recursive --quiet .
+
+docs:
+	cd docs && make all
