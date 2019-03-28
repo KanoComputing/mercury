@@ -7,3 +7,6 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
 add_subdirectory(src)
+add_subdirectory(test)
+
+enable_testing()
