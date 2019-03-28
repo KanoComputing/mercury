@@ -3,6 +3,9 @@
 all: build
 
 build:
+	cd build && conan install ..
+	cd build && cmake ..
+	cd build && make
 
 clean:
 
