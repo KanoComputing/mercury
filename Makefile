@@ -16,6 +16,7 @@ COVERAGE_EXCLUDES := \
 all: build
 
 build:
+	cd build && conan install --build gtest ..
 	cd build && conan install ..
 	cd build && cmake ..
 	cd build && make
