@@ -7,7 +7,7 @@ Build-Depends: debhelper(>= 9.0.0), build-essential, cmake, python-conan, lcov
 
 Package: mercury
 Architecture: any
-Depends: libc6, libstdc++6
+Depends: libc6, libstdc++6, libgcc1
 Description: Kano OS multiplatform API abstraction layer
 
 Package: mercury-dev
