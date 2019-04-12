@@ -1,0 +1,16 @@
+Source: mercury
+Maintainer: Team Kano <dev@kano.me>
+Section: tools
+Priority: optional
+Standards-Version: 1.1.0
+Build-Depends: debhelper(>= 9.0.0), build-essential, cmake, python-conan, lcov
+
+Package: mercury
+Architecture: any
+Depends: libc6, libstdc++6
+Description: Kano OS multiplatform API abstraction layer
+
+Package: mercury-dev
+Architecture: any
+Depends: mercury
+Description: Kano OS multiplatform API abstraction layer, development package
