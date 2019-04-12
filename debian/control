@@ -12,5 +12,5 @@ Description: Kano OS multiplatform API abstraction layer
 
 Package: mercury-dev
 Architecture: any
-Depends: mercury
+Depends: mercury (= ${binary:Version})
 Description: Kano OS multiplatform API abstraction layer, development package
