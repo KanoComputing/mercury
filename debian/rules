@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_test:
+	echo "FIXME: We need to fix gtest build for the RPi to run dh_auto_test"

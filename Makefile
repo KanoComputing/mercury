@@ -16,7 +16,8 @@ COVERAGE_EXCLUDES := \
 all: build
 
 build:
-	cd build && conan install ..
+	mkdir -p build
+	cd build && conan install --build=missing ..
 	cd build && cmake ..
 	cd build && make
 
