@@ -75,6 +75,8 @@ Build
 
 `CMake <https://cmake.org/documentation/>`_ (3.10.0 minimum to allow us to use some of the newer goodies) is used to build both the project and the tests.
 
+If your linux system is based on Debian Stretch, you can use the `backports <https://backports.debian.org/Instructions/>`_ repositories to pull the latest CMake version. Alternatively, you can point your APT sources to Debian Buster.
+
 
 Test
 -----
