@@ -1,25 +1,29 @@
-find_package(GTest)
-include(GoogleTest)
+if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
 
+  message("WARNING: You need CMake version 3.10.0 or above in order to run tests")
 
-add_executable(mercury_gtests
-    test.cpp
-)
+else()
 
-target_link_libraries(mercury_gtests
-    PUBLIC mercury
-    PRIVATE GTest::GTest GTest::Main CONAN_PKG::gtest
-)
+    find_package(GTest)
+    include(GoogleTest)
+    add_executable(mercury_gtests
+      test.cpp
+      )
 
-target_compile_options(mercury_gtests
-    PRIVATE -fprofile-arcs -ftest-coverage
-)
+    target_link_libraries(mercury_gtests
+      PUBLIC mercury
+      PRIVATE GTest::Main GTest::GTest CONAN_PKG::gtest
+      )
 
-# again, option not available on cmake version on the pi
-target_link_options(mercury_gtests
-    PRIVATE -coverage -rpath ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-)
+    target_compile_options(mercury_gtests
+      PRIVATE -fprofile-arcs -ftest-coverage
+      )
 
+    target_link_options(mercury_gtests
+      PRIVATE -coverage -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+      )
 
-enable_testing()
-gtest_discover_tests(mercury_gtests)
+    enable_testing()
+    gtest_discover_tests(mercury_gtests)
+
+endif()
