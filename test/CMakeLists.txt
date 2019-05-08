@@ -12,7 +12,7 @@ else()
 
     target_link_libraries(mercury_gtests
       PUBLIC mercury
-      PRIVATE GTest::GTest GTest::Main CONAN_PKG::gtest
+      PRIVATE GTest::Main GTest::GTest CONAN_PKG::gtest
       )
 
     target_compile_options(mercury_gtests
@@ -20,7 +20,7 @@ else()
       )
 
     target_link_options(mercury_gtests
-      PRIVATE -coverage -rpath ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+      PRIVATE -coverage -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
       )
 
     enable_testing()

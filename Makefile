@@ -1,4 +1,5 @@
 BUILD_DIR := build
+CONAN_PROFILE=../conan-platforms/conan-profile-$(shell uname -m).info
 COVERAGE_DIR := coverage
 COVERAGE_INFO := ${COVERAGE_DIR}/coverage.info
 COVERAGE_EXCLUDES := \
@@ -17,7 +18,7 @@ all: build
 
 build:
 	mkdir -p build
-	cd build && conan install --build=missing ..
+	cd build && conan install --build=missing --profile=${CONAN_PROFILE} ..
 	cd build && cmake ..
 	cd build && make
 
