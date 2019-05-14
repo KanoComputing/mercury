@@ -8,12 +8,10 @@
  *
  */
 
-
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
 #include "theme/theme.h"
-
 
 int main(int argc, char *argv[])
 {
