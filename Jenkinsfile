@@ -12,6 +12,6 @@ stage ('Test') {
         "mercury"
         ]
 
-    ubuntu_make_test(test_repos) {
+    make_test(test_repos, "make test") {
     }
 }
