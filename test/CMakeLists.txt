@@ -1,6 +1,6 @@
 if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
 
-  message("WARNING: You need CMake version 3.10.0 or above in order to run tests")
+    message(FATAL_ERROR "ERROR: You need CMake version 3.10.0 or above in order to run tests")
 
 else()
 
