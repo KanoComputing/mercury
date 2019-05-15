@@ -14,7 +14,6 @@
 
 #include "theme/theme.h"
 
-
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
