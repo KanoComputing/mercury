@@ -5,12 +5,17 @@ add_library(mercury SHARED
 )
 
 target_compile_options(mercury
-	PRIVATE -fprofile-arcs -ftest-coverage
+    PRIVATE -fprofile-arcs -ftest-coverage
 )
 
-target_link_options(mercury
-	PRIVATE -coverage
-)
+
+if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
+    set (CMAKE_LINKER_FLAGS "PRIVATE -coverage kjadkahd")
+else()
+    target_link_options(mercury
+        PRIVATE -coverage
+        )
+endif()
 
 target_include_directories(mercury PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../include>
