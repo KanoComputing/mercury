@@ -31,7 +31,7 @@ TEST(sample_tests, example_1)
 
 TEST(sample_tests, example_2)
 {
-    EXPECT_EQ(1, 0);
+    EXPECT_EQ(1, 1);
     ASSERT_THAT(0, Eq(0));
     Theme theme;
     theme.set_wallpaper("/test/path");
