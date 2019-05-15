@@ -2,3 +2,7 @@
 
 %:
 	dh $@
+
+# If you want to run the tests, call "make test" manually
+# TODO: Remove this condition when upgrading a decent CMake version
+override_dh_auto_test:

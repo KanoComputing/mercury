@@ -13,6 +13,9 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
 add_subdirectory(src)
-add_subdirectory(test)
+
+if(${CMAKE_VERSION} VERSION_GREATER "3.10.0")
+    add_subdirectory(test)
+endif()
 
 enable_testing()
