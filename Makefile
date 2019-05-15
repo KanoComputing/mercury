@@ -25,8 +25,7 @@ build:
 clean:
 
 test: build
-	cd build
-	make test
+	cd build && make test
 	mkdir -p ${COVERAGE_DIR}
 	rm -f ${COVERAGE_INFO}
 	lcov --directory ${BUILD_DIR} \
