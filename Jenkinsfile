@@ -8,7 +8,7 @@ stage ('Test') {
         "mercury"
         ]
 
-    make_test(test_repos, "make test") {
+    make_test(test_repos) {
     }
 }
 
