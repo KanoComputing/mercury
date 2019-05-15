@@ -3,10 +3,6 @@
 @Library('kanolib')
 import build_deb_pkg
 
-stage ('Build') {
-    autobuild_repo_pkg 'mercury'
-}
-
 stage ('Test') {
     def test_repos = [
         "mercury"
@@ -14,4 +10,8 @@ stage ('Test') {
 
     make_test(test_repos, "make test") {
     }
+}
+
+stage ('Build') {
+    autobuild_repo_pkg 'mercury'
 }
