@@ -42,7 +42,7 @@ test-library:
 		${COVERAGE_DIR}/coverage.info
 
 test-python:
-	echo "TODO: test-python"
+	cd test/python3 && python3 -m pytest
 
 test: build test-library test-python
 
