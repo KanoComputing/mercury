@@ -41,8 +41,10 @@ test-library:
 		--demangle-cpp \
 		${COVERAGE_DIR}/coverage.info
 
+
 test-python:
-	cd test/python3 && python3 -m pytest
+	cd test/python2 && python2 -m pytest ; cd ../python3 && python3 -m pytest
+
 
 test: build test-library test-python
 
