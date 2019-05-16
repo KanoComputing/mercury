@@ -1,4 +1,4 @@
-project(theme VERSION 0.1 LANGUAGES CXX)
+project(mercury VERSION 0.1 LANGUAGES CXX)
 
 add_library(mercury SHARED
     theme/theme.cpp

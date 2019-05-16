@@ -20,7 +20,7 @@ build:
 	mkdir -p build
 	cd build && conan install --build=missing --profile=${CONAN_PROFILE} ..
 	cd build && cmake ..
-	cd build && make
+	cd build && make VERBOSE=1
 
 clean:
 
