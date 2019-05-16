@@ -24,7 +24,7 @@ build:
 
 clean:
 
-test: build
+test-library:
 	cd build && make test
 	mkdir -p ${COVERAGE_DIR}
 	rm -f ${COVERAGE_INFO}
@@ -40,6 +40,11 @@ test: build
 	genhtml --output-directory ${COVERAGE_DIR} \
 		--demangle-cpp \
 		${COVERAGE_DIR}/coverage.info
+
+test-python:
+	echo "TODO: test-python"
+
+test: build test-library test-python
 
 check: test
 
