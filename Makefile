@@ -43,7 +43,10 @@ test-library:
 
 
 test-python:
-	cd test/python2 && python2 -m pytest ; cd ../python3 && python3 -m pytest
+	# FIXME: a better way to locate these python modules
+	cp -v build/lib/_mercury.so test/python3
+	cp -v build/src/swig/python/mercury.py test/python3
+	cd test/python3 && python3 -m pytest
 
 
 test: build test-library test-python

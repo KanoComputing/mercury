@@ -9,8 +9,10 @@ def test_theme_set_wallpaper():
     assert (Path(test_wallpaper).is_file() == True)
 
     import mercury
-    assert (mercury.theme.set_wallpaper(test_wallpaper) == True)
+    t = mercury.Theme()
+    assert(t.set_wallpaper(test_wallpaper) == True)
 
 def test_theme_get_wallpaper():
     import mercury
-    assert(mercury.theme.get_wallpaper() != None)
+    t = mercury.Theme()
+    assert(t.get_wallpaper() != None)
