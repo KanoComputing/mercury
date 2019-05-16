@@ -16,3 +16,4 @@ def test_theme_get_wallpaper():
     import mercury
     t = mercury.Theme()
     assert(t.get_wallpaper() != None)
+    assert(len(t.get_wallpaper()) > 0)

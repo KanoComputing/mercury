@@ -1,5 +1,7 @@
 %module mercury
 
+%include <std_string.i>
+
 // Add necessary symbols to generated header
 %{
    #include "../../include/mercury/theme/theme.h"

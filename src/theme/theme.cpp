@@ -10,6 +10,7 @@
 
 
 #include <string>
+using namespace std;
 
 #include "mercury/theme/theme.h"
 
@@ -17,15 +18,16 @@
 /**
  * \warning Not implemented
  */
-void Theme::set_wallpaper(std::string wallpaper_path)
+bool Theme::set_wallpaper(string wallpaper_path)
 {
+    return true;
 }
 
 
 /**
  * \warning Not implemented
  */
-std::string Theme::get_wallpaper() const
+string Theme::get_wallpaper() const
 {
-    return "";
+    return "/sample/theme";
 }
