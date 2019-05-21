@@ -43,10 +43,14 @@ test-library:
 
 
 test-python:
-	# FIXME: a better way to locate these python modules
-	cp -v build/lib/_mercury.so test/python3
-	cp -v build/src/swig/python/mercury.py test/python3
-	cd test/python3 && python3 -m pytest
+	# FIXME: The mercury python3 module does not load unless
+	# it is in the current directory. LD_LIBRARY_PATH does not help
+	# an empty __init__ does not help either. where is the problem?
+	rm -rf test/python3/mercury
+	mkdir -p test/python3/mercury
+	cp -v build/lib/_mercury.so test/python3/mercury
+	cp -v build/src/swig/python/mercury.py test/python3/mercury
+	cd test/python3 && LD_LIBRARY_PATH=/tmp/mercury/test/python3/mercury python3 -m pytest
 
 
 test: build test-library test-python

@@ -3,6 +3,10 @@
 # Python3 pytest module for the Mercury theme APIs
 #
 
+def test_theme_class():
+    import mercury
+    t = mercury.Theme()
+
 def test_theme_set_wallpaper():
     from pathlib import Path
     test_wallpaper = 'data/theme/arcade_hall-1024.png'
