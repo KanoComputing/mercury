@@ -50,7 +50,8 @@ test-python:
 	mkdir -p test/python3/mercury
 	cp -v build/lib/_mercury.so test/python3/mercury
 	cp -v build/src/swig/python/mercury.py test/python3/mercury
-	cd test/python3 && LD_LIBRARY_PATH=/tmp/mercury/test/python3/mercury python3 -m pytest
+	cp -v src/swig/__init__.py test/python3/mercury
+	cd test/python3 && python3 -m pytest
 
 
 test: build test-library test-python
