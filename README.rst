@@ -87,6 +87,9 @@ Test
 
 Tests are written with `Google Test <https://github.com/google/googletest>`_. Conan will handle installing all the dependencies here. Coverage reports are generated with ``lcov`` and a report can be found in ``coverage/index.html`` after running the tests.
 
+   make test-library will only cover the core library tests, explained above
+   make test-python to run the Python3 tests only. Note that these tests can also run on the target installation system. You need to have ``make`` and ``python-pytest`` tools installed.
+
 
 Lint
 ----

@@ -10,7 +10,7 @@
 
 
 #include <string>
-using namespace std;
+using std::string;
 
 #include "mercury/theme/theme.h"
 
