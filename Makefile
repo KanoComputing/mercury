@@ -20,11 +20,11 @@ build:
 	mkdir -p build
 	cd build && conan install --build=missing --profile=${CONAN_PROFILE} ..
 	cd build && cmake ..
-	cd build && make
+	cd build && make VERBOSE=1
 
 clean:
 
-test: build
+test-library:
 	cd build && make test
 	mkdir -p ${COVERAGE_DIR}
 	rm -f ${COVERAGE_INFO}
@@ -40,6 +40,17 @@ test: build
 	genhtml --output-directory ${COVERAGE_DIR} \
 		--demangle-cpp \
 		${COVERAGE_DIR}/coverage.info
+
+
+test-python:
+	# Python tests can be run on a build sandbox,
+	# as well as on the target installation system
+	-cp -v build/lib/_mercury.so test/python3
+	-cp -v build/src/swig/python/mercury.py test/python3
+	cd test/python3 && python3 -m pytest
+
+
+test: build test-library test-python
 
 check: test
 

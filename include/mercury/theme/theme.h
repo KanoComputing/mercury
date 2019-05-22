@@ -14,6 +14,7 @@
 
 
 #include <string>
+using std::string;
 
 
 /**
@@ -26,8 +27,8 @@ class Theme
     /**
      * \brief Sets the system wallpaper.
      */
-    void set_wallpaper(std::string wallpaper_path);
-    std::string get_wallpaper() const;
+    bool set_wallpaper(string wallpaper_path);
+    string get_wallpaper() const;
 };
 
 

@@ -352,4 +352,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Python tests
+test/python3/mercury.py
+test/python3/_mercury.so
+
 # End of https://www.gitignore.io/api/vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode
