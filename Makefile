@@ -43,14 +43,10 @@ test-library:
 
 
 test-python:
-	# FIXME: The mercury python3 module does not load unless
-	# it is in the current directory. LD_LIBRARY_PATH does not help
-	# an empty __init__ does not help either. where is the problem?
-	rm -rf test/python3/mercury
-	mkdir -p test/python3/mercury
-	cp -v build/lib/_mercury.so test/python3/mercury
-	cp -v build/src/swig/python/mercury.py test/python3/mercury
-	cp -v src/swig/__init__.py test/python3/mercury
+	# Python tests can be run on a build sandbox,
+	# as well as on the target installation system
+	-cp -v build/lib/_mercury.so test/python3
+	-cp -v build/src/swig/python/mercury.py test/python3
 	cd test/python3 && python3 -m pytest
 
 
