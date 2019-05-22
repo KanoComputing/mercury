@@ -25,3 +25,8 @@ Package: mercury-dev
 Architecture: any
 Depends: mercury (= ${binary:Version})
 Description: Kano OS multiplatform API abstraction layer, development package
+
+Package: python-mercury
+Architecture: any
+Depends: mercury (= ${binary:Version}), python3
+Description: Swig generated Python bindings for Kano OS Mercury API
