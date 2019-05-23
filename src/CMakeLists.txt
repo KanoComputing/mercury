@@ -9,10 +9,10 @@ target_compile_options(mercury
 )
 
 if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
-    set (CMAKE_LINKER_FLAGS "PRIVATE -coverage")
+    set (CMAKE_LINKER_FLAGS "PRIVATE -coverage -lgcov")
 else()
     target_link_options(mercury
-        PRIVATE -coverage
+        PRIVATE -coverage -lgcov
         )
 endif()
 
