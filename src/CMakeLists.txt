@@ -9,7 +9,9 @@ target_compile_options(mercury
 )
 
 if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
-    set (CMAKE_LINKER_FLAGS "PRIVATE -coverage -lgcov")
+    message("HAWWW")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -coverage -lgcov")
+    message("WAAAH")
 else()
     target_link_options(mercury
         PRIVATE -coverage -lgcov
