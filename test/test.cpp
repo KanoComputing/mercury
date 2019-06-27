@@ -13,8 +13,7 @@
 #include <gtest/gtest.h>
 
 #include "theme/theme.h"
-
-
+#include "kw/kw_renew_token.h"
 
 int main(int argc, char *argv[])
 {
