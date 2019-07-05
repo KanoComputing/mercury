@@ -24,9 +24,16 @@ class KanoWorld
     /**
      * \brief Sets the system wallpaper.
      */
-    bool renew_token(string token);
-    bool is_user_logged_in(string username);
-    bool who_am_i(void);
+    bool login(string username, string password, bool verbose);
+    bool refresh_token(string token, bool verbose);
+
+    string get_hostname(string config_filename);
+    string get_refresh_header(string token);
+
+    static size_t write_function(void *ptr, size_t size, size_t nmemb, void *stream);
+
+    bool am_i_logged_in(void);
+    string whoami(void);
 };
 
 #endif  // MERCURY_KW_H

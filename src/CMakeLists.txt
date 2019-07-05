@@ -20,10 +20,11 @@ endif()
 target_include_directories(mercury PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../include>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
+    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<INSTALL_INTERFACE:include>
     )
 
-target_link_libraries(mercury CONAN_PKG::libcurl)
+target_link_libraries(mercury CONAN_PKG::libcurl CONAN_PKG::parson)
 
 # Add swig subdirectory
 add_subdirectory(swig)
