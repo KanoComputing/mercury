@@ -1,5 +1,5 @@
 BUILD_DIR := build
-CONAN_PROFILE=../conan-platforms/conan-profile-$(shell uname -m).info
+CONAN_PROFILE=../conan-platforms/conan-profile-$(shell uname -s)-$(shell uname -m).info
 COVERAGE_DIR := coverage
 COVERAGE_INFO := ${COVERAGE_DIR}/coverage.info
 COVERAGE_EXCLUDES := \
@@ -23,6 +23,7 @@ build:
 	cd build && make VERBOSE=1
 
 clean:
+	cd build && make clean
 
 test-library:
 	cd build && make test

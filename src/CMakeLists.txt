@@ -9,12 +9,18 @@ target_compile_options(mercury
     PRIVATE -fprofile-arcs -ftest-coverage
 )
 
+find_package(gcov)
+
+target_link_libraries(mercury
+    PUBLIC ${GCOV_LIBRARIES}
+)
+
 if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -coverage -lgcov")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -coverage")
 else()
     target_link_options(mercury
-        PRIVATE -coverage -lgcov
-        )
+        PRIVATE -coverage
+    )
 endif()
 
 target_include_directories(mercury PUBLIC
