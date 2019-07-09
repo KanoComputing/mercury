@@ -9,7 +9,7 @@ add_executable(mercury_gtests
 )
 
 target_link_libraries(mercury_gtests
-    PUBLIC mercury
+    PUBLIC mercury_static
     PRIVATE CONAN_PKG::gtest
 )
 
