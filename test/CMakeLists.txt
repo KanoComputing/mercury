@@ -23,3 +23,19 @@ target_link_options(mercury_gtests
 
 enable_testing()
 gtest_discover_tests(mercury_gtests)
+
+# Coverage
+include(CodeCoverage)
+APPEND_COVERAGE_COMPILER_FLAGS()
+set(COVERAGE_LCOV_EXCLUDES
+    '*/test/*' '*/.conan/*' '*v1/*'
+)
+SETUP_TARGET_FOR_COVERAGE_LCOV(
+    NAME coverage
+    EXECUTABLE ctest -j ${n_cores}
+    DEPENDENCIES
+    mercury_obj
+    mercury_static
+    mercury_shared
+    mercury_gtests
+)

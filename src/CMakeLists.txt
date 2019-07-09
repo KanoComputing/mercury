@@ -25,26 +25,6 @@ set_target_properties(mercury_static
     PROPERTIES OUTPUT_NAME mercury
 )
 
-find_package(gcov)
-
-target_link_libraries(mercury_shared
-    PUBLIC ${GCOV_LIBRARIES}
-)
-target_link_libraries(mercury_static
-    PUBLIC ${GCOV_LIBRARIES}
-)
-
-if(${CMAKE_VERSION} VERSION_LESS "3.10.0")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -coverage")
-else()
-    target_link_options(mercury_shared
-        PRIVATE -coverage
-    )
-    target_link_options(mercury_static
-        PRIVATE -coverage
-    )
-endif()
-
 target_include_directories(mercury_shared PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../include>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>

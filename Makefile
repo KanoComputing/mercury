@@ -26,21 +26,7 @@ clean:
 	cd build && make clean
 
 test-library:
-	cd build && make test
-	mkdir -p ${COVERAGE_DIR}
-	rm -f ${COVERAGE_INFO}
-	lcov --directory ${BUILD_DIR} \
-		--capture \
-		--output-file ${COVERAGE_INFO}
-	lcov --remove ${COVERAGE_INFO} \
-		--output-file ${COVERAGE_INFO} \
-		--quiet \
-		${COVERAGE_EXCLUDES}
-	lcov --directory ${BUILD_DIR} \
-		--zerocounters
-	genhtml --output-directory ${COVERAGE_DIR} \
-		--demangle-cpp \
-		${COVERAGE_DIR}/coverage.info
+	cd build && make coverage
 
 test-python:
 	# Python tests can be run on a build sandbox,

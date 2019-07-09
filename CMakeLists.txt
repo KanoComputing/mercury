@@ -9,10 +9,20 @@ set (CMAKE_VERBOSE_MAKEFILE on)
 
 project(Mercury VERSION 0.1)
 
+# Add cmake directory to include path. These are shared modules from
+#     https://github.com/bilke/cmake-modules
+# See the README there for instructions to update
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+include(UseBackportedModules)
+
+# Global settings
 set(CMAKE_CXX_STANDARD 11)
 
+# Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
+
+# Add subdirectories
 
 add_subdirectory(src)
 
