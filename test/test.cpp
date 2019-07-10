@@ -13,8 +13,7 @@
 #include <gtest/gtest.h>
 
 #include "theme/theme.h"
-
-
+#include "kw/kw_apis.h"
 
 int main(int argc, char *argv[])
 {

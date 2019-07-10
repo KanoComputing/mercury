@@ -21,21 +21,20 @@
 using testing::Eq;
 
 
-TEST(sample_tests, example_1)
+TEST(theme, set_wallpaper)
 {
     EXPECT_EQ(1, 1);
     ASSERT_THAT(0, Eq(0));
     Theme theme;
-    theme.set_wallpaper("/test/path");
+    ASSERT_THAT(theme.set_wallpaper("/test/path"), true);
 }
 
-TEST(sample_tests, example_2)
+TEST(theme, get_wallpaper)
 {
-    EXPECT_EQ(1, 0);
+    EXPECT_EQ(0, 0);
     ASSERT_THAT(0, Eq(0));
     Theme theme;
-    theme.set_wallpaper("/test/path");
+    ASSERT_NE(theme.get_wallpaper(), "");
 }
-
 
 #endif  // TEST_THEME_THEME_H_

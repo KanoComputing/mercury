@@ -41,14 +41,12 @@ test-library:
 		--demangle-cpp \
 		${COVERAGE_DIR}/coverage.info
 
-
 test-python:
 	# Python tests can be run on a build sandbox,
 	# as well as on the target installation system
 	-cp -v build/lib/_mercury.so test/python3
 	-cp -v build/src/swig/python/mercury.py test/python3
-	cd test/python3 && python3 -m pytest
-
+	cd test/python3 && python3 -m pytest $(TESTMODULE)
 
 test: build test-library test-python
 
