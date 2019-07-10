@@ -17,6 +17,7 @@ help:
 
 all:
 	# Generate the reST files from which the documentation will be built.
+	mkdir -p build/doxygen
 	doxygen doxygen.conf
 	sphinx-apidoc -o source/ ../
 	$(MAKE) html
