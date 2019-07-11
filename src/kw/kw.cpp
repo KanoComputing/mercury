@@ -63,6 +63,7 @@ bool KanoWorld::login(string username, string password, bool verbose)
         curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, payload.c_str());
 
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_function);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
 
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
@@ -79,6 +80,10 @@ bool KanoWorld::login(string username, string password, bool verbose)
 
     curl_global_cleanup();
     curl_slist_free_all(chunk);
+
+    if (verbose) {
+        printf (">>> login SERVER RESPONSE: %s\n", server_response.c_str());
+    }
 
     // True if server responds with HTTP OK
     return (code == 200);
@@ -113,6 +118,7 @@ bool KanoWorld::refresh_token(string token, bool verbose)
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(curl, CURLOPT_VERBOSE, verbose ? 1L : 0L);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_function);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
 
         /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
@@ -129,6 +135,10 @@ bool KanoWorld::refresh_token(string token, bool verbose)
 
     curl_global_cleanup();
     curl_slist_free_all(chunk);
+
+    if (verbose) {
+        printf (">>> refresh_token SERVER RESPONSE: %s\n", server_response.c_str());
+    }
 
     // True if server responds with HTTP OK
     return (code == 200);
@@ -159,10 +169,12 @@ string KanoWorld::get_refresh_header(string token)
  *   libcurl callback function to collect response from the server
  *
  */
-size_t KanoWorld::write_function(void *ptr, size_t size, size_t nmemb, void *stream)
+size_t KanoWorld::write_function(void *ptr, size_t size, size_t nmemb, void *user_data)
 {
-    // TODO: Will be needed to parse the json response. How to collect class this pointer?
-    //printf(">>> RESPONSE: %s\n", ptr);
+    // Save the server's response in a class string
+    KanoWorld *pkw = (KanoWorld *) user_data;
+    pkw->server_response = string((char *) ptr);
+
     return size * nmemb;
 }
 
