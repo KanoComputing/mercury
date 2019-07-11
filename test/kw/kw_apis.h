@@ -108,6 +108,14 @@ TEST(kw, is_logged_in)
     EXPECT_EQ(kw.am_i_logged_in(), false);
 }
 
+TEST(kw, is_logged_in_succeed)
+{
+    KanoWorld kw;
+
+    EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
+    EXPECT_EQ(kw.am_i_logged_in(), true);
+}
+
 TEST(kw, whoami)
 {
     KanoWorld kw;
