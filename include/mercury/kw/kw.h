@@ -30,10 +30,12 @@ class KanoWorld
     string get_hostname(string config_filename);
     string get_refresh_header(string token);
 
-    static size_t write_function(void *ptr, size_t size, size_t nmemb, void *stream);
+    static size_t write_function(void *ptr, size_t size, size_t nmemb, void *user_data);
 
     bool am_i_logged_in(void);
     string whoami(void);
+
+    string server_response;
 };
 
 #endif  // MERCURY_KW_H
