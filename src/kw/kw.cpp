@@ -22,15 +22,21 @@
 
 #include "mercury/_http/http_client_interface.h"
 
+using std::cout;
+using std::endl;
+using std::exception;
+using std::map;
+using std::make_pair;
+using std::shared_ptr;
 using std::string;
 
 
-
-KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
+KanoWorld::KanoWorld(shared_ptr<IHTTPClient> client) :
     http_client(client),
     data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
     token(""),
-    expiration_date("") {
+    expiration_date(""),
+    is_verified_cache(false) {
 }
 
 
@@ -51,10 +57,10 @@ bool KanoWorld::login(const string& username, const string& password,
         return false;
     }
 
-    const std::string body = "{\n\"username\": \"" + username +
+    const string body = "{\n\"username\": \"" + username +
         "\", \n\"password\": \"" + password + "\"\n}";
 
-    std::shared_ptr<JSON_Value> res;
+    shared_ptr<JSON_Value> res;
 
     try {
         res = this->http_client->POST(
@@ -62,7 +68,7 @@ bool KanoWorld::login(const string& username, const string& password,
             body);
     } catch (const HTTPRequestFailedError& err) {
         if (verbose) {
-            std::cout << err.what() << std::endl;
+            cout << err.what() << endl;
         }
 
         // TODO: Do we actually want to log out in this scenario?
@@ -70,19 +76,27 @@ bool KanoWorld::login(const string& username, const string& password,
         return false;
     } catch (const SessionInitError& err) {
         if (verbose) {
-            std::cout << err.what() << std::endl;
+            cout << err.what() << endl;
         }
 
         // TODO: Do we actually want to log out in this scenario?
         this->logout();
         return false;
-    } catch (const std::exception& err) {
+    } catch (const exception& err) {
         if (verbose) {
-            std::cout << "Unkown error: " << err.what() << std::endl;
+            cout << "Unkown error: " << err.what() << endl;
         }
 
         // TODO: Do we actually want to log out in this scenario?
         this->logout();
+        return false;
+    }
+
+    if (!res) {
+        if (verbose) {
+            cout << "Response was empty" << endl;
+        }
+
         return false;
     }
 
@@ -91,13 +105,12 @@ bool KanoWorld::login(const string& username, const string& password,
     this->save_data();
 
     if (verbose) {
-        std::shared_ptr<char> resp_str(
+        shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        std::cout << ">>> login SERVER RESPONSE: " << resp_str << std::endl;
-        std::cout << ">>> Token: " << get_token() << std::endl;
-        std::cout << ">>> Expiration date: " << get_expiration_date()
-                  << std::endl;
+        cout << ">>> login SERVER RESPONSE: " << resp_str << endl;
+        cout << ">>> Token: " << get_token() << endl;
+        cout << ">>> Expiration date: " << get_expiration_date() << endl;
     }
 
     return true;
@@ -123,8 +136,8 @@ bool KanoWorld::logout(const bool verbose)
     }
 
     if (verbose) {
-        std::cout << "logout - removing cache file success? "
-                  << (rc == -1 ? "No" : "Yes") << std::endl;
+        cout << "logout - removing cache file success? "
+                  << (rc == -1 ? "No" : "Yes") << endl;
     }
     return rc != -1;
 }
@@ -146,10 +159,10 @@ bool KanoWorld::refresh_token(string token, const bool verbose)
         return false;
     }
 
-    std::map<std::string, std::string> headers {
-        std::make_pair("Authorization", "Bearer " + token)};
+    map<string, string> headers {
+        make_pair("Authorization", "Bearer " + token)};
 
-    std::shared_ptr<JSON_Value> res;
+    shared_ptr<JSON_Value> res;
 
     try {
         res = this->http_client->GET(
@@ -157,19 +170,19 @@ bool KanoWorld::refresh_token(string token, const bool verbose)
             headers);
     } catch (const HTTPRequestFailedError& err) {
         if (verbose) {
-            std::cout << err.what() << std::endl;
+            cout << err.what() << endl;
         }
 
         return false;
     } catch (const SessionInitError& err) {
         if (verbose) {
-            std::cout << err.what() << std::endl;
+            cout << err.what() << endl;
         }
 
         return false;
-    } catch (const std::exception& err) {
+    } catch (const exception& err) {
         if (verbose) {
-            std::cout << "Unkown error: " << err.what() << std::endl;
+            cout << "Unkown error: " << err.what() << endl;
         }
 
         return false;
@@ -180,14 +193,12 @@ bool KanoWorld::refresh_token(string token, const bool verbose)
     this->save_data();
 
     if (verbose) {
-        std::shared_ptr<char> resp_str(
+        shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        std::cout << ">>> refresh_token SERVER RESPONSE: " << resp_str
-                  << std::endl;
-        std::cout << ">>> Token: " << get_token() << std::endl;
-        std::cout << ">>> Expiration date: " << get_expiration_date()
-                  << std::endl;
+        cout << ">>> refresh_token SERVER RESPONSE: " << resp_str << endl;
+        cout << ">>> Token: " << get_token() << endl;
+        cout << ">>> Expiration date: " << get_expiration_date() << endl;
     }
 
     return true;
@@ -256,14 +267,13 @@ bool KanoWorld::is_logged_in(const bool verbose)
         char duration_str[26];
         ctime_r(static_cast<const time_t*>(&duration), duration_str);
 
-        std::cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - "
-                  << now_str << std::endl;
+        cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - "
+             << now_str << endl;
 
-        std::cout << ">>> Token expires: " << duration << " - "
-                  << duration_str << std::endl;
-        std::cout << ">>> Difference in seconds: " << seconds << std::endl;
-        std::cout << ">>> Token valid? " << (seconds < 0 ? "Yes" : "No")
-                  << std::endl;
+        cout << ">>> Token expires: " << duration << " - "
+             << duration_str << endl;
+        cout << ">>> Difference in seconds: " << seconds << endl;
+        cout << ">>> Token valid? " << (seconds < 0 ? "Yes" : "No") << endl;
     }
 
     return seconds < 0;
@@ -273,7 +283,7 @@ bool KanoWorld::is_logged_in(const bool verbose)
 /**
  *   Not implemented yet
  */
-std::string KanoWorld::whoami()
+string KanoWorld::whoami()
 {
     return "";
 }
@@ -284,8 +294,8 @@ std::string KanoWorld::whoami()
  *
  * \returns A string with the complete JWT token
  */
-std::string KanoWorld::parse_token(
-        const std::shared_ptr<JSON_Value> res) const {
+string KanoWorld::parse_token(
+        const shared_ptr<JSON_Value> res) const {
     if (res) {
         return json_object_dotget_string(json_object(res.get()), "data.token");
     }
@@ -297,11 +307,12 @@ std::string KanoWorld::parse_token(
 /**
  * \brief Returns the token expiration date from the server response
  *
- * \returns A string with the Unix timestamp representing the token expiration date
+ * \returns A string with the Unix timestamp representing the token expiration
+ *          date
  *
  */
-std::string KanoWorld::parse_expiration_date(const std::shared_ptr<JSON_Value> res) const {
-
+string KanoWorld::parse_expiration_date(
+        const shared_ptr<JSON_Value> res) const {
     if (res) {
         // For some reason, the Unix time returned by the server is divide by
         // 1000 so we convert it back into a Unix time here. See:
@@ -310,7 +321,7 @@ std::string KanoWorld::parse_expiration_date(const std::shared_ptr<JSON_Value> r
         string translate = json_object_dotget_string(
             json_object(res.get()), "data.duration");
 
-        unsigned long long converted_time = stol(translate);
+        uint64_t converted_time = stol(translate);
         converted_time *= conversion;
         return std::to_string(converted_time);
     }
@@ -319,12 +330,12 @@ std::string KanoWorld::parse_expiration_date(const std::shared_ptr<JSON_Value> r
 }
 
 
-std::string KanoWorld::get_token() const {
+string KanoWorld::get_token() const {
     return this->token;
 }
 
 
-std::string KanoWorld::get_expiration_date() const {
+string KanoWorld::get_expiration_date() const {
     return this->expiration_date;
 }
 
@@ -338,7 +349,7 @@ std::string KanoWorld::get_expiration_date() const {
  */
 bool KanoWorld::load_data()
 {
-    std::shared_ptr<JSON_Value> user_data(
+    shared_ptr<JSON_Value> user_data(
         json_parse_file(data_filename.c_str()),
         json_value_free);
 
@@ -346,9 +357,12 @@ bool KanoWorld::load_data()
         return false;
     }
 
-    token = json_object_get_string(json_object(user_data.get()), "token");
-    expiration_date = json_object_get_string(
+    this->token = json_object_get_string(
+        json_object(user_data.get()), "token");
+    this->expiration_date = json_object_get_string(
         json_object(user_data.get()), "duration");
+    this->is_verified_cache = json_object_get_boolean(
+        json_object(user_data.get()), "is_verified");
 
     return true;
 }
@@ -364,7 +378,7 @@ bool KanoWorld::load_data()
  */
 bool KanoWorld::save_data()
 {
-    std::shared_ptr<JSON_Value> user_data(
+    shared_ptr<JSON_Value> user_data(
         json_value_init_object(),
         json_value_free);
 
@@ -375,16 +389,77 @@ bool KanoWorld::save_data()
     json_object_set_string(
         json_object(user_data.get()), "token", get_token().c_str());
     json_object_set_string(
-        json_object(user_data.get()), "duration", get_expiration_date().c_str());
+        json_object(user_data.get()), "duration",
+                    get_expiration_date().c_str());
+    json_object_set_boolean(
+        json_object(user_data.get()), "is_verified",
+                    this->is_verified_cache);
 
     JSON_Status rc = json_serialize_to_file(user_data.get(), data_filename.c_str());
 
     return rc == JSONSuccess;
 }
 
+
 /**
- * \warning Not implemented
+ * \warning Implementation not finalised
  */
-bool KanoWorld::is_account_verified() {
-    return true;
+bool KanoWorld::is_account_verified(const bool cache) {
+    this->load_data();
+
+    if (cache && this->is_verified_cache) {
+        return true;
+    }
+
+    this->is_verified_cache = this->is_account_verified_api();
+    this->save_data();
+
+    return this->is_verified_cache;
+}
+
+
+void KanoWorld::clear_account_verified_cache() {
+    this->load_data();
+    this->is_verified_cache = false;
+    this->save_data();
+}
+
+
+/**
+ * \warning Implementation not finalised
+ */
+bool KanoWorld::is_account_verified_api() const {
+    string auth_token = this->get_token();
+
+    if (auth_token.empty()) {
+        return false;
+    }
+
+    map<string, string> headers {
+        { "Authorization", "Bearer " + auth_token }
+    };
+
+    shared_ptr<JSON_Value> response;
+
+    try {
+        response = this->http_client->GET(
+            "https://worldapi.kano.me/users/me", headers);
+    } catch (const exception& e) {
+        return false;
+    }
+
+    const JSON_Object *data = json_value_get_object(response.get());
+
+    if (!json_object_dothas_value_of_type(
+            data, "data.user.isVerified", JSONBoolean)) {
+        return false;
+    }
+
+    int verified = json_object_dotget_boolean(data, "data.user.isVerified");
+
+    if (verified == -1) {
+        return false;
+    }
+
+    return static_cast<bool>(verified);
 }

@@ -1,3 +1,4 @@
+include/mercury/config.h
 coverage
 docs/make.bat
 docs/source/index.xml
