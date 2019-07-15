@@ -7,6 +7,10 @@
  *  Kano World class methods implemntation
  */
 
+#include <string>
+#include <ctime>
+
+using std::string;
 
 #include "mercury/kw/kw.h"
 
@@ -31,6 +35,8 @@ KanoWorld::KanoWorld(void)
 {
     // Data file to store token and expiration date
     data_filename = string(getenv("HOME")) + "/" + ".mercury_kw.json";
+    token = "";
+    expiration_date = "";
 }
 
 KanoWorld::~KanoWorld(void)
@@ -39,7 +45,8 @@ KanoWorld::~KanoWorld(void)
 
 
 /**
- *  \warning Not implemented
+ *  Calls the "login" endpoint using the username and password credentials.
+ *  On success, the new token and duration time are stored in the cache data file.
  */
 bool KanoWorld::login(string username, string password, bool verbose)
 {
@@ -92,6 +99,7 @@ bool KanoWorld::login(string username, string password, bool verbose)
 
     curl_global_cleanup();
     curl_slist_free_all(chunk);
+    save_data();
 
     // True if server responds with HTTP OK
     if (code == HTTP_OKAY) {
@@ -100,7 +108,6 @@ bool KanoWorld::login(string username, string password, bool verbose)
             printf (">>> Token: %s\n", get_token().c_str());
             printf (">>> Expiration date: %s\n", get_expiration_date().c_str());
         }
-        save_data();
         return true;
     }
 
@@ -110,7 +117,8 @@ bool KanoWorld::login(string username, string password, bool verbose)
 
 
 /**
- * \warning Not implemented
+ *  Calls the @refresh_token" endpoint to request a new token
+ *  On success, the new token and duration time are stored in the cache data file.
  */
 bool KanoWorld::refresh_token(string token, bool verbose)
 {
@@ -154,6 +162,7 @@ bool KanoWorld::refresh_token(string token, bool verbose)
 
     curl_global_cleanup();
     curl_slist_free_all(chunk);
+    save_data();
 
     if (code == HTTP_OKAY) {
         if (verbose) {
@@ -182,7 +191,7 @@ string KanoWorld::get_hostname(string config_filename)
 
 
 /**
- *   Returns the header to request a token refresh
+ *   Returns the HTTP header needed to call the token "refresh" endpoint
  */
 string KanoWorld::get_refresh_header(string token)
 {
@@ -191,8 +200,8 @@ string KanoWorld::get_refresh_header(string token)
 
 
 /**
- *   libcurl callback function to collect response from the server
- *
+ *   libcurl callback function, allows to collect the data response from the server,
+ *   which in this case is a json object.
  */
 size_t KanoWorld::write_function(void *ptr, size_t size, size_t nmemb, void *user_data)
 {
@@ -205,11 +214,36 @@ size_t KanoWorld::write_function(void *ptr, size_t size, size_t nmemb, void *use
 
 
 /**
- *   Not implemented yet
+ *   Returns true when the cached token duration time has not expired yet,
+ *   false otherwise. Call the refresh_token API in such case.
  */
-bool KanoWorld::am_i_logged_in(void)
+bool KanoWorld::am_i_logged_in(bool verbose)
 {
-    return false;
+    std::time_t now = std::time(nullptr);
+
+    load_data();
+
+    std::time_t duration = atol(get_expiration_date().c_str());
+    double seconds;
+
+    if (!duration) {
+        return false;
+    }
+
+    if (now < duration) {
+        seconds = difftime(duration, now);
+    }
+    else {
+        seconds = difftime(now, duration);
+    }
+
+    if (verbose) {
+        printf (">>> NOW: %s", ctime((const time_t *) &now));
+        printf (">>> DURATION: %s", ctime((const time_t *) &duration));
+        printf (">>> SECONDS: %f.3\n", seconds);
+    }
+
+    return (seconds > 0);
 }
 
 
@@ -223,7 +257,7 @@ string KanoWorld::whoami(void)
 
 
 /**
- *   Not implemented yet
+ *   Collects and returns the token from the Server Response data
  */
 string KanoWorld::get_token(void)
 {
@@ -237,7 +271,8 @@ string KanoWorld::get_token(void)
 
 
 /**
- *   Not implemented yet
+ *   Collects and returns the token expiration date, "duration" field,
+ *   from the Server Response data.
  */
 string KanoWorld::get_expiration_date(void)
 {
@@ -249,6 +284,10 @@ string KanoWorld::get_expiration_date(void)
     return expiration_date;
 }
 
+
+/**
+ *   Loads the data from the cached file.
+ */
 bool KanoWorld::load_data(void)
 {
     JSON_Value *user_data = json_parse_file(data_filename.c_str());
@@ -262,6 +301,10 @@ bool KanoWorld::load_data(void)
     return true;
 }
 
+
+/**
+ *   Saves the server response data fields into the cache local file.
+ */
 bool KanoWorld::save_data(void)
 {
     JSON_Status rc;
@@ -271,8 +314,8 @@ bool KanoWorld::save_data(void)
         return false;
     }
 
-    json_object_set_string(json_object(user_data), "token", token.c_str());
-    json_object_set_string(json_object(user_data), "duration", expiration_date.c_str());
+    json_object_set_string(json_object(user_data), "token", get_token().c_str());
+    json_object_set_string(json_object(user_data), "duration", get_expiration_date().c_str());
 
     rc = json_serialize_to_file(user_data, data_filename.c_str());
     json_value_free(user_data);

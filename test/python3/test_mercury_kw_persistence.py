@@ -27,15 +27,7 @@ def test_persistence_login():
     assert (s == True)
     assert (os.path.isfile(m.data_filename) == True)
 
-def test_persistence_load_data():
-    import mercury
-    m = mercury.KanoWorld()
-
-    assert (os.path.isfile(m.data_filename) == True)
-    assert (m.load_data() == True)
-    assert (len(m.token) > 0)
-    assert (len(m.expiration_date) > 0)
-
+'''
 def test_persistence_load_data_corrupt():
     import mercury
     m = mercury.KanoWorld()
@@ -46,3 +38,4 @@ def test_persistence_load_data_corrupt():
     assert (m.load_data() == False)
     assert (len(m.token) == 0)
     assert (len(m.expiration_date) == 0)
+'''
