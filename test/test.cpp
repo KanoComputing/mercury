@@ -12,6 +12,7 @@
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
+#include "kes_dashboard_live_tiles_cli/TestOnlineLoader.h"
 #include "kw/kw_apis.h"
 #include "theme/theme.h"
 

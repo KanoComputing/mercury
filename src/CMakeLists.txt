@@ -5,9 +5,13 @@ project(mercury VERSION 0.1 LANGUAGES CXX)
 find_package(OpenSSL)
 
 add_library(mercury_obj OBJECT
-    theme/theme.cpp
-    kw/kw.cpp
     _http/http_client.cpp
+    kes_dashboard_live_tiles_cli/LocalLoader.cpp
+    kes_dashboard_live_tiles_cli/OnlineLoader.cpp
+    kes_dashboard_live_tiles_cli/Tile.cpp
+    kes_dashboard_live_tiles_cli/TileManager.cpp
+    kw/kw.cpp
+    theme/theme.cpp
 )
 target_include_directories(mercury_obj PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
