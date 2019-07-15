@@ -12,13 +12,17 @@
 #define MERCURY_KW_KW_H_
 
 
-#include <memory>
+
 #include <string>
+#include <memory>
 
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
 
 using std::string;
+
+
+#define HTTP_OKAY 200
 
 /**
  * \class KanoWorld
@@ -34,6 +38,8 @@ class KanoWorld
      */
     explicit KanoWorld(std::shared_ptr<IHTTPClient> client =
         std::make_shared<HTTPClient>());
+    ~KanoWorld();
+
     bool login(string username, string password, bool verbose);
     bool refresh_token(string token, bool verbose);
 
@@ -43,6 +49,10 @@ class KanoWorld
     static size_t write_function(void *ptr, size_t size, size_t nmemb, void *user_data);
 
     bool am_i_logged_in(void);
+    string get_token(void);
+    string get_expiration_date(void);
+    bool save_data(void);
+    bool load_data(void);
     string whoami(void);
 
     /**
@@ -54,6 +64,9 @@ class KanoWorld
  private:
     std::shared_ptr<IHTTPClient> http_client;
     string server_response;
+    string data_filename;
+    string token;
+    string expiration_date;
 };
 
 
