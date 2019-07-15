@@ -56,6 +56,15 @@ target_link_libraries(mercury_static
 
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
+    target_compile_options(mercury_obj
+        PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all
+    )
+    target_link_options(mercury_shared
+        PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all
+    )
+    target_link_options(mercury_static
+        PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all
+    )
 
     # Add flags for coverage
     # TODO: Only do this if we are building the debug version
