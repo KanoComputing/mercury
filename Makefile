@@ -25,8 +25,8 @@ build:
 clean:
 	cd build && make clean
 
-test-library:
-	cd build && make coverage
+test-library: build
+	cd build && CTEST_OUTPUT_ON_FAILURE=1 make coverage
 
 test-python:
 	# Python tests can be run on a build sandbox,

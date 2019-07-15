@@ -8,10 +8,16 @@
  *
  */
 
-#ifndef MERCURY_KW_H
-#define MERCURY_KW_H
+#ifndef MERCURY_KW_KW_H_
+#define MERCURY_KW_KW_H_
 
+
+#include <memory>
 #include <string>
+
+#include "mercury/_http/http_client.h"
+#include "mercury/_http/http_client_interface.h"
+
 using std::string;
 
 /**
@@ -22,8 +28,12 @@ class KanoWorld
 {
  public:
     /**
-     * \brief Sets the system wallpaper.
+     * \brief Constructor
+     *
+     * \param client    (Optional) The HTTP client to use for requests
      */
+    explicit KanoWorld(std::shared_ptr<IHTTPClient> client =
+        std::make_shared<HTTPClient>());
     bool login(string username, string password, bool verbose);
     bool refresh_token(string token, bool verbose);
 
@@ -34,6 +44,16 @@ class KanoWorld
 
     bool am_i_logged_in(void);
     string whoami(void);
+
+    /**
+     * \brief Determine if the user's account has been verified with parental
+     *        permission.
+     */
+    bool is_account_verified();
+
+ private:
+    std::shared_ptr<IHTTPClient> http_client;
 };
 
-#endif  // MERCURY_KW_H
+
+#endif  // MERCURY_KW_KW_H_
