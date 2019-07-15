@@ -1,0 +1,19 @@
+/**
+ * \file config.in.h
+ *
+ * \copyright Copyright (C) 2019 Kano Computing Ltd.
+ *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
+ *
+ * \brief Configuration variables passed by CMake.
+ *
+ */
+
+
+#ifndef MERCURY_CONFIG_H_
+#define MERCURY_CONFIG_H_
+
+
+const char CMAKE_PROJ_BASE_DIR[] = "@CMAKE_SOURCE_DIR@";
+
+
+#endif  // MERCURY_CONFIG_H_
