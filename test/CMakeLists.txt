@@ -13,16 +13,12 @@ target_link_libraries(mercury_gtests
     PRIVATE CONAN_PKG::gtest
 )
 
-target_compile_options(mercury_gtests
-    PRIVATE -fprofile-arcs -ftest-coverage
-)
-
 target_include_directories(mercury_gtests PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/..>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../..>
 )
 
 target_link_options(mercury_gtests
-    PRIVATE -coverage -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    PRIVATE -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
 enable_testing()
@@ -32,12 +28,11 @@ gtest_discover_tests(mercury_gtests)
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
 set(COVERAGE_LCOV_EXCLUDES
-    '*/test/*' '*/.conan/*' '*v1/*'
+    '*/build/*' '*/test/*' '*/.conan/*' '*v1/*'
 )
 SETUP_TARGET_FOR_COVERAGE_LCOV(
     NAME coverage
     EXECUTABLE ctest -j ${n_cores}
-    ENVIRONMENT
     DEPENDENCIES
     mercury_obj
     mercury_static
