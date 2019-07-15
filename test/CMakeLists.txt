@@ -18,7 +18,9 @@ target_include_directories(mercury_gtests PUBLIC
 )
 
 target_link_options(mercury_gtests
-    PRIVATE -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    PRIVATE -fsanitize=address,undefined
+            -fno-sanitize-recover=all
+            -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
 enable_testing()
