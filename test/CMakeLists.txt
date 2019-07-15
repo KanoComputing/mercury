@@ -17,6 +17,10 @@ target_compile_options(mercury_gtests
     PRIVATE -fprofile-arcs -ftest-coverage
 )
 
+target_include_directories(mercury_gtests PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/..>
+)
+
 target_link_options(mercury_gtests
     PRIVATE -coverage -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
@@ -33,6 +37,7 @@ set(COVERAGE_LCOV_EXCLUDES
 SETUP_TARGET_FOR_COVERAGE_LCOV(
     NAME coverage
     EXECUTABLE ctest -j ${n_cores}
+    ENVIRONMENT
     DEPENDENCIES
     mercury_obj
     mercury_static

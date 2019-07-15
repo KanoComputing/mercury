@@ -7,13 +7,23 @@
  *  Kano World class methods implemntation
  */
 
-#include <string>
-using std::string;
 
 #include "mercury/kw/kw.h"
 
-#include <parson.h>
 #include <curl/curl.h>
+#include <parson.h>
+
+#include <memory>
+#include <string>
+
+#include "mercury/_http/http_client_interface.h"
+
+using std::string;
+
+
+KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
+    http_client(client) {
+}
 
 
 /**
@@ -164,7 +174,7 @@ bool KanoWorld::am_i_logged_in(void)
 {
     return false;
 }
-    
+
 
 /**
  *   Not implemented yet
@@ -172,4 +182,12 @@ bool KanoWorld::am_i_logged_in(void)
 string KanoWorld::whoami(void)
 {
     return string("");
+}
+
+
+/**
+ * \warning Not implemented
+ */
+bool KanoWorld::is_account_verified() {
+    return true;
 }

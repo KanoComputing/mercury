@@ -1,4 +1,6 @@
 coverage
+docs/make.bat
+docs/source/index.xml
 
 # Created by https://www.gitignore.io/api/vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode

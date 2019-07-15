@@ -8,13 +8,22 @@
  *
  */
 
-#ifndef TEST_KW
-#define TEST_KW
+#ifndef TEST_KW_KW_APIS_H_
+#define TEST_KW_KW_APIS_H_
 
+#include <gmock/gmock.h>
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
-
+#include <mercury/_http/http_client.h>
 #include <mercury/kw/kw.h>
+#include <parson/parson.h>
+#include <test/mocks/mock_http_client.h>
+
+#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+
 
 using testing::Eq;
 
@@ -105,4 +114,5 @@ TEST(kw, whoami)
     EXPECT_EQ(kw.whoami(), "");
 }
 
-#endif  // TEST_KW
+
+#endif  // TEST_KW_KW_APIS_H_
