@@ -26,8 +26,10 @@ conan_basic_setup(TARGETS)
 
 add_subdirectory(src)
 
-if(${CMAKE_VERSION} VERSION_GREATER "3.10.0")
-    add_subdirectory(test)
-endif()
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    if (${CMAKE_VERSION} VERSION_GREATER "3.10.0")
+        add_subdirectory(test)
+    endif ()
+endif (CMAKE_BUILD_TYPE MATCHES Debug)
 
 enable_testing()
