@@ -14,9 +14,11 @@
 #include <gmock/gmock.h>
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
+#include <mercury/_http/exceptions.h>
 #include <mercury/_http/http_client.h>
 #include <mercury/kw/kw.h>
 #include <parson.h>
+#include <test/fixtures/parental_consent.h>
 #include <test/mocks/mock_http_client.h>
 
 #include <iostream>
@@ -114,6 +116,167 @@ TEST(kw, whoami)
 {
     KanoWorld kw;
     EXPECT_EQ(kw.whoami(), "");
+}
+
+
+INSTANTIATE_TEST_CASE_P(
+    ParentalConsentAPIResponses,
+    ParentalConsentAPI,
+    ::testing::Values(
+        std::make_tuple(true, "parental_consent.json"),
+        std::make_tuple(false, "no_parental_consent.json"),
+        std::make_tuple(false, "invalid_parental_consent.json")
+    )
+);
+
+
+TEST_P(ParentalConsentAPI, test_account_verification)
+{
+    auto client = std::make_shared<MockHTTPClient>();
+    KanoWorld kw(client);
+    std::string auth_token = kw.get_token();
+
+    EXPECT_CALL(
+        *client,
+        GET_impl(
+            WORLDAPI_ME_ENDPOINT,
+            std::map<std::string, std::string>{
+                { "Authorization", "Bearer " + auth_token }
+            }))
+        .Times(1)
+        .WillRepeatedly(testing::Return(this->json_data));
+
+    kw.clear_account_verified_cache();
+    EXPECT_EQ(kw.is_account_verified(), this->expected);
+}
+
+
+INSTANTIATE_TEST_CASE_P(
+    ParentalConsentExceptions,
+    ParentalConsentException,
+    ::testing::Values(
+        SessionInitError("Init error"),
+        HTTPRequestFailedError(400, "Request error")
+    )
+);
+
+
+TEST_P(ParentalConsentException, test_account_verification_exception)
+{
+    auto client = std::make_shared<MockHTTPClient>();
+    KanoWorld kw(client);
+    std::string auth_token = kw.get_token();
+
+    EXPECT_CALL(
+        *client,
+        GET_impl(
+            WORLDAPI_ME_ENDPOINT,
+            std::map<std::string, std::string>{
+                { "Authorization", "Bearer " + auth_token }
+            }))
+        .Times(1)
+        .WillRepeatedly(
+            testing::Throw(this->GetParam()));
+
+    kw.clear_account_verified_cache();
+    EXPECT_EQ(kw.is_account_verified(), false);
+}
+
+
+TEST(ParentalConsentCache, test_verification_cache) {
+    auto client = std::make_shared<MockHTTPClient>();
+    KanoWorld kw(client);
+    std::string auth_token = kw.get_token();
+
+    std::shared_ptr<JSON_Value> fail = load_response(
+        "no_parental_consent.json");
+    std::shared_ptr<JSON_Value> success = load_response(
+        "parental_consent.json");
+
+    EXPECT_CALL(
+        *client,
+        GET_impl(
+            WORLDAPI_ME_ENDPOINT,
+            std::map<std::string, std::string>{
+                { "Authorization", "Bearer " + auth_token }
+            }))
+        .Times(2)
+        .WillOnce(testing::Return(fail))
+        .WillOnce(testing::Return(success))
+        .WillOnce(testing::Throw(SessionInitError("InitError")))
+        .WillRepeatedly(testing::Return(success));
+
+    kw.clear_account_verified_cache();
+    EXPECT_EQ(kw.is_account_verified(), false);
+    EXPECT_EQ(kw.is_account_verified(), true);
+    EXPECT_EQ(kw.is_account_verified(), true);
+    EXPECT_EQ(kw.is_account_verified(), true);
+}
+
+
+TEST(ParentalConsentCache, test_verification_cache_disabled) {
+    auto client = std::make_shared<MockHTTPClient>();
+    KanoWorld kw(client);
+    std::string auth_token = kw.get_token();
+
+    std::shared_ptr<JSON_Value> fail = load_response(
+        "no_parental_consent.json");
+    std::shared_ptr<JSON_Value> success = load_response(
+        "parental_consent.json");
+
+    EXPECT_CALL(
+        *client,
+        GET_impl(
+            WORLDAPI_ME_ENDPOINT,
+            std::map<std::string, std::string>{
+                { "Authorization", "Bearer " + auth_token }
+            }))
+        .Times(5)
+        .WillOnce(testing::Return(fail))
+        .WillOnce(testing::Return(success))
+        .WillOnce(testing::Throw(SessionInitError("InitError")))
+        .WillRepeatedly(testing::Return(success));
+
+    kw.clear_account_verified_cache();
+
+    EXPECT_EQ(kw.is_account_verified(false), false);
+    EXPECT_EQ(kw.is_account_verified(false), true);
+    EXPECT_EQ(kw.is_account_verified(false), false);
+    EXPECT_EQ(kw.is_account_verified(false), true);
+    EXPECT_EQ(kw.is_account_verified(false), true);
+}
+
+
+TEST(ParentalConsentCache, test_verification_mix_cache) {
+    auto client = std::make_shared<MockHTTPClient>();
+    KanoWorld kw(client);
+    std::string auth_token = kw.get_token();
+
+    std::shared_ptr<JSON_Value> fail = load_response(
+        "no_parental_consent.json");
+    std::shared_ptr<JSON_Value> success = load_response(
+        "parental_consent.json");
+
+    EXPECT_CALL(
+        *client,
+        GET_impl(
+            WORLDAPI_ME_ENDPOINT,
+            std::map<std::string, std::string>{
+                { "Authorization", "Bearer " + auth_token }
+            }))
+        .Times(3)
+        .WillOnce(testing::Return(fail))
+        .WillOnce(testing::Return(success))
+        .WillOnce(testing::Throw(SessionInitError("InitError")))
+        .WillOnce(testing::Return(success))
+        .WillOnce(testing::Return(fail));
+
+    kw.clear_account_verified_cache();
+    EXPECT_EQ(kw.is_account_verified(true), false);
+    EXPECT_EQ(kw.is_account_verified(true), true);
+    EXPECT_EQ(kw.is_account_verified(true), true);
+    EXPECT_EQ(kw.is_account_verified(true), true);
+    EXPECT_EQ(kw.is_account_verified(false), false);
 }
 
 

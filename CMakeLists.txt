@@ -22,6 +22,12 @@ set(CMAKE_CXX_STANDARD 11)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
 
+# Inject CMake variables for C++ to use
+configure_file(
+    ${CMAKE_SOURCE_DIR}/include/mercury/config.h.in
+    ${CMAKE_SOURCE_DIR}/include/mercury/config.h
+)
+
 # Add subdirectories
 
 add_subdirectory(src)

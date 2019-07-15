@@ -18,6 +18,8 @@
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
 
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 
 
@@ -33,8 +35,8 @@ class KanoWorld
      *
      * \param client    (Optional) The HTTP client to use for requests
      */
-    explicit KanoWorld(std::shared_ptr<IHTTPClient> client =
-        std::make_shared<HTTPClient>());
+    explicit KanoWorld(
+        shared_ptr<IHTTPClient> client = make_shared<HTTPClient>());
 
     bool login(const string& username, const string& password,
                const bool verbose = false);
@@ -47,26 +49,44 @@ class KanoWorld
     bool is_logged_in(const bool verbose = false);
     string whoami();
 
-
     /**
      * \brief Determine if the user's account has been verified with parental
      *        permission.
+     *
+     * \param cache    (Optional) Whether to use the cached value or query
+     *                 directly from the API
      */
-    bool is_account_verified();
+    bool is_account_verified(const bool cache = true);
+    /**
+     * \brief Clear the cached value of the account verification
+     */
+    void clear_account_verified_cache();
 
-    const string data_filename;
+    /**
+     * \brief Extract the authentication token
+     */
     string get_token() const;
     string get_expiration_date() const;
     bool load_data();
 
+ public:
+    const string data_filename;
+    const string api_url;
+
  private:
-    std::shared_ptr<IHTTPClient> http_client;
-    std::string parse_token(const std::shared_ptr<JSON_Value> res) const;
-    std::string parse_expiration_date(
-        const std::shared_ptr<JSON_Value> res) const;
+    /**
+     * \brief Perform the API call to determine if the account is verified
+     */
+    bool is_account_verified_api() const;
+    string parse_token(const shared_ptr<JSON_Value> res) const;
+    string parse_expiration_date(const shared_ptr<JSON_Value> res) const;
+    bool save_data();
+
+ private:
+    shared_ptr<IHTTPClient> http_client;
     string token;
     string expiration_date;
-    bool save_data();
+    bool is_verified_cache;
 };
 
 

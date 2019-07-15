@@ -1,0 +1,15 @@
+{
+    "data": {
+        "user": {
+            "id": "01375358073836680585",
+            "username": "testuser",
+            "roles": [],
+            "created": "2018-04-13T14:58:21.757522",
+            "modified": "2018-04-13T14:58:21.757522",
+            "isVerified": false,
+            "bio": null
+        },
+        "aBurl": "https://s3-us-west-1.amazonaws.com/avatar.world.kano.me"
+    },
+    "type": "success"
+}
