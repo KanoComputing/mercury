@@ -16,7 +16,7 @@
 #include <gtest/gtest.h>
 #include <mercury/_http/http_client.h>
 #include <mercury/kw/kw.h>
-#include <parson/parson.h>
+#include <parson.h>
 #include <test/mocks/mock_http_client.h>
 
 #include <iostream>
