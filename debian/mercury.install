@@ -1,1 +1,1 @@
-build/lib/libmercury.so /usr/lib
+build/Release/lib/libmercury.so /usr/lib

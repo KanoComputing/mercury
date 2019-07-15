@@ -10,7 +10,7 @@ add_library(mercury_obj OBJECT
     _http/http_client.cpp
 )
 target_include_directories(mercury_obj PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../include>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
@@ -31,7 +31,7 @@ set_target_properties(mercury_static
 )
 
 target_include_directories(mercury_shared PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../include>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
@@ -39,7 +39,7 @@ target_include_directories(mercury_shared PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 target_include_directories(mercury_static PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../include>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
@@ -53,6 +53,16 @@ target_link_libraries(mercury_shared
 target_link_libraries(mercury_static
     PUBLIC CONAN_PKG::libcurl CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
 )
+
+
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+
+    # Add flags for coverage
+    # TODO: Only do this if we are building the debug version
+    include(CodeCoverage)
+    APPEND_COVERAGE_COMPILER_FLAGS()
+endif (CMAKE_BUILD_TYPE MATCHES Debug)
+
 
 # Add swig subdirectory
 add_subdirectory(swig)
