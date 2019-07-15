@@ -14,6 +14,8 @@
 
 #include "theme/theme.h"
 #include "kw/kw_apis.h"
+#include "kw/kw_server_data.h"
+#include "kw/kw_persistence.h"
 
 int main(int argc, char *argv[])
 {

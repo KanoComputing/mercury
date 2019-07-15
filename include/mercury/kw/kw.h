@@ -11,6 +11,8 @@
 #ifndef MERCURY_KW_H
 #define MERCURY_KW_H
 
+#define HTTP_OKAY 200
+
 #include <string>
 using std::string;
 
@@ -24,6 +26,9 @@ class KanoWorld
     /**
      * \brief Sets the system wallpaper.
      */
+    KanoWorld();
+    ~KanoWorld();
+
     bool login(string username, string password, bool verbose);
     bool refresh_token(string token, bool verbose);
 
@@ -33,9 +38,16 @@ class KanoWorld
     static size_t write_function(void *ptr, size_t size, size_t nmemb, void *user_data);
 
     bool am_i_logged_in(void);
+    string get_token(void);
+    string get_expiration_date(void);
+    bool save_data(void);
+    bool load_data(void);
     string whoami(void);
 
     string server_response;
+    string data_filename;
+    string token;
+    string expiration_date;
 };
 
 #endif  // MERCURY_KW_H

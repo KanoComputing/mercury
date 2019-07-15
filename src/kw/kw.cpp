@@ -12,12 +12,24 @@ using std::string;
 
 #include "mercury/kw/kw.h"
 
+#include <stdlib.h>
 #include <parson.h>
 #include <curl/curl.h>
 
 
+KanoWorld::KanoWorld(void)
+{
+    // Data file to store token and expiration date
+    data_filename = string(getenv("HOME")) + "/" + ".mercury_kw.json";
+}
+
+KanoWorld::~KanoWorld(void)
+{
+}
+
+
 /**
- * \warning Not implemented
+ *  \warning Not implemented
  */
 bool KanoWorld::login(string username, string password, bool verbose)
 {
@@ -71,13 +83,20 @@ bool KanoWorld::login(string username, string password, bool verbose)
     curl_global_cleanup();
     curl_slist_free_all(chunk);
 
-    if (verbose) {
-        printf (">>> login SERVER RESPONSE: %s\n", server_response.c_str());
+    // True if server responds with HTTP OK
+    if (code == HTTP_OKAY) {
+        if (verbose) {
+            printf (">>> login SERVER RESPONSE: %s\n", server_response.c_str());
+            printf (">>> Token: %s\n", get_token().c_str());
+            printf (">>> Expiration date: %s\n", get_expiration_date().c_str());
+        }
+        save_data();
+        return true;
     }
 
-    // True if server responds with HTTP OK
-    return (code == 200);
-}
+    return false;
+
+} // login
 
 
 /**
@@ -126,13 +145,19 @@ bool KanoWorld::refresh_token(string token, bool verbose)
     curl_global_cleanup();
     curl_slist_free_all(chunk);
 
-    if (verbose) {
-        printf (">>> refresh_token SERVER RESPONSE: %s\n", server_response.c_str());
+    if (code == HTTP_OKAY) {
+        if (verbose) {
+            printf (">>> refresh_token SERVER RESPONSE: %s\n", server_response.c_str());
+            printf (">>> Token: %s\n", get_token().c_str());
+            printf (">>> Expiration date: %s\n", get_expiration_date().c_str());
+        }
+        save_data();
+        return true;
     }
 
-    // True if server responds with HTTP OK
-    return (code == 200);
-}
+    return false;
+
+} // refresh_token()
 
 
 
@@ -184,4 +209,63 @@ bool KanoWorld::am_i_logged_in(void)
 string KanoWorld::whoami(void)
 {
     return string("");
+}
+
+
+/**
+ *   Not implemented yet
+ */
+string KanoWorld::get_token(void)
+{
+    JSON_Value *schema = json_parse_string(server_response.c_str());
+    if (schema) {
+        token = string(json_object_dotget_string(json_object(schema), "data.token"));
+    }
+
+    return token;
+}
+
+
+/**
+ *   Not implemented yet
+ */
+string KanoWorld::get_expiration_date(void)
+{
+    JSON_Value *schema = json_parse_string(server_response.c_str());
+    if (schema) {
+        expiration_date = string(json_object_dotget_string(json_object(schema), "data.duration"));
+    }
+
+    return expiration_date;
+}
+
+bool KanoWorld::load_data(void)
+{
+    JSON_Value *user_data = json_parse_file(data_filename.c_str());
+    if (!user_data) {
+        return false;
+    }
+
+    token = json_object_get_string(json_object(user_data), "token");
+    expiration_date = json_object_get_string(json_object(user_data), "duration");
+
+    return true;
+}
+
+bool KanoWorld::save_data(void)
+{
+    JSON_Status rc;
+    JSON_Value *user_data = json_value_init_object();
+
+    if (!user_data) {
+        return false;
+    }
+
+    json_object_set_string(json_object(user_data), "token", token.c_str());
+    json_object_set_string(json_object(user_data), "duration", expiration_date.c_str());
+
+    rc = json_serialize_to_file(user_data, data_filename.c_str());
+    json_value_free(user_data);
+
+    return (rc == JSONSuccess);
 }
