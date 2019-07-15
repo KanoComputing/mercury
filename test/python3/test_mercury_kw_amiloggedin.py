@@ -1,10 +1,11 @@
 #
-#  test_mercury_kw_login.py - pytest module to test the Login API
+#  test_mercury_kw_amiloggedin.py - pytest module to test the am_i_loggedi_in API
 #
 
 import common_functions as cf
+import time
 
-def test_login_success():
+def test_am_i_logged_in_success():
     username = 'testing_user'
     password = 'kano12345experience'
 
@@ -13,7 +14,10 @@ def test_login_success():
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert (s == True)
 
-def test_login_failed():
+    s = m.am_i_logged_in(cf.HTTP_VERBOSE)
+    assert (s == True)
+
+def test_am_i_logged_in_fail():
     username = 'nonexisting'
     password = 'badpassword'
 
@@ -22,5 +26,5 @@ def test_login_failed():
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert (s == False)
 
-    assert (len(m.token) == 0)
-    assert (len(m.expiration_date) == 0)
+    s = m.am_i_logged_in(cf.HTTP_VERBOSE)
+    assert (s == False)
