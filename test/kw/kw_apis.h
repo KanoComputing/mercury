@@ -96,7 +96,7 @@ TEST(kw, get_hostname)
 TEST(kw, is_logged_in)
 {
     KanoWorld kw;
-    EXPECT_EQ(kw.am_i_logged_in(), false);
+    EXPECT_EQ(kw.am_i_logged_in(false), false);
 }
 
 TEST(kw, whoami)

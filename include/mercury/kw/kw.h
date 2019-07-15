@@ -37,7 +37,7 @@ class KanoWorld
 
     static size_t write_function(void *ptr, size_t size, size_t nmemb, void *user_data);
 
-    bool am_i_logged_in(void);
+    bool am_i_logged_in(bool verbose);
     string get_token(void);
     string get_expiration_date(void);
     bool save_data(void);
