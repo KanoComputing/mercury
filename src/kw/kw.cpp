@@ -265,9 +265,12 @@ string KanoWorld::get_expiration_date(void)
     JSON_Value *schema = json_parse_string(server_response.c_str());
     if (schema) {
 
-        // FIXME: There is some kind of magic math behind the timestamp,
-        // which is divided by 1000, then an offset seems to be applied.
-        expiration_date = string(json_object_dotget_string(json_object(schema), "data.duration"));
+        // For some reason, the Unix time returned by the server is divide by 1000
+        // So we convert it back into a Unix time here. See:
+        // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
+        long conversion = 1000;
+        string translate = string(json_object_dotget_string(json_object(schema), "data.duration"));
+        expiration_date = string( std::to_string (std::stol(translate.c_str()) * conversion) );
     }
 
     return expiration_date;
