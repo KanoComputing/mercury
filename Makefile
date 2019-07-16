@@ -21,8 +21,8 @@ build-release: _build
 build: build-release
 
 clean:
-	cd build/Release && make clean
-	cd build/Debug && make clean
+	-cd build/Release && make clean
+	-cd build/Debug && make clean
 
 test-library: build-debug
 	cd build/Debug && CTEST_OUTPUT_ON_FAILURE=1 make coverage
