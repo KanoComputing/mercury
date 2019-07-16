@@ -23,7 +23,7 @@ build:
 	cd build && make VERBOSE=1
 
 clean:
-	cd build && make clean
+	-cd build && make clean
 
 test-library:
 	cd build && make coverage
