@@ -209,29 +209,27 @@ bool KanoWorld::am_i_logged_in(bool verbose)
 {
     std::time_t now = std::time(nullptr);
 
-    load_data();
+    if (!load_data()) {
+        return false;
+    }
 
-    std::time_t duration = atol(get_expiration_date().c_str());
+    std::time_t duration = atol(expiration_date.c_str());
     double seconds;
 
     if (!duration) {
         return false;
     }
 
-    if (now < duration) {
-        seconds = difftime(duration, now);
-    }
-    else {
-        seconds = difftime(now, duration);
-    }
+    seconds = difftime(now, duration);
 
     if (verbose) {
-        printf (">>> NOW: %s", ctime((const time_t *) &now));
-        printf (">>> DURATION: %s", ctime((const time_t *) &duration));
-        printf (">>> SECONDS: %f.3\n", seconds);
+        printf (">>> Am_I_Logged_In() requested - Time: %ld - %s", now, ctime((const time_t *) &now));
+        printf (">>> Token expires: %ld - %s", duration, ctime((const time_t *) &duration));
+        printf (">>> Difference in seconds: %f.3\n", seconds);
+        printf (">>> Token valid? %s\n", (seconds < 0 ? "Yes" : "No"));
     }
 
-    return (seconds > 0);
+    return (seconds < 0);
 }
     
 
@@ -266,6 +264,9 @@ string KanoWorld::get_expiration_date(void)
 {
     JSON_Value *schema = json_parse_string(server_response.c_str());
     if (schema) {
+
+        // FIXME: There is some kind of magic math behind the timestamp,
+        // which is divided by 1000, then an offset seems to be applied.
         expiration_date = string(json_object_dotget_string(json_object(schema), "data.duration"));
     }
 

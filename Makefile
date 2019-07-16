@@ -28,7 +28,7 @@ clean:
 test-library:
 	cd build && make coverage
 
-test-python: build
+test-python:
 	# Python tests can be run on a build sandbox,
 	# as well as on the target installation system
 	-cp -v build/lib/_mercury.so test/python3
