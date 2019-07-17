@@ -43,7 +43,7 @@ KanoWorld::KanoWorld() :
  *  Calls the "login" endpoint using the username and password credentials.
  *  On success, the new token and duration time are stored in the cache data file.
  */
-bool KanoWorld::login(string username, string password, bool verbose)
+bool KanoWorld::login(const string& username, const string& password, bool verbose)
 {
     CURL *curl;
     CURLcode res;
