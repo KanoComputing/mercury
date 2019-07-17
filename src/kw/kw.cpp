@@ -31,7 +31,7 @@ KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
 }
 
 
-KanoWorld::KanoWorld(void) :
+KanoWorld::KanoWorld() :
     data_filename (string(getenv("HOME")) + "/" + ".mercury_kw.json"),
     token(""),
     expiration_date("")
@@ -246,7 +246,7 @@ bool KanoWorld::am_i_logged_in(bool verbose)
 /**
  *   Not implemented yet
  */
-string KanoWorld::whoami(void)
+string KanoWorld::whoami()
 {
     return string("");
 }
@@ -255,7 +255,7 @@ string KanoWorld::whoami(void)
 /**
  *   Collects and returns the token from the Server Response data
  */
-string KanoWorld::get_token(void)
+string KanoWorld::get_token()
 {
     JSON_Value *schema = json_parse_string(server_response.c_str());
     if (schema) {
@@ -270,7 +270,7 @@ string KanoWorld::get_token(void)
  *   Collects and returns the token expiration date, "duration" field,
  *   from the Server Response data.
  */
-string KanoWorld::get_expiration_date(void)
+string KanoWorld::get_expiration_date()
 {
     JSON_Value *schema = json_parse_string(server_response.c_str());
     if (schema) {
@@ -290,7 +290,7 @@ string KanoWorld::get_expiration_date(void)
 /**
  *   Loads the data from the cached file.
  */
-bool KanoWorld::load_data(void)
+bool KanoWorld::load_data()
 {
     JSON_Value *user_data = json_parse_file(data_filename.c_str());
     if (!user_data) {
@@ -307,7 +307,7 @@ bool KanoWorld::load_data(void)
 /**
  *   Saves the server response data fields into the cache local file.
  */
-bool KanoWorld::save_data(void)
+bool KanoWorld::save_data()
 {
     JSON_Status rc;
     JSON_Value *user_data = json_value_init_object();
