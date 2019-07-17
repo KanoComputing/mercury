@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef MERCURY_KW_H
-#define MERCURY_KW_H
+#ifndef MERCURY_KW_KW_H_
+#define MERCURY_KW_KW_H_
 
 #include <string>
 using std::string;
@@ -36,4 +36,4 @@ class KanoWorld
     string whoami(void);
 };
 
-#endif  // MERCURY_KW_H
+#endif  // MERCURY_KW_KW_H_
