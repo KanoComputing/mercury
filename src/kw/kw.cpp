@@ -81,7 +81,7 @@ bool KanoWorld::login(string username, string password, bool verbose)
         curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, payload.length());
         curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, payload.c_str());
 
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_function);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback_server_response);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
 
         /* Perform the request, res will get the return code */
@@ -144,7 +144,7 @@ bool KanoWorld::refresh_token(string token, bool verbose)
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(curl, CURLOPT_VERBOSE, verbose ? 1L : 0L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_function);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback_server_response);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
 
         /* Perform the request, res will get the return code */
@@ -202,8 +202,11 @@ string KanoWorld::get_refresh_header(string token)
 /**
  *   libcurl callback function, allows to collect the data response from the server,
  *   which in this case is a json object.
+ *
+ *   See libCurl CURLOPT_WRITEFUNCTION and CURLOPT_WRITEDATA options.
+ *   The WRITEDATA option is used to pass the class instance to safe the data for later processing.
  */
-size_t KanoWorld::write_function(void *ptr, size_t size, size_t nmemb, void *user_data)
+size_t KanoWorld::callback_server_response(void *ptr, size_t size, size_t nmemb, void *user_data)
 {
     // Save the server's response in a class string
     KanoWorld *pkw = (KanoWorld *) user_data;
