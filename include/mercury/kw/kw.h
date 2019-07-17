@@ -37,11 +37,11 @@ class KanoWorld
     static size_t callback_server_response(void *ptr, size_t size, size_t nmemb, void *user_data);
 
     bool am_i_logged_in(bool verbose);
-    string get_token(void);
-    string get_expiration_date(void);
-    bool save_data(void);
-    bool load_data(void);
-    string whoami(void);
+    string get_token();
+    string get_expiration_date();
+    bool save_data();
+    bool load_data();
+    string whoami();
 
     string server_response;
     string data_filename;
