@@ -38,7 +38,6 @@ class KanoWorld
      */
     explicit KanoWorld(std::shared_ptr<IHTTPClient> client =
         std::make_shared<HTTPClient>());
-    ~KanoWorld();
 
     bool login(string username, string password, bool verbose);
     bool refresh_token(string token, bool verbose);
