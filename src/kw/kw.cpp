@@ -31,15 +31,10 @@ KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
 }
 
 
-KanoWorld::KanoWorld(void)
-{
-    // Data file to store token and expiration date
-    data_filename = string(getenv("HOME")) + "/" + ".mercury_kw.json";
-    token = "";
-    expiration_date = "";
-}
-
-KanoWorld::~KanoWorld(void)
+KanoWorld::KanoWorld(void) :
+    data_filename (string(getenv("HOME")) + "/" + ".mercury_kw.json"),
+    token(""),
+    expiration_date("")
 {
 }
 
