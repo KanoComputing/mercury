@@ -27,7 +27,6 @@ class KanoWorld
      * \brief Sets the system wallpaper.
      */
     KanoWorld();
-    ~KanoWorld();
 
     bool login(string username, string password, bool verbose);
     bool refresh_token(string token, bool verbose);
