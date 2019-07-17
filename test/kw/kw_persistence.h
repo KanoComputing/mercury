@@ -1,5 +1,5 @@
 /**
- * \file kw_server_data.h
+ * \file kw_persistence.h
  *
  * \copyright Copyright (C) 2019 Kano Computing Ltd.
  *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
