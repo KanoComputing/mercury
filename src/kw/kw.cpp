@@ -245,13 +245,12 @@ bool KanoWorld::am_i_logged_in(bool verbose)
     }
 
     std::time_t duration = atol(expiration_date.c_str());
-    double seconds;
 
     if (!duration) {
         return false;
     }
 
-    seconds = difftime(now, duration);
+    double seconds = difftime(now, duration);
 
     if (verbose) {
         std::cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - " <<
