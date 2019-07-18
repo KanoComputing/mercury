@@ -27,11 +27,11 @@ clean:
 test-library: build-debug
 	cd build/Debug && CTEST_OUTPUT_ON_FAILURE=1 make coverage
 
-test-python: build-debug
+test-python: build-release
 	# Python tests can be run on a build sandbox,
 	# as well as on the target installation system
-	-cp -v build/Debug/lib/_mercury.so test/python3
-	-cp -v build/src/swig/python/mercury.py test/python3
+	-cp -v build/Release/lib/_mercury.so test/python3
+	-cp -v build/Release/src/swig/python/mercury.py test/python3
 	cd test/python3 && python3 -m pytest $(TESTMODULE)
 
 test: build-debug test-library test-python
