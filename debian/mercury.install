@@ -1,1 +1,6 @@
 build/Release/lib/libmercury.so /usr/lib
+
+res/images/5c507ffdd8f37a1015b52eac.png /usr/share/kes-dashboard-live-tiles/images/
+res/images/5c9ce4fc62a4bf0ff1700b77.gif /usr/share/kes-dashboard-live-tiles/images/
+res/images/5cd5835432dd0f15550e5086.png /usr/share/kes-dashboard-live-tiles/images/
+res/images/5d0103cdebe30b0fe7096c1f.png /usr/share/kes-dashboard-live-tiles/images/

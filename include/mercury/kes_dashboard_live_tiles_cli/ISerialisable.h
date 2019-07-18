@@ -8,23 +8,21 @@
  */
 
 
-#ifndef __KES_DASHBOARD_LIVE_TILES_CLI_I_SERIALISABLE_H__
-#define __KES_DASHBOARD_LIVE_TILES_CLI_I_SERIALISABLE_H__
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ISERIALISABLE_H_
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ISERIALISABLE_H_
 
-
-#include <memory>
 
 #include <parson.h>
 
 
 class ISerialisable {
 
-    public:
-        virtual ~ISerialisable() {}
+ public:  // Constructors & destructors.
+    virtual ~ISerialisable() {}
 
-    public:
-        virtual bool initialise(std::shared_ptr<JSON_Value> serialisedData) = 0;
-        virtual std::shared_ptr<JSON_Value> serialise() = 0;
+ public:  // Methods.
+    virtual bool initialise(JSON_Value* serialisedData) = 0;
+    virtual JSON_Value* serialise() const = 0;
 };
 
-#endif  // __KES_DASHBOARD_LIVE_TILES_CLI_I_SERIALISABLE_H__
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ISERIALISABLE_H_

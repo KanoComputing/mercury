@@ -79,6 +79,9 @@ class IHTTPClient {
         const std::string& url,
         const std::map<std::string, std::string>& headers =
             std::map<std::string, std::string>()) = 0;
+    /**
+     */
+    virtual bool DL(const std::string& url, const std::string& path) = 0;
 };
 
 

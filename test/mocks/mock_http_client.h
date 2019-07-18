@@ -104,6 +104,12 @@ class MockHTTPClient : public IHTTPClient {
             std::map<std::string, std::string>()) {
         return this->GET_impl(url, headers);
     }
+    /**
+     */
+    MOCK_METHOD2(
+        DL,
+        bool(
+            const std::string& url, const std::string& path));
 
     /**
      * \brief Internal mocked version of the POST to account for optional

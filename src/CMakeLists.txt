@@ -12,6 +12,9 @@ add_library(mercury_obj OBJECT
     kes_dashboard_live_tiles_cli/TileManager.cpp
     kw/kw.cpp
     theme/theme.cpp
+    utils/Filesystem.cpp
+    utils/String.cpp
+    utils/Time.cpp
 )
 target_include_directories(mercury_obj PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
@@ -49,7 +52,7 @@ target_include_directories(mercury_static PUBLIC
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
     ${OPENSSL_INCLUDE_DIR}
     $<INSTALL_INTERFACE:include>
-    )
+)
 
 target_link_libraries(mercury_shared
     PUBLIC CONAN_PKG::libcurl CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}

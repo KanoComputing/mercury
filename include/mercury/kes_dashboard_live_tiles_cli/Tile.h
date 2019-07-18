@@ -8,52 +8,60 @@
  */
 
 
-#ifndef __KES_DASHBOARD_LIVE_TILES_CLI_TILE_H__
-#define __KES_DASHBOARD_LIVE_TILES_CLI_TILE_H__
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILE_H_
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILE_H_
 
+
+#include <string>
 
 #include <parson.h>
 
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 
+using std::string;
+
 
 class Tile : public ITile {
 
-    // Constructors & destructors.
-    public:
-        Tile();
-        ~Tile();
+ public:  // Constructors & destructors.
+    Tile();
 
-    // ISerialisable Methods.
-    public:
-        bool initialise(std::shared_ptr<JSON_Value> serialisedData) override;
-        std::shared_ptr<JSON_Value> serialise() override;
+    Tile(const string& id, const string& cover,
+         const string& title, const string& description,
+         const string& username, const string& app,
+         const string& openUrl, const string& fallbackUrl,
+         const string& coverPath = "");
 
-    // IDownloadable Methods.
-    public:
-        bool download() override;
+    ~Tile();
 
-    // ITile Methods.
-    public:
-        std::string getCover() override;
-        std::string getTitle() override;
-        std::string getDescription() override;
-        std::string getUsername() override;
-        std::string getApp() override;
-        std::string getOpenUrl() override;
-        std::string getFallbackUrl() override;
-        std::string getCoverPath() override;
+ public:  // ISerialisable Methods.
+    bool initialise(JSON_Value* serialisedData) override;
+    JSON_Value* serialise() const override;
 
-    // Members.
-    private:
-        std::string cover;
-        std::string coverPath;
-        std::string title;
-        std::string description;
-        std::string username;
-        std::string app;
-        std::string openUrl;
-        std::string fallbackUrl;
+ public:  // IDownloadable Methods.
+    bool download(const string& baseDir) override;
+
+ public:  // ITile Methods.
+    string getId() const override;
+    string getCover() const override;
+    string getTitle() const override;
+    string getDescription() const override;
+    string getUsername() const override;
+    string getApp() const override;
+    string getOpenUrl() const override;
+    string getFallbackUrl() const override;
+    string getCoverPath() const override;
+
+ private:  // Members.
+    string id;
+    string cover;
+    string coverPath;
+    string title;
+    string description;
+    string username;
+    string app;
+    string openUrl;
+    string fallbackUrl;
 };
 
-#endif  // __KES_DASHBOARD_LIVE_TILES_CLI_TILE_H__
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILE_H_
