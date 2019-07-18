@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef TEST_KW_SERVER_DATA
-#define TEST_KW_SERVER_DATA
+#ifndef TEST_KW_KW_SERVER_DATA_H_
+#define TEST_KW_KW_SERVER_DATA_H_
 
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
@@ -23,18 +23,18 @@ TEST(kw, login_get_correct_data)
 {
     KanoWorld kw;
 
-    EXPECT_EQ (kw.login("testing_user", "kano12345experience", true), true);
-    EXPECT_GT (kw.get_token().length(), 0);
-    EXPECT_GT (kw.get_expiration_date().length(), 0);
+    EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
+    EXPECT_GT(kw.get_token().length(), 0);
+    EXPECT_GT(kw.get_expiration_date().length(), 0);
 }
 
 TEST(kw, login_get_no_data)
 {
     KanoWorld kw;
 
-    EXPECT_EQ (kw.login("nonexisting", "badpassword", true), false);
-    EXPECT_EQ (kw.get_token().length(), 0);
-    EXPECT_EQ (kw.get_expiration_date().length(), 0);
+    EXPECT_EQ(kw.login("nonexisting", "badpassword", true), false);
+    EXPECT_EQ(kw.get_token().length(), 0);
+    EXPECT_EQ(kw.get_expiration_date().length(), 0);
 }
 
-#endif  // TEST_KW_SERVER_DATA
+#endif  // TEST_KW_KW_SERVER_DATA_H_

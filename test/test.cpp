@@ -16,8 +16,8 @@
 #include "kes_dashboard_live_tiles_cli/TestOnlineLoader.h"
 #include "kes_dashboard_live_tiles_cli/TestTileManager.h"
 #include "kw/kw_apis.h"
-#include "kw/kw_server_data.h"
 #include "kw/kw_persistence.h"
+#include "kw/kw_server_data.h"
 #include "theme/theme.h"
 
 

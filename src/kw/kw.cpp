@@ -7,17 +7,16 @@
  *  Kano World class methods implemntation
  */
 
-#include <iostream>
-#include <string>
-#include <ctime>
-
-using std::string;
 
 #include "mercury/kw/kw.h"
 
 #include <parson.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
+#include <ctime>
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -25,8 +24,6 @@ using std::string;
 
 using std::string;
 
-#include <sys/stat.h>
-#include <unistd.h>
 
 
 KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
@@ -48,13 +45,14 @@ KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
  *
  * \returns True if login was successful, false otherwise.e
  */
-bool KanoWorld::login(const string& username, const string& password, bool verbose)
-{
+bool KanoWorld::login(const string& username, const string& password,
+                      bool verbose) {
     if (!username.length() || !password.length()) {
         return false;
     }
 
-    const std::string body = "{\n\"username\": \"" + username + "\", \n\"password\": \"" + password + "\"\n}";
+    const std::string body = "{\n\"username\": \"" + username +
+        "\", \n\"password\": \"" + password + "\"\n}";
 
     std::shared_ptr<JSON_Value> res;
 
@@ -92,7 +90,8 @@ bool KanoWorld::login(const string& username, const string& password, bool verbo
             json_free_serialized_string);
         std::cout << ">>> login SERVER RESPONSE: " << resp_str << std::endl;
         std::cout << ">>> Token: " << get_token() << std::endl;
-        std::cout << ">>> Expiration date: " << get_expiration_date() << std::endl;
+        std::cout << ">>> Expiration date: " << get_expiration_date()
+                  << std::endl;
     }
 
     return true;
@@ -118,7 +117,8 @@ bool KanoWorld::logout(bool verbose)
     }
 
     if (verbose) {
-        std::cout << "logout - removing cache file success? " << (rc == -1 ? "No" : "Yes") << std::endl;
+        std::cout << "logout - removing cache file success? "
+                  << (rc == -1 ? "No" : "Yes") << std::endl;
     }
     return rc != -1;
 }
@@ -177,9 +177,11 @@ bool KanoWorld::refresh_token(string token, bool verbose)
         std::shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        std::cout << ">>> refresh_token SERVER RESPONSE: " << resp_str << std::endl;
+        std::cout << ">>> refresh_token SERVER RESPONSE: " << resp_str
+                  << std::endl;
         std::cout << ">>> Token: " << get_token() << std::endl;
-        std::cout << ">>> Expiration date: " << get_expiration_date() << std::endl;
+        std::cout << ">>> Expiration date: " << get_expiration_date()
+                  << std::endl;
     }
 
     return true;
@@ -218,7 +220,8 @@ string KanoWorld::get_refresh_header(string token)
 /**
  * \brief Returns wether the user is currently logged in
  *
- * A local token timestamp comparison is performed, to decide wether it has expired
+ * A local token timestamp comparison is performed, to decide wether it has
+ * expired
  *
  * \param verbose    Be more descriptive on the actions performed
  *
@@ -241,24 +244,32 @@ bool KanoWorld::is_logged_in(bool verbose)
     double seconds = difftime(now, duration);
 
     if (verbose) {
-        std::cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - " <<
-            ctime((const time_t *) &now) << std::endl;
+        char now_str[26];
+        ctime_r(static_cast<const time_t*>(&now), now_str);
 
-        std::cout << ">>> Token expires: " << duration << " - " << ctime((const time_t *) &duration) << std::endl;
+        char duration_str[26];
+        ctime_r(static_cast<const time_t*>(&duration), duration_str);
+
+        std::cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - "
+                  << now_str << std::endl;
+
+        std::cout << ">>> Token expires: " << duration << " - "
+                  << duration_str << std::endl;
         std::cout << ">>> Difference in seconds: " << seconds << std::endl;
-        std::cout << ">>> Token valid? " << (seconds < 0 ? "Yes" : "No") << std::endl;
+        std::cout << ">>> Token valid? " << (seconds < 0 ? "Yes" : "No")
+                  << std::endl;
     }
 
-    return (seconds < 0);
+    return seconds < 0;
 }
 
 
 /**
  *   Not implemented yet
  */
-string KanoWorld::whoami()
+std::string KanoWorld::whoami()
 {
-    return string("");
+    return "";
 }
 
 
@@ -280,18 +291,19 @@ std::string KanoWorld::parse_token(
 /**
  * \brief Returns the token expiration date from the server response
  *
- * \returns A string with the Unix timestamp representing the token expiration date
+ * \returns A string with the Unix timestamp representing the token expiration
+ *          date
  */
 std::string KanoWorld::parse_expiration_date(
         const std::shared_ptr<JSON_Value> res) const {
     if (res) {
-        // For some reason, the Unix time returned by the server is divide by 1000
-        // So we convert it back into a Unix time here. See:
+        // For some reason, the Unix time returned by the server is divide by
+        // 1000 so we convert it back into a Unix time here. See:
         // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
-        long conversion = 1000;
+        int conversion = 1000;
         string translate = json_object_dotget_string(
             json_object(res.get()), "data.duration");
-        return std::to_string(std::stol(translate.c_str()) * conversion);
+        return std::to_string(std::stol(translate) * conversion);
     }
 
     return "";
@@ -323,7 +335,8 @@ bool KanoWorld::load_data()
     }
 
     token = json_object_get_string(json_object(user_data), "token");
-    expiration_date = json_object_get_string(json_object(user_data), "duration");
+    expiration_date = json_object_get_string(
+        json_object(user_data), "duration");
 
     return true;
 }
@@ -332,7 +345,8 @@ bool KanoWorld::load_data()
 /**
  * \brief Saves the data returned from the server on a local cache file.
  *
- * The cache data file is then used to peek at the login token and expiration timestamp
+ * The cache data file is then used to peek at the login token and expiration
+ * timestamp
  *
  * \returns true if the data was successfully saved.
  */
@@ -344,8 +358,10 @@ bool KanoWorld::save_data()
         return false;
     }
 
-    json_object_set_string(json_object(user_data), "token", get_token().c_str());
-    json_object_set_string(json_object(user_data), "duration", get_expiration_date().c_str());
+    json_object_set_string(
+        json_object(user_data), "token", get_token().c_str());
+    json_object_set_string(
+        json_object(user_data), "duration", get_expiration_date().c_str());
 
     JSON_Status rc = json_serialize_to_file(user_data, data_filename.c_str());
     json_value_free(user_data);

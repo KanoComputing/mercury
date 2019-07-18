@@ -8,8 +8,9 @@
  *
  */
 
-#ifndef TEST_KW_PERSISTENCE
-#define TEST_KW_PERSISTENCE
+#ifndef TEST_KW_KW_PERSISTENCE_H_
+#define TEST_KW_KW_PERSISTENCE_H_
+
 
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
@@ -26,16 +27,16 @@ TEST(kw, login_data_filename_created)
     KanoWorld kw;
     struct stat st;
 
-    EXPECT_GT (kw.data_filename.length(), 0);
+    EXPECT_GT(kw.data_filename.length(), 0);
 
     // Make sure the cache file is not here
     if (stat(kw.data_filename.c_str(), &st) != -1) {
         unlink(kw.data_filename.c_str());
     }
 
-    EXPECT_EQ (stat(kw.data_filename.c_str(), &st), -1);
-    EXPECT_EQ (kw.login("testing_user", "kano12345experience", true), true);
-    EXPECT_NE (stat(kw.data_filename.c_str(), &st), -1);
+    EXPECT_EQ(stat(kw.data_filename.c_str(), &st), -1);
+    EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
+    EXPECT_NE(stat(kw.data_filename.c_str(), &st), -1);
 }
 
 TEST(kw, load_cached_data)
@@ -43,11 +44,11 @@ TEST(kw, load_cached_data)
     KanoWorld kw;
     struct stat st;
 
-    EXPECT_NE (stat(kw.data_filename.c_str(), &st), -1);
-    EXPECT_EQ (kw.load_data(), true);
-    EXPECT_GT (kw.get_token().length(), 0);
-    EXPECT_GT (kw.get_expiration_date().length(), 0);
+    EXPECT_NE(stat(kw.data_filename.c_str(), &st), -1);
+    EXPECT_EQ(kw.load_data(), true);
+    EXPECT_GT(kw.get_token().length(), 0);
+    EXPECT_GT(kw.get_expiration_date().length(), 0);
 }
 
 
-#endif  // TEST_KW_PERSISTENCE
+#endif  // TEST_KW_KW_PERSISTENCE_H_
