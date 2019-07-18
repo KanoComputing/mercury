@@ -9,6 +9,7 @@ add_library(mercury_obj OBJECT
     kes_dashboard_live_tiles_cli/LocalLoader.cpp
     kes_dashboard_live_tiles_cli/OnlineLoader.cpp
     kes_dashboard_live_tiles_cli/Tile.cpp
+    kes_dashboard_live_tiles_cli/TileFactory.cpp
     kes_dashboard_live_tiles_cli/TileManager.cpp
     kw/kw.cpp
     theme/theme.cpp

@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -21,6 +22,8 @@
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/String.h"
 
+using std::cerr;
+using std::endl;
 using std::string;
 
 
@@ -110,6 +113,7 @@ bool Tile::download(const string& baseDir) {
 
     // Create the directory path for this tile data.
     if (!create_directories(tileDir)) {
+        cerr << "Failed to create directories: path: " << tileDir << endl;
         return false;
     }
 
@@ -117,6 +121,8 @@ bool Tile::download(const string& baseDir) {
 
     // Download the cover.
     if (!httpClient.DL(this->cover, this->coverPath)) {
+        cerr << "Failed to download: URL: " << this->cover
+             << " to " << this->coverPath << endl;
         return false;
     }
 

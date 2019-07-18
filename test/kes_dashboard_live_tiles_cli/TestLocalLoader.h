@@ -12,48 +12,63 @@
 #define TEST_KES_DASHBOARD_LIVE_TILES_CLI_TESTLOCALLOADER_H_
 
 
-#include <list>
-#include <memory>
-
-#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
-#include <mercury/kes_dashboard_live_tiles_cli/ITile.h>
-#include <mercury/kes_dashboard_live_tiles_cli/LocalLoader.h>
 
-using std::list;
-using std::shared_ptr;
-
-
-TEST(TestLocalLoader, getTilesFromCache) {
-    LocalLoader localLoader("/tmp/kes-dlt-cli/test");
-    list<shared_ptr<ITile>> tiles = localLoader.getTiles();
-
-    EXPECT_FALSE(tiles.empty());
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, GetTilesFromCache) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
-
-TEST(TestLocalLoader, getTilesFromDefaults) {
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, GetTilesFromDefaults) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
-
-TEST(TestLocalLoader, updateCache) {
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, UpdateCache) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
-
-TEST(TestLocalLoader, updateSetsLastUpdated) {
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, UpdateSetsLastUpdated) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
-
-TEST(TestLocalLoader, getLastUpdatedNoCache) {
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, GetLastUpdatedNoCache) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
-
-TEST(TestLocalLoader, getLastUpdatedFromCache) {
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, GetLastUpdatedFromCache) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
-
-TEST(TestLocalLoader, isCacheEmpty) {
+/**
+ * TODO
+ */
+TEST(TestLocalLoader, IsCacheEmpty) {
+    // TODO
+    EXPECT_TRUE(false);
 }
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLI_TESTLOCALLOADER_H_

@@ -35,8 +35,8 @@ class KanoWorld
      *
      * \param client    (Optional) The HTTP client to use for requests
      */
-    KanoWorld(const std::string& url = "https://worldapi.kano.me",
-              std::shared_ptr<IHTTPClient> client = make_shared<HTTPClient>());
+    KanoWorld(const string& url = "https://worldapi.kano.me",
+              shared_ptr<IHTTPClient> client = make_shared<HTTPClient>());
 
     bool login(const string& username, const string& password,
                const bool verbose = false);

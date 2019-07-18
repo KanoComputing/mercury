@@ -15,19 +15,21 @@
 #include <list>
 #include <memory>
 
-#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
-#include <mercury/kes_dashboard_live_tiles_cli/ITile.h>
-#include <mercury/kes_dashboard_live_tiles_cli/TileManager.h>
+#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
+#include "mercury/kes_dashboard_live_tiles_cli/TileManager.h"
 
 using std::list;
 using std::shared_ptr;
 
 
+/**
+ * TODO
+ */
 TEST(TestTileManager, DoesSomethingOrOther) {
     TileManager tileManager;
-    list<shared_ptr<ITile>> tiles = tileManager.getTiles();
+    list<shared_ptr<ITile>> tiles = tileManager.getTiles(false);
 
     EXPECT_FALSE(tiles.empty());
 }

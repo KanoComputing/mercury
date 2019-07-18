@@ -9,15 +9,17 @@
  */
 
 
-#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
-#include "kes_dashboard_live_tiles_cli/TestLocalLoader.h"
+// #include "kes_dashboard_live_tiles_cli/TestLocalLoader.h"
 #include "kes_dashboard_live_tiles_cli/TestOnlineLoader.h"
-#include "kes_dashboard_live_tiles_cli/TestTileManager.h"
+// #include "kes_dashboard_live_tiles_cli/TestTile.h"
+// #include "kes_dashboard_live_tiles_cli/TestTileManager.h"
+
 #include "kw/kw_apis.h"
 #include "kw/kw_persistence.h"
 #include "kw/kw_server_data.h"
+
 #include "theme/theme.h"
 
 

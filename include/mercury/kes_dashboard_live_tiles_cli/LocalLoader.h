@@ -16,8 +16,8 @@
 #include <memory>
 #include <string>
 
+#include "mercury/kes_dashboard_live_tiles_cli/ILocalLoader.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITileLoader.h"
 
 using std::list;
 using std::shared_ptr;
@@ -30,11 +30,10 @@ class LocalLoader : public ITileLoader {
     explicit LocalLoader(const string& cacheDir);
     ~LocalLoader();
 
- public:
-    // ITileLoader Methods. TODO: ILocalLoader Methods.
+ public:  // ITileLoader Methods.
     list<shared_ptr<ITile>> getTiles() override;
 
- public:  // TODO: ILocalLoader Methods.
+ public:  // ILocalLoader Methods.
     void update(const list<shared_ptr<ITile>>& tiles);
     double getLastUpdated() const;
     bool isCacheEmpty() const;
@@ -51,8 +50,7 @@ class LocalLoader : public ITileLoader {
     shared_ptr<JSON_Value> cacheDataRoot;
     JSON_Object* cacheData;
 
- private:
-    // Constants.
+ private:  // Constants.
     const string CACHE_FILE = "cache.json";
 };
 
