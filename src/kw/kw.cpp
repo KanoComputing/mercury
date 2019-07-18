@@ -15,7 +15,6 @@ using std::string;
 
 #include "mercury/kw/kw.h"
 
-#include <curl/curl.h>
 #include <parson.h>
 #include <stdlib.h>
 
@@ -51,70 +50,52 @@ KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
  */
 bool KanoWorld::login(const string& username, const string& password, bool verbose)
 {
-    CURL *curl;
-    CURLcode res;
-    struct curl_slist *chunk = NULL;
-    long code=0L;
-
     if (!username.length() || !password.length()) {
         return false;
     }
 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if(curl) {
+    const std::string body = "{\n\"username\": \"" + username + "\", \n\"password\": \"" + password + "\"\n}";
 
-        // TODO: use json library
-        string payload = "{\n\"username\": \"" + username + "\", \n\"password\": \"" + password + "\"\n}";
+    std::shared_ptr<JSON_Value> res;
 
-        // Apply API expected headers
-        chunk = curl_slist_append(chunk, "Accept: application/json");
-        chunk = curl_slist_append(chunk, "Content-Type: application/json");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
-
-        curl_easy_setopt(curl, CURLOPT_URL, "https://worldapi-dev.kano.me/accounts/auth");
-        curl_easy_setopt(curl, CURLOPT_POST, 1L);
-
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-        curl_easy_setopt(curl, CURLOPT_VERBOSE, verbose ? 1L : 0L);
-
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, payload.length());
-        curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, payload.c_str());
-
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback_server_response);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
-
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-
-        /* Check for errors */
-        if(res != CURLE_OK) {
-            std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
+    try {
+        res = this->http_client->POST(
+            "https://worldapi-dev.kano.me/accounts/auth",
+            body);
+    } catch (const HTTPRequestFailedError& err) {
+        if (verbose) {
+            std::cout << err.what() << std::endl;
         }
-        else {
-            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
+
+        return false;
+    } catch (const SessionInitError& err) {
+        if (verbose) {
+            std::cout << err.what() << std::endl;
         }
-        curl_easy_cleanup(curl);
+
+        return false;
+    } catch (const std::exception& err) {
+        if (verbose) {
+            std::cout << "Unkown error: " << err.what() << std::endl;
+        }
+
+        return false;
     }
 
-    curl_global_cleanup();
-    curl_slist_free_all(chunk);
+    this->server_response = res;
     save_data();
 
-    // True if server responds with HTTP OK
-    if (code == HTTP_OKAY) {
-        if (verbose) {
-            std::cout << ">>> login SERVER RESPONSE: " << server_response.c_str() << std::endl;
-            std::cout << ">>> Token: " << get_token().c_str() << std::endl;
-            std::cout << ">>> Expiration date: " << get_expiration_date().c_str() << std::endl;
-        }
-        return true;
+    if (verbose) {
+        std::shared_ptr<char> resp_str(
+            json_serialize_to_string(res.get()),
+            json_free_serialized_string);
+        std::cout << ">>> login SERVER RESPONSE: " << resp_str << std::endl;
+        std::cout << ">>> Token: " << get_token() << std::endl;
+        std::cout << ">>> Expiration date: " << get_expiration_date() << std::endl;
     }
 
-    return false;
-
-} // login
+    return true;
+}
 
 
 /**
@@ -154,61 +135,53 @@ bool KanoWorld::logout(bool verbose)
  */
 bool KanoWorld::refresh_token(string token, bool verbose)
 {
-    CURL *curl;
-    CURLcode res;
-    struct curl_slist *chunk = NULL;
-    long code=0L;
-
     if (!token.length()) {
         return false;
     }
 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if(curl) {
+    std::map<std::string, std::string> headers {
+        std::make_pair("Authorization", "Bearer " + token)};
 
-        // Apply API expected headers
-        chunk = curl_slist_append(chunk, "Accept: application/json");
-        chunk = curl_slist_append(chunk, get_refresh_header(token).c_str());
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
+    std::shared_ptr<JSON_Value> res;
 
-        curl_easy_setopt(curl, CURLOPT_URL, "https://worldapi-dev.kano.me/accounts/auth/refresh");
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-        curl_easy_setopt(curl, CURLOPT_VERBOSE, verbose ? 1L : 0L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback_server_response);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, this);
-
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-
-        /* Check for errors */
-        if(res != CURLE_OK) {
-            std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
+    try {
+        res = this->http_client->GET(
+            "https://worldapi-dev.kano.me/accounts/auth/refresh",
+            headers);
+    } catch (const HTTPRequestFailedError& err) {
+        if (verbose) {
+            std::cout << err.what() << std::endl;
         }
-        else {
-            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
+
+        return false;
+    } catch (const SessionInitError& err) {
+        if (verbose) {
+            std::cout << err.what() << std::endl;
         }
-        curl_easy_cleanup(curl);
+
+        return false;
+    } catch (const std::exception& err) {
+        if (verbose) {
+            std::cout << "Unkown error: " << err.what() << std::endl;
+        }
+
+        return false;
     }
 
-    curl_global_cleanup();
-    curl_slist_free_all(chunk);
+    this->server_response = res;
     save_data();
 
-    if (code == HTTP_OKAY) {
-        if (verbose) {
-            std::cout << ">>> refresh_token SERVER RESPONSE: " << server_response.c_str() << std::endl;
-            std::cout << ">>> Token: " << get_token().c_str() << std::endl;
-            std::cout << ">>> Expiration date: " << get_expiration_date().c_str() << std::endl;
-        }
-        save_data();
-        return true;
+    if (verbose) {
+        std::shared_ptr<char> resp_str(
+            json_serialize_to_string(res.get()),
+            json_free_serialized_string);
+        std::cout << ">>> refresh_token SERVER RESPONSE: " << resp_str << std::endl;
+        std::cout << ">>> Token: " << get_token() << std::endl;
+        std::cout << ">>> Expiration date: " << get_expiration_date() << std::endl;
     }
 
-    return false;
-
-} // refresh_token()
+    return true;
+}
 
 
 /**
@@ -237,28 +210,6 @@ string KanoWorld::get_hostname(string config_filename)
 string KanoWorld::get_refresh_header(string token)
 {
     return (string("Authorization: Bearer " + token));
-}
-
-
-/**
- *   libcurl callback function, allows to collect the data response from the server,
- *   which in this case is a json object.
- *
- *   See libCurl CURLOPT_WRITEFUNCTION and CURLOPT_WRITEDATA options.
- *   The WRITEDATA option is used to pass the class instance to safe the data for later processing.
- *
- *   server_response is a class string used to transfer the server data into the class.
- *
- *   TODO: This implementation should be migrated to HTTPClient on top of Moco.
- *
- */
-size_t KanoWorld::callback_server_response(void *ptr, size_t size, size_t nmemb, void *user_data)
-{
-    // Save the server's response in a class string
-    KanoWorld *pkw = (KanoWorld *) user_data;
-    pkw->server_response = string((char *) ptr);
-
-    return size * nmemb;
 }
 
 
@@ -316,12 +267,12 @@ string KanoWorld::whoami()
  */
 string KanoWorld::get_token()
 {
-    JSON_Value *schema = json_parse_string(server_response.c_str());
-    if (schema) {
-        token = string(json_object_dotget_string(json_object(schema), "data.token"));
+    if (this->server_response) {
+        this->token = json_object_dotget_string(
+            json_object(server_response.get()), "data.token");
     }
 
-    return token;
+    return this->token;
 }
 
 
@@ -332,15 +283,15 @@ string KanoWorld::get_token()
  */
 string KanoWorld::get_expiration_date()
 {
-    JSON_Value *schema = json_parse_string(server_response.c_str());
-    if (schema) {
-
+    if (server_response) {
         // For some reason, the Unix time returned by the server is divide by 1000
         // So we convert it back into a Unix time here. See:
         // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
         long conversion = 1000;
-        string translate = string(json_object_dotget_string(json_object(schema), "data.duration"));
-        expiration_date = string( std::to_string (std::stol(translate.c_str()) * conversion) );
+        string translate = json_object_dotget_string(
+            json_object(server_response.get()), "data.duration");
+        expiration_date = std::to_string(
+            std::stol(translate.c_str()) * conversion);
     }
 
     return expiration_date;
