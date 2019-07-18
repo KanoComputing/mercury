@@ -5,3 +5,6 @@ Poco/1.9.2@pocoproject/stable
 
 [generators]
 cmake
+
+[options]
+OpenSSL:no_threads=True
