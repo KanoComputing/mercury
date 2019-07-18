@@ -12,9 +12,8 @@
 #define MERCURY_KW_KW_H_
 
 
-
-#include <string>
 #include <memory>
+#include <string>
 
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
@@ -55,15 +54,17 @@ class KanoWorld
     bool is_account_verified();
 
     const string data_filename;
-    string token;
-    string expiration_date;
-    string get_token();
-    string get_expiration_date();
+    string get_token() const;
+    string get_expiration_date() const;
     bool load_data();
 
  private:
-    std::shared_ptr<JSON_Value> server_response;
     std::shared_ptr<IHTTPClient> http_client;
+    std::string parse_token(const std::shared_ptr<JSON_Value> res) const;
+    std::string parse_expiration_date(
+        const std::shared_ptr<JSON_Value> res) const;
+    string token;
+    string expiration_date;
     bool save_data();
 };
 

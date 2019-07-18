@@ -82,7 +82,8 @@ bool KanoWorld::login(const string& username, const string& password, bool verbo
         return false;
     }
 
-    this->server_response = res;
+    this->token = this->parse_token(res);
+    this->expiration_date = this->parse_expiration_date(res);
     save_data();
 
     if (verbose) {
@@ -168,7 +169,8 @@ bool KanoWorld::refresh_token(string token, bool verbose)
         return false;
     }
 
-    this->server_response = res;
+    this->token = this->parse_token(res);
+    this->expiration_date = this->parse_expiration_date(res);
     save_data();
 
     if (verbose) {
@@ -265,14 +267,13 @@ string KanoWorld::whoami()
  *
  * \returns A string with the complete JWT token
  */
-string KanoWorld::get_token()
-{
-    if (this->server_response) {
-        this->token = json_object_dotget_string(
-            json_object(server_response.get()), "data.token");
+std::string KanoWorld::parse_token(
+        const std::shared_ptr<JSON_Value> res) const {
+    if (res) {
+        return json_object_dotget_string(json_object(res.get()), "data.token");
     }
 
-    return this->token;
+    return "";
 }
 
 
@@ -281,20 +282,29 @@ string KanoWorld::get_token()
  *
  * \returns A string with the Unix timestamp representing the token expiration date
  */
-string KanoWorld::get_expiration_date()
-{
-    if (server_response) {
+std::string KanoWorld::parse_expiration_date(
+        const std::shared_ptr<JSON_Value> res) const {
+    if (res) {
         // For some reason, the Unix time returned by the server is divide by 1000
         // So we convert it back into a Unix time here. See:
         // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
         long conversion = 1000;
         string translate = json_object_dotget_string(
-            json_object(server_response.get()), "data.duration");
-        expiration_date = std::to_string(
-            std::stol(translate.c_str()) * conversion);
+            json_object(res.get()), "data.duration");
+        return std::to_string(std::stol(translate.c_str()) * conversion);
     }
 
-    return expiration_date;
+    return "";
+}
+
+
+std::string KanoWorld::get_token() const {
+    return this->token;
+}
+
+
+std::string KanoWorld::get_expiration_date() const {
+    return this->expiration_date;
 }
 
 
