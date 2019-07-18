@@ -22,8 +22,6 @@
 using std::string;
 
 
-#define HTTP_OKAY 200
-
 /**
  * \class KanoWorld
  * \brief Provides access to Kano World Services Network API
@@ -46,8 +44,6 @@ class KanoWorld
     string get_hostname(string config_filename);
     string get_refresh_header(string token);
 
-    static size_t callback_server_response(void *ptr, size_t size, size_t nmemb, void *user_data);
-
     bool is_logged_in(bool verbose);
     string whoami();
 
@@ -66,9 +62,9 @@ class KanoWorld
     bool load_data();
 
  private:
+    std::shared_ptr<JSON_Value> server_response;
     std::shared_ptr<IHTTPClient> http_client;
     bool save_data();
-    string server_response;
 };
 
 

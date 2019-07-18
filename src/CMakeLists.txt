@@ -18,7 +18,6 @@ add_library(mercury_obj OBJECT
 )
 target_include_directories(mercury_obj PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
     ${OPENSSL_INCLUDE_DIR}
@@ -39,7 +38,6 @@ set_target_properties(mercury_static
 
 target_include_directories(mercury_shared PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
     ${OPENSSL_INCLUDE_DIR}
@@ -47,7 +45,6 @@ target_include_directories(mercury_shared PUBLIC
 )
 target_include_directories(mercury_static PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBCURL}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
     $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
     ${OPENSSL_INCLUDE_DIR}
@@ -55,10 +52,10 @@ target_include_directories(mercury_static PUBLIC
 )
 
 target_link_libraries(mercury_shared
-    PUBLIC CONAN_PKG::libcurl CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
+    PUBLIC CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
 )
 target_link_libraries(mercury_static
-    PUBLIC CONAN_PKG::libcurl CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
+    PUBLIC CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
 )
 
 
