@@ -7,6 +7,7 @@
  *  Kano World class methods implemntation
  */
 
+#include <iostream>
 #include <string>
 #include <ctime>
 
@@ -40,8 +41,15 @@ KanoWorld::KanoWorld() :
 
 
 /**
- *  Calls the "login" endpoint using the username and password credentials.
- *  On success, the new token and duration time are stored in the cache data file.
+ * \brief Calls the login endpoint the username and password credentials.
+ *
+ * This is a login to the Kano World Services API
+ *
+ * \param username    The first parameter passed to the function
+ * \param password    The second parameter passed to the function
+ * \param verbose     Be more descriptive on the transaction details
+ *
+ * \returns True if login was successful, false otherwise.e
  */
 bool KanoWorld::login(const string& username, const string& password, bool verbose)
 {
@@ -84,7 +92,7 @@ bool KanoWorld::login(const string& username, const string& password, bool verbo
 
         /* Check for errors */
         if(res != CURLE_OK) {
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         }
         else {
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
@@ -99,9 +107,9 @@ bool KanoWorld::login(const string& username, const string& password, bool verbo
     // True if server responds with HTTP OK
     if (code == HTTP_OKAY) {
         if (verbose) {
-            printf (">>> login SERVER RESPONSE: %s\n", server_response.c_str());
-            printf (">>> Token: %s\n", get_token().c_str());
-            printf (">>> Expiration date: %s\n", get_expiration_date().c_str());
+            std::cout << ">>> login SERVER RESPONSE: " << server_response.c_str() << std::endl;
+            std::cout << ">>> Token: " << get_token().c_str() << std::endl;
+            std::cout << ">>> Expiration date: " << get_expiration_date().c_str() << std::endl;
         }
         return true;
     }
@@ -112,8 +120,14 @@ bool KanoWorld::login(const string& username, const string& password, bool verbo
 
 
 /**
- *  Calls the @refresh_token" endpoint to request a new token
- *  On success, the new token and duration time are stored in the cache data file.
+ * \brief Calls the refresh_token endpoint to request a new token
+ *
+ * On success, the token is saved locally for future reference
+ *
+ * \param token       The previously stored token
+ * \param verbose     Be more descriptive on the transaction details
+ *
+ * \returns True if a new token was returned from the server.
  */
 bool KanoWorld::refresh_token(string token, bool verbose)
 {
@@ -147,7 +161,7 @@ bool KanoWorld::refresh_token(string token, bool verbose)
 
         /* Check for errors */
         if(res != CURLE_OK) {
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         }
         else {
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
@@ -161,9 +175,9 @@ bool KanoWorld::refresh_token(string token, bool verbose)
 
     if (code == HTTP_OKAY) {
         if (verbose) {
-            printf (">>> refresh_token SERVER RESPONSE: %s\n", server_response.c_str());
-            printf (">>> Token: %s\n", get_token().c_str());
-            printf (">>> Expiration date: %s\n", get_expiration_date().c_str());
+            std::cout << ">>> refresh_token SERVER RESPONSE: " << server_response.c_str() << std::endl;
+            std::cout << ">>> Token: " << get_token().c_str() << std::endl;
+            std::cout << ">>> Expiration date: " << get_expiration_date().c_str() << std::endl;
         }
         save_data();
         return true;
@@ -174,9 +188,14 @@ bool KanoWorld::refresh_token(string token, bool verbose)
 } // refresh_token()
 
 
-
 /**
- *   Returns the host name from the configuration file
+ * \brief Returns the hostname used to contact the Kano World API
+ *
+ * On success, the token is saved locally for future reference
+ *
+ * \param config_filename   Json filename that stores the API details
+ *
+ * \returns A string with the URL to the server
  */
 string KanoWorld::get_hostname(string config_filename)
 {
@@ -186,7 +205,11 @@ string KanoWorld::get_hostname(string config_filename)
 
 
 /**
- *   Returns the HTTP header needed to call the token "refresh" endpoint
+ * \brief Returns the HTTP header needed to call the token "refresh" endpoint
+ *
+ * \param token    The token needed to submit the request
+ *
+ * \returns A string with the HTTP header
  */
 string KanoWorld::get_refresh_header(string token)
 {
@@ -217,8 +240,13 @@ size_t KanoWorld::callback_server_response(void *ptr, size_t size, size_t nmemb,
 
 
 /**
- *   Returns true when the cached token duration time has not expired yet,
- *   false otherwise. Call the refresh_token API in such case.
+ * \brief Returns wether the user is currently logged in
+ *
+ * A local token timestamp comparison is performed, to decide wether it has expired
+ *
+ * \param verbose    Be more descriptive on the actions performed
+ *
+ * \returns True if the current user is logged in.
  */
 bool KanoWorld::am_i_logged_in(bool verbose)
 {
@@ -238,10 +266,12 @@ bool KanoWorld::am_i_logged_in(bool verbose)
     seconds = difftime(now, duration);
 
     if (verbose) {
-        printf (">>> Am_I_Logged_In() requested - Time: %ld - %s", now, ctime((const time_t *) &now));
-        printf (">>> Token expires: %ld - %s", duration, ctime((const time_t *) &duration));
-        printf (">>> Difference in seconds: %f.3\n", seconds);
-        printf (">>> Token valid? %s\n", (seconds < 0 ? "Yes" : "No"));
+        std::cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - " <<
+            ctime((const time_t *) &now) << std::endl;
+
+        std::cout << ">>> Token expires: " << duration << " - " << ctime((const time_t *) &duration) << std::endl;
+        std::cout << ">>> Difference in seconds: " << seconds << std::endl;
+        std::cout << ">>> Token valid? " << (seconds < 0 ? "Yes" : "No") << std::endl;
     }
 
     return (seconds < 0);
@@ -258,7 +288,9 @@ string KanoWorld::whoami()
 
 
 /**
- *   Collects and returns the token from the Server Response data
+ * \brief Returns the token from the server response
+ *
+ * \returns A string with the complete JWT token
  */
 string KanoWorld::get_token()
 {
@@ -272,8 +304,9 @@ string KanoWorld::get_token()
 
 
 /**
- *   Collects and returns the token expiration date, "duration" field,
- *   from the Server Response data.
+ * \brief Returns the token expiration date from the server response
+ *
+ * \returns A string with the Unix timestamp representing the token expiration date
  */
 string KanoWorld::get_expiration_date()
 {
@@ -293,7 +326,11 @@ string KanoWorld::get_expiration_date()
 
 
 /**
- *   Loads the data from the cached file.
+ * \brief Loads the cache data for the latest Kano World transaction
+ *
+ * The cache data contains the token and expiration timestamp
+ *
+ * \returns true if the data was successfully loaded.
  */
 bool KanoWorld::load_data()
 {
@@ -310,7 +347,11 @@ bool KanoWorld::load_data()
 
 
 /**
- *   Saves the server response data fields into the cache local file.
+ * \brief Saves the data returned from the server on a local cache file.
+ *
+ * The cache data file is then used to peek at the login token and expiration timestamp
+ *
+ * \returns true if the data was successfully saved.
  */
 bool KanoWorld::save_data()
 {
