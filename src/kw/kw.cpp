@@ -355,5 +355,5 @@ bool KanoWorld::save_data()
     rc = json_serialize_to_file(user_data, data_filename.c_str());
     json_value_free(user_data);
 
-    return (rc == JSONSuccess);
+    return rc == JSONSuccess;
 }
