@@ -61,8 +61,8 @@ def test_timestamp_now():
     import mercury
     m = mercury.KanoWorld()
 
-    # Token should be valid, just by 1 second
-    fake_duration_file(m.data_filename, time.time() + 1)
+    # Token should be valid, just by 15 seconds
+    fake_duration_file(m.data_filename, time.time() + 15)
     s = m.am_i_logged_in(cf.HTTP_VERBOSE)
     assert (s == True)
 

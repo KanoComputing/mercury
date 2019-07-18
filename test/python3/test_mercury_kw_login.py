@@ -13,6 +13,18 @@ def test_login_success():
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert (s == True)
 
+def test_login_and_logout():
+    username = 'testing_user'
+    password = 'kano12345experience'
+
+    import mercury
+    m = mercury.KanoWorld()
+    s = m.login(username, password, cf.HTTP_VERBOSE)
+    assert (s == True)
+
+    s = m.logout(cf.HTTP_VERBOSE)
+    assert (s == True)
+
 def test_login_failed():
     username = 'nonexisting'
     password = 'badpassword'
