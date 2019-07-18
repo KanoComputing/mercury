@@ -200,6 +200,11 @@ string KanoWorld::get_refresh_header(string token)
  *
  *   See libCurl CURLOPT_WRITEFUNCTION and CURLOPT_WRITEDATA options.
  *   The WRITEDATA option is used to pass the class instance to safe the data for later processing.
+ *
+ *   server_response is a class string used to transfer the server data into the class.
+ *
+ *   TODO: This implementation should be migrated to HTTPClient on top of Moco.
+ *
  */
 size_t KanoWorld::callback_server_response(void *ptr, size_t size, size_t nmemb, void *user_data)
 {
