@@ -17,21 +17,29 @@
 #include <string>
 
 #include "mercury/_http/http_client.h"
+#include "mercury/_http/http_client_interface.h"
+#include "mercury/kes_dashboard_live_tiles_cli/IOnlineLoader.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITileLoader.h"
+#include "mercury/kes_dashboard_live_tiles_cli/ITileFactory.h"
+#include "mercury/kes_dashboard_live_tiles_cli/TileFactory.h"
 
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 
-constexpr int ONE_HOUR_MS = 1000 * 60 * 60;  // in milliseconds
+constexpr double ONE_HOUR_MS = 1000 * 60 * 60;  // in milliseconds
 
 
-class OnlineLoader : public ITileLoader {
+class OnlineLoader : public IOnlineLoader {
 
  public:  // Constructors & destructors.
-    explicit OnlineLoader(const string& cacheDir);
+    OnlineLoader(
+        const string& cacheDir,
+        const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>(),
+        const shared_ptr<ITileFactory> tileFactory = make_shared<TileFactory>());
+
     ~OnlineLoader();
 
  public:  // ITileLoader Methods.
@@ -41,16 +49,19 @@ class OnlineLoader : public ITileLoader {
      */
     list<shared_ptr<ITile>> getTiles() override;
 
- public:  // TODO: IOnlineLoader Methods.
-    int getQueryCooldown();
+ public:  // IOnlineLoader Methods.
+    double getQueryCooldown() const override;
+
+ public:  // Constants.
+    static constexpr const char* KES_DLT_URL = "https://ws.os.kes.kessandbox.co.uk/";
 
  private:  // Members.
+    shared_ptr<IHTTPClient> httpClient;
+    shared_ptr<ITileFactory> tileFactory;
     string cacheDir;
 
  private:  // Constants.
-    // NOTE: Slash at the end is important.
-    const string KES_URL = "https://ws.os.kes.kessandbox.co.uk/";
-    const int QUERY_COOLDOWN = ONE_HOUR_MS;
+    const double QUERY_COOLDOWN = ONE_HOUR_MS;
 };
 
 #endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ONLINELOADER_H_

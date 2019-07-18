@@ -1,5 +1,5 @@
 /**
- * \file mock_http_client.cpp
+ * \file mock_http_client.h
  *
  * \copyright Copyright (C) 2019 Kano Computing Ltd.
  *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
@@ -61,7 +61,7 @@ class MockHTTPClient : public IHTTPClient {
     /**
      * \brief Google Mock doesn't permit optional arguments so simply implement
      *        the mocked function signature and offload to the mocked
-     *        implementation (impl_POST)
+     *        implementation (POST_impl)
      *
      * \param url       The URL to POST
      * \param body      The body of the request
@@ -77,7 +77,7 @@ class MockHTTPClient : public IHTTPClient {
     /**
      * \brief Google Mock doesn't permit optional arguments so simply implement
      *        the mocked function signature and offload to the mocked
-     *        implementation (impl_POST)
+     *        implementation (POST_impl)
      *
      * \param url       The URL to POST
      * \param body      The body of the request
@@ -93,7 +93,7 @@ class MockHTTPClient : public IHTTPClient {
     /**
      * \brief Google Mock doesn't permit optional arguments so simply implement
      *        the mocked function signature and offload to the mocked
-     *        implementation (impl_GET)
+     *        implementation (GET_impl)
      *
      * \param url       The URL to GET
      * \param headers   (Optional) Headers to pass to add to the request

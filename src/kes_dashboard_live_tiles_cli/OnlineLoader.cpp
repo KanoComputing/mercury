@@ -15,22 +15,29 @@
 
 #include <parson.h>
 
-#include "mercury/_http/http_client.h"
+#include "mercury/_http/http_client_interface.h"
 #include "mercury/kes_dashboard_live_tiles_cli/Exceptions.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
+#include "mercury/kes_dashboard_live_tiles_cli/ITileFactory.h"
 #include "mercury/kes_dashboard_live_tiles_cli/OnlineLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
 
 using std::cerr;
 using std::endl;
 using std::list;
-using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 
-OnlineLoader::OnlineLoader(const string& cacheDir):
-    cacheDir(cacheDir) {
+// NOTE: Slash at the end is important.
+// const string OnlineLoader::KES_DLT_URL = "https://ws.os.kes.kessandbox.co.uk/";
+
+
+OnlineLoader::OnlineLoader(const string& cacheDir,
+                           const shared_ptr<IHTTPClient> httpClient,
+                           const shared_ptr<ITileFactory> tileFactory):
+    cacheDir(cacheDir),
+    httpClient(httpClient),
+    tileFactory(tileFactory) {
     // Empty constructor.
 }
 
@@ -42,14 +49,13 @@ OnlineLoader::~OnlineLoader() {
 
 list<shared_ptr<ITile>> OnlineLoader::getTiles() {
     list<shared_ptr<ITile>> tiles;
-    HTTPClient httpClient;
     shared_ptr<JSON_Value> response;
     JSON_Object* responseData;
     JSON_Array* tilesData;
     JSON_Value* tileData;
 
     // Download feed from the KES.
-    response = httpClient.GET(this->KES_URL);
+    response = this->httpClient->GET(string(OnlineLoader::KES_DLT_URL));
     responseData = json_value_get_object(response.get());
 
     // Get the array of tile data objects from the response.
@@ -61,19 +67,21 @@ list<shared_ptr<ITile>> OnlineLoader::getTiles() {
 
     // Create Tile objects from the feed data and download additional data.
     for (int i = 0; i < json_array_get_count(tilesData); i++) {
-        shared_ptr<ITile> tile = make_shared<Tile>();
+        shared_ptr<ITile> tile = this->tileFactory->create();
         tileData = json_array_get_value(tilesData, i);
 
         // Initialise a tile object with data from the feed.
-        if (!tile.get()->initialise(tileData)) {
+        if (!tile->initialise(tileData)) {
             throw BrokenContractsException("For item with data: ", tileData);
         }
         // Download any files associated with the tile.
-        if (!tile.get()->download(this->cacheDir)) {
-            cerr << "Failed to download: Item with data: "
-                 << string(json_serialize_to_string_pretty(tileData))
-                 << endl;
-            continue;
+        if (!tile->download(this->cacheDir)) {
+            shared_ptr<char> dataStr(
+                json_serialize_to_string_pretty(tileData),
+                json_free_serialized_string);
+            throw DownloadError("",
+                " Tile with data: " + string(dataStr.get()) +
+                " failed to download its data");
         }
         tiles.push_back(tile);
     }
@@ -81,6 +89,6 @@ list<shared_ptr<ITile>> OnlineLoader::getTiles() {
 }
 
 
-int OnlineLoader::getQueryCooldown() {
+double OnlineLoader::getQueryCooldown() const {
     return this->QUERY_COOLDOWN;
 }

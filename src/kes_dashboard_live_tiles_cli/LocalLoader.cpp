@@ -122,7 +122,6 @@ void LocalLoader::setCacheData() {
     }
 }
 
-
 list<shared_ptr<ITile>> LocalLoader::getCachedTiles() const {
     list<shared_ptr<ITile>> tiles;
     JSON_Value* tileData;
