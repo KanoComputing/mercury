@@ -60,11 +60,11 @@ class KanoWorld
      *        permission.
      */
     bool is_account_verified();
+    const string data_filename;
 
  private:
     std::shared_ptr<IHTTPClient> http_client;
     string server_response;
-    string data_filename;
     string token;
     string expiration_date;
 };
