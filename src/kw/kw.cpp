@@ -28,15 +28,10 @@ using std::string;
 
 
 KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
-    http_client(client) {
-}
-
-
-KanoWorld::KanoWorld() :
+    http_client(client),
     data_filename (string(getenv("HOME")) + "/" + ".mercury_kw.json"),
     token(""),
-    expiration_date("")
-{
+    expiration_date("") {
 }
 
 
