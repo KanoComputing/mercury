@@ -8,15 +8,36 @@
  */
 
 
+#include <errno.h>
+#include <sys/stat.h>
+
 #include <memory>
 #include <string>
 
 #include <parson.h>
 
+#include "mercury/_http/http_client.h"
 #include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
+#include "mercury/utils/Filesystem.h"
+#include "mercury/utils/String.h"
+
+using std::string;
 
 
-Tile::Tile() {
+Tile::Tile():
+    Tile("", "", "", "", "", "", "", "", "") {
+    // Empty constructor.
+}
+
+
+Tile::Tile(const string& id, const string& cover,
+           const string& title, const string& description,
+           const string& username, const string& app,
+           const string& openUrl, const string& fallbackUrl,
+           const string& coverPath):
+    id(id), cover(cover), title(title),
+    description(description), username(username), app(app),
+    openUrl(openUrl), fallbackUrl(fallbackUrl), coverPath(coverPath) {
     // Empty constructor.
 }
 
@@ -26,64 +47,123 @@ Tile::~Tile() {
 }
 
 
-bool Tile::initialise(std::shared_ptr<JSON_Value> serialisedData) {
-    // TODO
+bool Tile::initialise(JSON_Value* serialisedData) {
+    JSON_Object* data = json_value_get_object(serialisedData);
 
-    return false;
+    // Mandatory fields.
+    if (!json_object_has_value_of_type(data, "id", JSONString) ||
+        !json_object_has_value_of_type(data, "cover", JSONString) ||
+        !json_object_has_value_of_type(data, "title", JSONString) ||
+        !json_object_has_value_of_type(data, "description", JSONString) ||
+        !json_object_has_value_of_type(data, "username", JSONString) ||
+        !json_object_has_value_of_type(data, "app", JSONString) ||
+        !json_object_has_value_of_type(data, "openUrl", JSONString) ||
+        !json_object_has_value_of_type(data, "fallbackUrl", JSONString)) {
+
+        return false;
+    }
+
+    this->id = json_object_get_string(data, "id");
+    this->cover = json_object_get_string(data, "cover");
+    this->title = json_object_get_string(data, "title");
+    this->description = json_object_get_string(data, "description");
+    this->username = json_object_get_string(data, "username");
+    this->app = json_object_get_string(data, "app");
+    this->openUrl = json_object_get_string(data, "openUrl");
+    this->fallbackUrl = json_object_get_string(data, "fallbackUrl");
+
+    // Optional fields.
+    if (json_object_has_value_of_type(data, "coverPath", JSONString)) {
+        this->coverPath = json_object_get_string(data, "coverPath");
+    }
+
+    return true;
 }
 
 
-std::shared_ptr<JSON_Value> Tile::serialise() {
-    std::shared_ptr<JSON_Value> data = nullptr;
+JSON_Value* Tile::serialise() const {
+    JSON_Value* root = json_value_init_object();
+    JSON_Object* data = json_value_get_object(root);
 
-    // TODO
+    // Mandatory fields.
+    json_object_set_string(data, "id", this->id.c_str());
+    json_object_set_string(data, "cover", this->cover.c_str());
+    json_object_set_string(data, "title", this->title.c_str());
+    json_object_set_string(data, "description", this->description.c_str());
+    json_object_set_string(data, "username", this->username.c_str());
+    json_object_set_string(data, "app", this->app.c_str());
+    json_object_set_string(data, "openUrl", this->openUrl.c_str());
+    json_object_set_string(data, "fallbackUrl", this->fallbackUrl.c_str());
 
-    return data;
+    // Optional fields.
+    if (!this->coverPath.empty()) {
+        json_object_set_string(data, "coverPath", this->coverPath.c_str());
+    }
+
+    return root;
 }
 
 
-bool Tile::download() {
-    // TODO
+bool Tile::download(const string& baseDir) {
+    string tileDir = baseDir + '/' + this->id;
+    this->coverPath = tileDir + '/' + split(this->cover, '/').back();
 
-    return false;
+    // Create the directory path for this tile data.
+    if (!create_directories(tileDir)) {
+        return false;
+    }
+
+    HTTPClient httpClient;
+
+    // Download the cover.
+    if (!httpClient.DL(this->cover, this->coverPath)) {
+        return false;
+    }
+
+    return true;
 }
 
 
-std::string Tile::getUsername() {
+string Tile::getId() const {
+    return this->id;
+}
+
+
+string Tile::getUsername() const {
     return this->username;
 }
 
 
-std::string Tile::getTitle() {
+string Tile::getTitle() const {
     return this->title;
 }
 
 
-std::string Tile::getDescription() {
+string Tile::getDescription() const {
     return this->description;
 }
 
 
-std::string Tile::getApp() {
+string Tile::getApp() const {
     return this->app;
 }
 
 
-std::string Tile::getCover() {
+string Tile::getCover() const {
     return this->cover;
 }
 
 
-std::string Tile::getOpenUrl() {
+string Tile::getOpenUrl() const {
 return this->openUrl;
 }
 
 
-std::string Tile::getFallbackUrl() {
+string Tile::getFallbackUrl() const {
 return this->fallbackUrl;
 }
 
 
-std::string Tile::getCoverPath() {
+string Tile::getCoverPath() const {
     return this->coverPath;
 }

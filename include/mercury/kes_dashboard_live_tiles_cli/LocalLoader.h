@@ -8,33 +8,52 @@
  */
 
 
-#ifndef __KES_DASHBOARD_LIVE_TILES_CLI_LOCAL_LOADER_H__
-#define __KES_DASHBOARD_LIVE_TILES_CLI_LOCAL_LOADER_H__
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_LOCALLOADER_H__
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_LOCALLOADER_H__
 
 
 #include <list>
+#include <memory>
 #include <string>
 
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITileLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
+
+using std::list;
+using std::shared_ptr;
+using std::string;
 
 
 class LocalLoader : public ITileLoader {
 
-    // Constructors & destructors.
-    public:
-        LocalLoader();
-        ~LocalLoader();
+ public:  // Constructors & destructors.
+    explicit LocalLoader(const string& cacheDir);
+    ~LocalLoader();
 
-    // TODO: ILocalLoader Methods.
-    public:
-        double getLastUpdated();
-        void update(std::list<ITile> tiles);
-
+ public:
     // ITileLoader Methods. TODO: ILocalLoader Methods.
-    public:
-        std::list<Tile> getTiles() override;
+    list<shared_ptr<ITile>> getTiles() override;
+
+ public:  // TODO: ILocalLoader Methods.
+    void update(const list<shared_ptr<ITile>>& tiles);
+    double getLastUpdated() const;
+    bool isCacheEmpty() const;
+
+ private:  // Helper methods.
+    void load();
+    void setCacheData();
+    list<shared_ptr<ITile>> getCachedTiles() const;
+    list<shared_ptr<ITile>> getDefaultTiles() const;
+
+ private:  // Members.
+    string cacheDir;
+    string cachePath;
+    shared_ptr<JSON_Value> cacheDataRoot;
+    JSON_Object* cacheData;
+
+ private:
+    // Constants.
+    const string CACHE_FILE = "cache.json";
 };
 
-#endif  // __KES_DASHBOARD_LIVE_TILES_CLI_LOCAL_LOADER_H__
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_LOCALLOADER_H__

@@ -43,6 +43,9 @@ class HTTPClient : public IHTTPClient {
         const std::string& url,
         const std::map<std::string, std::string>& headers =
             std::map<std::string, std::string>()) override;
+    bool DL(
+        const std::string& url,
+        const std::string& path) override;
 
  protected:
     /**

@@ -8,37 +8,35 @@
  */
 
 
-#ifndef __KES_DASHBOARD_LIVE_TILES_CLI_I_TILE_H__
-#define __KES_DASHBOARD_LIVE_TILES_CLI_I_TILE_H__
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILE_H__
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILE_H__
 
 
-#include <memory>
 #include <string>
-
-#include <parson.h>
 
 #include "mercury/kes_dashboard_live_tiles_cli/IDownloadable.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ISerialisable.h"
 
+using std::string;
 
-class ITile : public ISerialisable, IDownloadable {
 
-    public:
-        virtual ~ITile() {}
+class ITile : public ISerialisable, public IDownloadable {
 
-    // KES Contractual Methods.
-    public:
-        virtual std::string getUsername() = 0;
-        virtual std::string getTitle() = 0;
-        virtual std::string getDescription() = 0;
-        virtual std::string getApp() = 0;
-        virtual std::string getCover() = 0;
-        virtual std::string getOpenUrl() = 0;
-        virtual std::string getFallbackUrl() = 0;
+ public:  // Constructors & destructors.
+    virtual ~ITile() {}
 
-    // Methods.
-    public:
-        virtual std::string getCoverPath() = 0;
+ public:  // KES Contractual Methods.
+    virtual string getId() const = 0;
+    virtual string getUsername() const = 0;
+    virtual string getTitle() const = 0;
+    virtual string getDescription() const = 0;
+    virtual string getApp() const = 0;
+    virtual string getCover() const = 0;
+    virtual string getOpenUrl() const = 0;
+    virtual string getFallbackUrl() const = 0;
+
+ public:  // Methods.
+    virtual string getCoverPath() const = 0;
 };
 
-#endif  // __KES_DASHBOARD_LIVE_TILES_CLI_I_TILE_H__
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILE_H__

@@ -9,6 +9,7 @@
 #include "mercury/_http/http_client.h"
 
 #include <parson.h>
+#include <Poco/FileStream.h>
 #include <Poco/Net/AcceptCertificateHandler.h>
 #include <Poco/Net/Context.h>
 #include <Poco/Net/HTTPClientSession.h>
@@ -18,9 +19,13 @@
 #include <Poco/Net/HTTPSessionFactory.h>
 #include <Poco/Net/HTTPSessionInstantiator.h>
 #include <Poco/Net/HTTPSSessionInstantiator.h>
+#include <Poco/Net/HTTPSStreamFactory.h>
+#include <Poco/Net/HTTPStreamFactory.h>
 #include <Poco/Net/SSLManager.h>
 #include <Poco/SharedPtr.h>
+#include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
+#include <Poco/URIStreamOpener.h>
 
 #include <iostream>
 #include <map>
@@ -134,4 +139,26 @@ std::shared_ptr<JSON_Value> HTTPClient::GET(
         HTTPRequest::HTTP_GET,
         url,
         headers);
+}
+
+
+bool HTTPClient::DL(const std::string& url, const std::string& path) {
+    try {
+        Poco::URI uri(url);
+        Poco::FileOutputStream out(path);
+        Poco::URIStreamOpener uriStream;
+
+        uriStream.registerStreamFactory(
+            "http", new Poco::Net::HTTPStreamFactory());
+        uriStream.registerStreamFactory(
+            "https", new Poco::Net::HTTPSStreamFactory());
+
+        std::unique_ptr<std::istream> pStr(uriStream.open(uri));
+        Poco::StreamCopier::copyStream(*pStr.get(), out);
+
+    } catch (const std::exception& e) {
+        throw DownloadError(url, e.what());
+    }
+
+    return true;
 }

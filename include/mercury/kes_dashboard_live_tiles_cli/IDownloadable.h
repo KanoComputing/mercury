@@ -8,20 +8,22 @@
  */
 
 
-#ifndef __KES_DASHBOARD_LIVE_TILES_CLI_I_DOWNLOADABLE_H__
-#define __KES_DASHBOARD_LIVE_TILES_CLI_I_DOWNLOADABLE_H__
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_IDOWNLOADABLE_H_
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_IDOWNLOADABLE_H_
 
 
-#include <parson.h>
+#include <string>
+
+using std::string;
 
 
 class IDownloadable {
 
-    public:
-        virtual ~IDownloadable() {}
+ public:  // Constructors & destructors.
+    virtual ~IDownloadable() {}
 
-    public:
-        virtual bool download() = 0;
+ public:  // Methods.
+    virtual bool download(const string& baseDir) = 0;
 };
 
-#endif  // __KES_DASHBOARD_LIVE_TILES_CLI_I_DOWNLOADABLE_H__
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_IDOWNLOADABLE_H_

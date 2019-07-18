@@ -60,4 +60,18 @@ class HTTPRequestFailedError : public HTTPClientError {
 };
 
 
+/**
+ * \class SessionInitError
+ * \brief Exception to throw when there is an error initialising the HTTP
+ *        session
+ */
+class DownloadError : public HTTPClientError {
+ public:
+    DownloadError(const std::string url, const std::string msg) :
+        HTTPClientError(
+            std::string("Download for URL: ") + url +
+            std::string(" failed: ") + msg
+        ) {}
+};
+
 #endif  // MERCURY__HTTP_EXCEPTIONS_H_

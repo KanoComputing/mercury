@@ -8,22 +8,26 @@
  */
 
 
-#ifndef __KES_DASHBOARD_LIVE_TILES_CLI_I_TILE_LOADER_H__
-#define __KES_DASHBOARD_LIVE_TILES_CLI_I_TILE_LOADER_H__
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILELOADER_H_
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILELOADER_H_
 
 
 #include <list>
+#include <memory>
 
-#include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
+#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
+
+using std::list;
+using std::shared_ptr;
 
 
 class ITileLoader {
 
-    public:
-        virtual ~ITileLoader() {}
+ public:  // Constructors & destructors.
+    virtual ~ITileLoader() {}
 
-    public:
-        virtual std::list<Tile> getTiles() = 0;
+ public:  // Methods.
+    virtual list<shared_ptr<ITile>> getTiles() = 0;
 };
 
-#endif  // __KES_DASHBOARD_LIVE_TILES_CLI_I_TILE_LOADER_H__
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILELOADER_H_
