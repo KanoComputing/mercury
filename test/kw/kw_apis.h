@@ -27,12 +27,6 @@
 
 using testing::Eq;
 
-/* TODO:
-class KanoWorldMock: public KanoWorld {
-    MOCK_METHOD1(refresh_token, bool(...));
-};
-*/
-
 
 TEST(kw, renew_token_malformed)
 {
@@ -60,6 +54,13 @@ TEST(kw, login_correct)
 {
     KanoWorld kw;
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
+}
+
+TEST(kw, login_correct_and_logout)
+{
+    KanoWorld kw;
+    EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
+    EXPECT_EQ(kw.logout(true), true);
 }
 
 TEST(kw, login_invalid_credentials)
@@ -105,7 +106,7 @@ TEST(kw, get_hostname)
 TEST(kw, is_logged_in)
 {
     KanoWorld kw;
-    EXPECT_EQ(kw.am_i_logged_in(false), false);
+    EXPECT_EQ(kw.is_logged_in(false), false);
 }
 
 TEST(kw, whoami)
