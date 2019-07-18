@@ -19,6 +19,9 @@ using std::string;
 #include <parson.h>
 #include <curl/curl.h>
 
+#include <sys/stat.h>
+#include <unistd.h>
+
 
 KanoWorld::KanoWorld() :
     data_filename (string(getenv("HOME")) + "/" + ".mercury_kw.json"),
@@ -105,6 +108,31 @@ bool KanoWorld::login(const string& username, const string& password, bool verbo
     return false;
 
 } // login
+
+
+/**
+ * \brief Logs out the current user
+ *
+ * The cache file is removed so that the login details are discarded
+ *
+ * \param verbose     Be more descriptive on the transaction details
+ *
+ * \returns True if logout was successful
+ */
+bool KanoWorld::logout(bool verbose)
+{
+    struct stat cache;
+    int rc = stat(data_filename.c_str(), &cache);
+
+    if (rc != -1) {
+        int rc = unlink(data_filename.c_str());
+    }
+
+    if (verbose) {
+        std::cout << "logout - removing cache file success? " << (rc == -1 ? "No" : "Yes") << std::endl;
+    }
+    return rc != -1;
+}
 
 
 /**
@@ -342,7 +370,6 @@ bool KanoWorld::load_data()
  */
 bool KanoWorld::save_data()
 {
-    JSON_Status rc;
     JSON_Value *user_data = json_value_init_object();
 
     if (!user_data) {
@@ -352,7 +379,7 @@ bool KanoWorld::save_data()
     json_object_set_string(json_object(user_data), "token", get_token().c_str());
     json_object_set_string(json_object(user_data), "duration", get_expiration_date().c_str());
 
-    rc = json_serialize_to_file(user_data, data_filename.c_str());
+    JSON_Status rc = json_serialize_to_file(user_data, data_filename.c_str());
     json_value_free(user_data);
 
     return rc == JSONSuccess;

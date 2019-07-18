@@ -29,6 +29,7 @@ class KanoWorld
     KanoWorld();
 
     bool login(const string& username, const string& password, bool verbose);
+    bool logout(bool verbose);
     bool refresh_token(string token, bool verbose);
 
     string get_hostname(string config_filename);
