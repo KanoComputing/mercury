@@ -32,7 +32,7 @@ using std::string;
 
 KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
     http_client(client),
-    data_filename (string(getenv("HOME")) + "/" + ".mercury_kw.json"),
+    data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
     token(""),
     expiration_date("") {
 }
