@@ -264,7 +264,7 @@ size_t KanoWorld::callback_server_response(void *ptr, size_t size, size_t nmemb,
  *
  * \returns True if the current user is logged in.
  */
-bool KanoWorld::am_i_logged_in(bool verbose)
+bool KanoWorld::is_logged_in(bool verbose)
 {
     std::time_t now = std::time(nullptr);
 
