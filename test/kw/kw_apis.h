@@ -44,7 +44,8 @@ TEST(kw, renew_token_correct)
 {
     KanoWorld kw;
     string token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." \
-        "eyJleHAiOjE2MTk5MjMxNjIuMDE2LCJ1c2VyIjp7ImlkIjoiMDE3MTA3Njg0NzQ4MTg5OTE0NzciLCJyb2xlcyI6W119fQ." \
+        "eyJleHAiOjE2MTk5MjMxNjIuMDE2LCJ1c2VyIjp7ImlkIjoiMDE3" \
+        "MTA3Njg0NzQ4MTg5OTE0NzciLCJyb2xlcyI6W119fQ." \
         "Dhm3_2wDUyA5Tf3IANGfB8Y6DH2Nxzgl84fPSiURdJ8";
 
     EXPECT_EQ(kw.refresh_token(token, true), true);
