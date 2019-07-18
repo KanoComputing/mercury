@@ -49,24 +49,26 @@ class KanoWorld
     static size_t callback_server_response(void *ptr, size_t size, size_t nmemb, void *user_data);
 
     bool is_logged_in(bool verbose);
-    string get_token();
-    string get_expiration_date();
-    bool save_data();
-    bool load_data();
     string whoami();
+
 
     /**
      * \brief Determine if the user's account has been verified with parental
      *        permission.
      */
     bool is_account_verified();
+
     const string data_filename;
+    string token;
+    string expiration_date;
+    string get_token();
+    string get_expiration_date();
+    bool load_data();
 
  private:
     std::shared_ptr<IHTTPClient> http_client;
+    bool save_data();
     string server_response;
-    string token;
-    string expiration_date;
 };
 
 
