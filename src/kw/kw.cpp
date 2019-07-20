@@ -46,7 +46,7 @@ KanoWorld::KanoWorld(std::shared_ptr<IHTTPClient> client) :
  * \returns True if login was successful, false otherwise.e
  */
 bool KanoWorld::login(const string& username, const string& password,
-                      bool verbose) {
+                      const bool verbose) {
     if (!username.length() || !password.length()) {
         return false;
     }
@@ -65,24 +65,30 @@ bool KanoWorld::login(const string& username, const string& password,
             std::cout << err.what() << std::endl;
         }
 
+        // TODO: Do we actually want to log out in this scenario?
+        this->logout();
         return false;
     } catch (const SessionInitError& err) {
         if (verbose) {
             std::cout << err.what() << std::endl;
         }
 
+        // TODO: Do we actually want to log out in this scenario?
+        this->logout();
         return false;
     } catch (const std::exception& err) {
         if (verbose) {
             std::cout << "Unkown error: " << err.what() << std::endl;
         }
 
+        // TODO: Do we actually want to log out in this scenario?
+        this->logout();
         return false;
     }
 
     this->token = this->parse_token(res);
     this->expiration_date = this->parse_expiration_date(res);
-    save_data();
+    this->save_data();
 
     if (verbose) {
         std::shared_ptr<char> resp_str(
@@ -107,7 +113,7 @@ bool KanoWorld::login(const string& username, const string& password,
  *
  * \returns True if logout was successful
  */
-bool KanoWorld::logout(bool verbose)
+bool KanoWorld::logout(const bool verbose)
 {
     struct stat cache;
     int rc = stat(data_filename.c_str(), &cache);
@@ -134,7 +140,7 @@ bool KanoWorld::logout(bool verbose)
  *
  * \returns True if a new token was returned from the server.
  */
-bool KanoWorld::refresh_token(string token, bool verbose)
+bool KanoWorld::refresh_token(string token, const bool verbose)
 {
     if (!token.length()) {
         return false;
@@ -171,7 +177,7 @@ bool KanoWorld::refresh_token(string token, bool verbose)
 
     this->token = this->parse_token(res);
     this->expiration_date = this->parse_expiration_date(res);
-    save_data();
+    this->save_data();
 
     if (verbose) {
         std::shared_ptr<char> resp_str(
@@ -227,7 +233,7 @@ string KanoWorld::get_refresh_header(string token)
  *
  * \returns True if the current user is logged in.
  */
-bool KanoWorld::is_logged_in(bool verbose)
+bool KanoWorld::is_logged_in(const bool verbose)
 {
     std::time_t now = std::time(nullptr);
 

@@ -36,14 +36,15 @@ class KanoWorld
     explicit KanoWorld(std::shared_ptr<IHTTPClient> client =
         std::make_shared<HTTPClient>());
 
-    bool login(const string& username, const string& password, bool verbose);
-    bool logout(bool verbose);
-    bool refresh_token(string token, bool verbose);
+    bool login(const string& username, const string& password,
+               const bool verbose = false);
+    bool logout(const bool verbose = false);
+    bool refresh_token(string token, const bool verbose = false);
 
     string get_hostname(string config_filename);
     string get_refresh_header(string token);
 
-    bool is_logged_in(bool verbose);
+    bool is_logged_in(const bool verbose = false);
     string whoami();
 
 
