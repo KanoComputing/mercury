@@ -4,6 +4,7 @@
 
 import common_functions as cf
 
+
 def test_login_success():
     username = 'testing_user'
     password = 'kano12345experience'
@@ -11,7 +12,8 @@ def test_login_success():
     import mercury
     m = mercury.KanoWorld()
     s = m.login(username, password, cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
+
 
 def test_login_and_logout():
     username = 'testing_user'
@@ -20,10 +22,11 @@ def test_login_and_logout():
     import mercury
     m = mercury.KanoWorld()
     s = m.login(username, password, cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
 
     s = m.logout(cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
+
 
 def test_login_failed():
     username = 'nonexisting'
@@ -32,7 +35,7 @@ def test_login_failed():
     import mercury
     m = mercury.KanoWorld()
     s = m.login(username, password, cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
 
-    assert (len(m.token) == 0)
-    assert (len(m.expiration_date) == 0)
+    assert (len(m.get_token()) == 0)
+    assert (len(m.get_expiration_date()) == 0)

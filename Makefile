@@ -33,6 +33,7 @@ test-python: build-release
 	# Python tests can be run on a build sandbox,
 	# as well as on the target installation system
 	-cp -v build/Release/lib/_mercury.so test/python3
+	-cp -v build/Release/lib/libmercury.dylib test/python3
 	-cp -v build/Release/src/swig/python/mercury.py test/python3
 	cd test/python3 && python3 -m pytest $(TESTMODULE)
 

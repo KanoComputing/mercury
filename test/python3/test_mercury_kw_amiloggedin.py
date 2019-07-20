@@ -2,10 +2,9 @@
 #  test_mercury_kw_amiloggedin.py - pytest module to test the am_i_loggedi_in API
 #
 
-import common_functions as cf
 import time
 import json
-import os
+import common_functions as cf
 
 
 def fake_duration_file(filename, timestamp):
@@ -26,10 +25,11 @@ def test_is_logged_in_success():
     import mercury
     m = mercury.KanoWorld()
     s = m.login(username, password, cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
 
     s = m.is_logged_in(cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
+
 
 def test_is_logged_in_fail():
     username = 'nonexisting'
@@ -38,10 +38,11 @@ def test_is_logged_in_fail():
     import mercury
     m = mercury.KanoWorld()
     s = m.login(username, password, cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
 
     s = m.is_logged_in(cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
+
 
 def test_timestamp_behind():
     import mercury
@@ -50,12 +51,13 @@ def test_timestamp_behind():
     password = 'kano12345experience'
 
     s = m.login(username, password, cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
 
     # Token expired sometime around January 1, 1970
     fake_duration_file(m.data_filename, '100')
     s = m.is_logged_in(cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
+
 
 def test_timestamp_now():
     import mercury
@@ -64,7 +66,8 @@ def test_timestamp_now():
     # Token should be valid, just by 15 seconds
     fake_duration_file(m.data_filename, time.time() + 15)
     s = m.is_logged_in(cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
+
 
 def test_timestamp_future():
     import mercury
@@ -73,7 +76,8 @@ def test_timestamp_future():
     # Token should be valid by 1 day
     fake_duration_file(m.data_filename, time.time() + 86400)
     s = m.is_logged_in(cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
+
 
 def test_timestamp_corrupted():
     import mercury
@@ -82,4 +86,4 @@ def test_timestamp_corrupted():
     # Token should be valid by about 1 day
     fake_duration_file(m.data_filename, 'corrupted number')
     s = m.is_logged_in(cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False

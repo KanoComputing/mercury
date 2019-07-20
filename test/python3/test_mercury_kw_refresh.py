@@ -4,13 +4,15 @@
 
 import common_functions as cf
 
+
 def test_refresh_token_kano_kit():
     token = cf.get_token()
     if token:
         import mercury
         m = mercury.KanoWorld()
         s = m.refresh_token(token, cf.HTTP_VERBOSE)
-        assert (s == True)
+        assert s is True
+
 
 def test_refresh_token_test_user():
     token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.' \
@@ -20,22 +22,25 @@ def test_refresh_token_test_user():
     import mercury
     m = mercury.KanoWorld()
     s = m.refresh_token(token, cf.HTTP_VERBOSE)
-    assert (s == True)
+    assert s is True
+
 
 def test_refresh_token_nonexisting():
     import mercury
     m = mercury.KanoWorld()
     s = m.refresh_token('1234567890', cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
+
 
 def test_refresh_token_empty():
     import mercury
     m = mercury.KanoWorld()
     s = m.refresh_token('', cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
+
 
 def test_refresh_token_malformed():
     import mercury
     m = mercury.KanoWorld()
     s = m.refresh_token('x', cf.HTTP_VERBOSE)
-    assert (s == False)
+    assert s is False
