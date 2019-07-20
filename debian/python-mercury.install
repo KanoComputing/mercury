@@ -1,2 +1,3 @@
-build/src/swig/python/mercury.py /usr/lib/python3/dist-packages
-build/Release/lib/_mercury.so /usr/lib/python3/dist-packages
+#!/usr/bin/dh-exec
+build/Release/src/swig/python3/mercury.py /usr/lib/python3/dist-packages
+build/Release/lib/_mercury_python3.so => /usr/lib/python3/dist-packages/_mercury.so

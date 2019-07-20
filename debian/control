@@ -3,33 +3,54 @@ Maintainer: Team Kano <dev@kano.me>
 Section: tools
 Priority: optional
 Standards-Version: 1.1.0
-Build-Depends: debhelper(>= 9.0.0),
-               build-essential,
-               cmake,
-               autoconf,
-               automake,
-               libtool,
-               python-conan,
-               lcov,
-               swig,
-               python3-dev,
-               python-dev,
-               python3-pytest,
-               python-pytest
+Build-Depends:
+    debhelper(>= 9.0.0),
+    dh-exec,
+    build-essential,
+    cmake,
+    autoconf,
+    automake,
+    libtool,
+    python-conan,
+    lcov,
+    swig,
+    python3-dev,
+    python-dev,
+    python3-pytest,
+    python-pytest
 
 Package: mercury
 Architecture: any
-Depends: libc6,
-         libstdc++6,
-         libgcc1
+Depends:
+    ${shlibs:Depends},
+    ${misc:Depends},
+    libc6,
+    libstdc++6,
+    libgcc1
 Description: Kano OS multiplatform API abstraction layer
 
 Package: mercury-dev
 Architecture: any
-Depends: mercury (= ${binary:Version})
+Depends:
+    ${shlibs:Depends},
+    ${misc:Depends},
+    mercury (= ${binary:Version})
 Description: Kano OS multiplatform API abstraction layer, development package
 
 Package: python-mercury
 Architecture: any
-Depends: mercury (= ${binary:Version}), python3
-Description: Swig generated Python bindings for Kano OS Mercury API
+Depends:
+    ${shlibs:Depends},
+    ${misc:Depends},
+    mercury (= ${binary:Version}),
+    python3
+Description: Swig generated Python 3 bindings for Kano OS Mercury API
+
+Package: python2-mercury
+Architecture: any
+Depends:
+    ${shlibs:Depends},
+    ${misc:Depends},
+    mercury (= ${binary:Version}),
+    python2.7
+Description: Swig generated Python 2 bindings for Kano OS Mercury API
