@@ -8,6 +8,8 @@ all: build-release
 
 _build:
 	mkdir -p build/$(RELEASE)
+	-conan remote add dev-server http://dev.kano.me:9300 || conan remote update dev-server http://dev.kano.me:9300
+	-cd build/$(RELEASE) && conan install -r dev-server --build=missing --profile=${CONAN_PROFILE} ../..
 	cd build/$(RELEASE) && conan install --build=missing --profile=${CONAN_PROFILE} ../..
 	cd build/$(RELEASE) && cmake -DCMAKE_BUILD_TYPE=$(RELEASE) ../..
 	cd build/$(RELEASE) && make VERBOSE=1

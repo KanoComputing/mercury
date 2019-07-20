@@ -35,6 +35,7 @@ set(COVERAGE_LCOV_EXCLUDES
 SETUP_TARGET_FOR_COVERAGE_LCOV(
     NAME coverage
     EXECUTABLE ctest -j ${n_cores}
+    ENVIRONMENT LSAN_OPTIONS=verbosity=1:log_threads=1
     DEPENDENCIES
     mercury_obj
     mercury_static

@@ -5,10 +5,13 @@ import build_deb_pkg
 
 stage ('Test') {
     def test_repos = [
-        "mercury"
-        ]
+    ]
 
     make_test(test_repos) {
+		sh "conan remote add dev-server http://dev.kano.me:9300"
+
+		sh "make build-release"
+		sh "make build-debug"
     }
 }
 

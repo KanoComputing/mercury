@@ -16,6 +16,7 @@ target_include_directories(mercury_obj PUBLIC
     ${OPENSSL_INCLUDE_DIR}
     $<INSTALL_INTERFACE:include>
 )
+set_property(TARGET mercury_obj PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 # Create static and shared libraries
 
@@ -28,6 +29,7 @@ set_target_properties(mercury_shared
 set_target_properties(mercury_static
     PROPERTIES OUTPUT_NAME mercury
 )
+set_property(TARGET mercury_static PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(mercury_shared PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
