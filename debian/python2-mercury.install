@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+build/Release/src/swig/python2/mercury.py /usr/lib/python2.7/dist-packages
+build/Release/lib/_mercury_python2.so => /usr/lib/python2.7/dist-packages/_mercury.so

@@ -2,8 +2,20 @@ coverage
 docs/make.bat
 docs/source/index.xml
 
-# Created by https://www.gitignore.io/api/vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode
+# Python tests
+test/python2/mercury.py
+test/python2/_mercury.so
+test/python3/mercury.py
+test/python3/_mercury.so
+
+# Conan
+conanbuildinfo.cmake
+conanbuildinfo.txt
+conaninfo.txt
+
+
+# Created by https://www.gitignore.io/api/vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode,git
+# Edit at https://www.gitignore.io/?templates=vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode,git
 
 ### C++ ###
 # Prerequisites
@@ -107,6 +119,21 @@ flycheck_*.el
 /network-security.data
 
 
+### Git ###
+# Created by git for backups. To disable backups in Git:
+# $ git config --global mergetool.keepBackup false
+*.orig
+
+# Created by git when using merge tools for conflicts
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*_BACKUP_*.txt
+*_BASE_*.txt
+*_LOCAL_*.txt
+*_REMOTE_*.txt
+
 ### Linux ###
 
 # temporary files which can be created if a process still has a handle open of a deleted file
@@ -208,6 +235,7 @@ coverage.xml
 *.log
 local_settings.py
 db.sqlite3
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -231,6 +259,13 @@ ipython_config.py
 
 # pyenv
 .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
 
 # celery beat schedule file
 celerybeat-schedule
@@ -264,9 +299,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-### Python Patch ###
-.venv/
 
 ### SublimeText ###
 # Cache files for Sublime Text
@@ -310,6 +342,7 @@ GitHub.sublime-settings
 
 # Session
 Session.vim
+Sessionx.vim
 
 # Temporary
 .netrwhist
@@ -332,6 +365,7 @@ tags
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
@@ -354,8 +388,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Python tests
-test/python3/mercury.py
-test/python3/_mercury.so
-
-# End of https://www.gitignore.io/api/vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode
+# End of https://www.gitignore.io/api/vim,osx,c++,linux,cmake,emacs,python,windows,sublimetext,visualstudiocode,git
