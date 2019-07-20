@@ -329,14 +329,17 @@ std::string KanoWorld::get_expiration_date() const {
  */
 bool KanoWorld::load_data()
 {
-    JSON_Value *user_data = json_parse_file(data_filename.c_str());
+    std::shared_ptr<JSON_Value> user_data(
+        json_parse_file(data_filename.c_str()),
+        json_value_free);
+
     if (!user_data) {
         return false;
     }
 
-    token = json_object_get_string(json_object(user_data), "token");
+    token = json_object_get_string(json_object(user_data.get()), "token");
     expiration_date = json_object_get_string(
-        json_object(user_data), "duration");
+        json_object(user_data.get()), "duration");
 
     return true;
 }
@@ -352,19 +355,20 @@ bool KanoWorld::load_data()
  */
 bool KanoWorld::save_data()
 {
-    JSON_Value *user_data = json_value_init_object();
+    std::shared_ptr<JSON_Value> user_data(
+        json_value_init_object(),
+        json_value_free);
 
     if (!user_data) {
         return false;
     }
 
     json_object_set_string(
-        json_object(user_data), "token", get_token().c_str());
+        json_object(user_data.get()), "token", get_token().c_str());
     json_object_set_string(
-        json_object(user_data), "duration", get_expiration_date().c_str());
+        json_object(user_data.get()), "duration", get_expiration_date().c_str());
 
-    JSON_Status rc = json_serialize_to_file(user_data, data_filename.c_str());
-    json_value_free(user_data);
+    JSON_Status rc = json_serialize_to_file(user_data.get(), data_filename.c_str());
 
     return rc == JSONSuccess;
 }
