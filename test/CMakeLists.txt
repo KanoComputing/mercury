@@ -23,6 +23,12 @@ target_link_options(mercury_gtests
             -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
+if (UNIX AND NOT APPLE)
+    target_link_options(mercury_gtests
+        PRIVATE -static-libasan
+    )
+endif ()
+
 enable_testing()
 gtest_discover_tests(mercury_gtests)
 
