@@ -21,7 +21,7 @@ using testing::Eq;
 
 TEST(kw, login_get_correct_data)
 {
-    KanoWorld kw;
+    KanoWorld kw(KanoWorldAPI::URL);
 
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
     EXPECT_GT(kw.get_token().length(), 0);
@@ -30,7 +30,7 @@ TEST(kw, login_get_correct_data)
 
 TEST(kw, login_get_no_data)
 {
-    KanoWorld kw;
+    KanoWorld kw(KanoWorldAPI::URL);
 
     EXPECT_EQ(kw.login("nonexisting", "badpassword", true), false);
     EXPECT_EQ(kw.get_token().length(), 0);

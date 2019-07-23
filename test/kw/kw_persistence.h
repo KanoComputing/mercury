@@ -24,7 +24,7 @@ using testing::Eq;
 
 TEST(kw, login_data_filename_created)
 {
-    KanoWorld kw;
+    KanoWorld kw(KanoWorldAPI::URL);
     struct stat st;
 
     EXPECT_GT(kw.data_filename.length(), 0);
@@ -41,7 +41,7 @@ TEST(kw, login_data_filename_created)
 
 TEST(kw, load_cached_data)
 {
-    KanoWorld kw;
+    KanoWorld kw(KanoWorldAPI::URL);
     struct stat st;
 
     EXPECT_NE(stat(kw.data_filename.c_str(), &st), -1);
