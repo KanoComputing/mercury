@@ -15,30 +15,31 @@
 
 #include <gtest/gtest.h>
 #include <mercury/_http/exceptions.h>
-#include <mercury/config.h>
-#include <parson/parson.h>
+#include <parson.h>
+#include <test/fixtures/kw_api.h>
 
 #include <memory>
 #include <string>
 #include <tuple>
 
 
-const char WORLDAPI_ME_ENDPOINT[] = "https://worldapi.kano.me/users/me";
+class LoggedInKW : public ::testing::Test, public KWUtils {
+ protected:
+    void SetUp() override {
+        this->login();
+    }
+};
 
 
-std::shared_ptr<JSON_Value> load_response(const std::string& filename) {
-    const std::string data_dir = std::string(CMAKE_PROJ_BASE_DIR) +
-        "/test/fixtures/data/api_me_response/";
-    return std::shared_ptr<JSON_Value>(
-        json_parse_file((data_dir + filename).c_str()),
-        json_value_free);
-}
+class ParentalConsentCache : public LoggedInKW {};
 
 
 class APIResponse : public ::testing::TestWithParam<
-    std::tuple<bool, std::string>> {
+    std::tuple<bool, std::string>>, public KWUtils {
  public:
     virtual void SetUp() {
+        this->login();
+
         auto params = GetParam();
         this->expected = std::get<0>(params);
         this->json_data = load_response(std::get<1>(params));
@@ -55,7 +56,12 @@ class ParentalConsentAPI : public APIResponse {};
 
 
 class ParentalConsentException :
-    public ::testing::TestWithParam<HTTPClientError> {};
+    public ::testing::TestWithParam<HTTPClientError>, public KWUtils {
+ public:
+    virtual void SetUp() {
+        this->login();
+    }
+};
 
 
 #endif  // TEST_FIXTURES_PARENTAL_CONSENT_H_

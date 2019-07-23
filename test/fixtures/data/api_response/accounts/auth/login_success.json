@@ -1,0 +1,12 @@
+{
+    "data": {
+        "duration": "57600000",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODEyMzIxNzAuMDA0LCJ1c2VyIjp7ImlkIjoiNTk3MGFkY2MxYWQxYjcyMjg1OTMzZWY1Iiwicm9sZXMiOlsiNTA3ZjE5MWU4MTBjMTk3MjlkZTg2MGVhIl19fQ.AJH8ZK2ndtTbpF8q7fqb-FeckoR8uFY5QlPyH_iZRDU",
+        "user": {
+            "id": "01375358073836680585",
+            "roles": [],
+            "modified": "2018-04-13T14:58:21.757522"
+        }
+    },
+    "path": "/auth"
+}
