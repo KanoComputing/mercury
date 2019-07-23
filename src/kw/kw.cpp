@@ -31,10 +31,11 @@ using std::shared_ptr;
 using std::string;
 
 
-KanoWorld::KanoWorld(shared_ptr<IHTTPClient> client) :
+KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
     http_client(client),
     data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
     token(""),
+    api_url(url),
     expiration_date(""),
     is_verified_cache(false) {
 }
@@ -63,9 +64,7 @@ bool KanoWorld::login(const string& username, const string& password,
     shared_ptr<JSON_Value> res;
 
     try {
-        res = this->http_client->POST(
-            "https://worldapi-dev.kano.me/accounts/auth",
-            body);
+        res = this->http_client->POST(this->api_url + "/accounts/auth", body);
     } catch (const HTTPRequestFailedError& err) {
         if (verbose) {
             cout << err.what() << endl;
@@ -166,8 +165,7 @@ bool KanoWorld::refresh_token(string token, const bool verbose)
 
     try {
         res = this->http_client->GET(
-            "https://worldapi-dev.kano.me/accounts/auth/refresh",
-            headers);
+            this->api_url + "/accounts/auth/refresh", headers);
     } catch (const HTTPRequestFailedError& err) {
         if (verbose) {
             cout << err.what() << endl;
@@ -395,7 +393,8 @@ bool KanoWorld::save_data()
         json_object(user_data.get()), "is_verified",
                     this->is_verified_cache);
 
-    JSON_Status rc = json_serialize_to_file(user_data.get(), data_filename.c_str());
+    JSON_Status rc = json_serialize_to_file(
+        user_data.get(), data_filename.c_str());
 
     return rc == JSONSuccess;
 }
@@ -443,7 +442,7 @@ bool KanoWorld::is_account_verified_api() const {
 
     try {
         response = this->http_client->GET(
-            "https://worldapi.kano.me/users/me", headers);
+            this->api_url + "/users/me", headers);
     } catch (const exception& e) {
         return false;
     }
