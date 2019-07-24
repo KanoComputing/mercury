@@ -19,7 +19,7 @@
 using testing::Eq;
 
 
-TEST(kw, login_get_correct_data)
+TEST(kw, LoginGetCorrectData)
 {
     KanoWorld kw(KanoWorldAPI::URL);
 
@@ -28,7 +28,7 @@ TEST(kw, login_get_correct_data)
     EXPECT_GT(kw.get_expiration_date().length(), 0);
 }
 
-TEST(kw, login_get_no_data)
+TEST(kw, LoginGetNoData)
 {
     KanoWorld kw(KanoWorldAPI::URL);
 
