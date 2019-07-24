@@ -32,19 +32,19 @@
 using testing::Eq;
 
 
-TEST(kw, renew_token_malformed)
+TEST(kw, RenewTokenMalformed)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.refresh_token("1234567890", true), false);
 }
 
-TEST(kw, renew_token_empty)
+TEST(kw, RenewTokenEmpty)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.refresh_token("", true), false);
 }
 
-TEST(kw, renew_token_correct)
+TEST(kw, RenewTokenCorrect)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     string token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." \
@@ -55,52 +55,52 @@ TEST(kw, renew_token_correct)
     EXPECT_EQ(kw.refresh_token(token, true), true);
 }
 
-TEST(kw, login_correct)
+TEST(kw, LoginCorrect)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
 }
 
-TEST(kw, login_correct_and_logout)
+TEST(kw, LoginCorrectAndLogout)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
     EXPECT_EQ(kw.logout(true), true);
 }
 
-TEST(kw, login_invalid_credentials)
+TEST(kw, LoginInvalidCredentials)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("nonexisting", "nopassword", true), false);
 }
 
 
-TEST(kw, login_empty_username)
+TEST(kw, LoginEmptyUsername)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("", "nopassword", true), false);
 }
 
-TEST(kw, login_empty_password)
+TEST(kw, LoginEmptyPassword)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("yetanotherfakeuser", "", true), false);
 }
 
-TEST(kw, login_empty_credentials)
+TEST(kw, LoginEmptyCredentials)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("", "", true), false);
 }
 
-TEST(kw, refresh_headers)
+TEST(kw, RefreshHeaders)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     string header = kw.get_refresh_header("12345");
     EXPECT_EQ(header, "Authorization: Bearer 12345");
 }
 
-TEST(kw, get_hostname)
+TEST(kw, GetHostname)
 {
     // TODO: API not implemented yet
     KanoWorld kw(KanoWorldAPI::URL);
@@ -108,13 +108,13 @@ TEST(kw, get_hostname)
     EXPECT_EQ(hostname, "");
 }
 
-TEST(kw, is_logged_in)
+TEST(kw, IsLoggedIn)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.is_logged_in(false), false);
 }
 
-TEST(kw, whoami)
+TEST(kw, Whoami)
 {
     KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.whoami(), "");
@@ -132,7 +132,7 @@ INSTANTIATE_TEST_CASE_P(
 );
 
 
-TEST_P(ParentalConsentAPI, test_account_verification)
+TEST_P(ParentalConsentAPI, TestAccountVerification)
 {
     std::string auth_token = kw.get_token();
 
@@ -161,7 +161,7 @@ INSTANTIATE_TEST_CASE_P(
 );
 
 
-TEST_P(ParentalConsentException, test_account_verification_exception)
+TEST_P(ParentalConsentException, TestAccountVerificationException)
 {
     std::string auth_token = kw.get_token();
 
@@ -181,7 +181,7 @@ TEST_P(ParentalConsentException, test_account_verification_exception)
 }
 
 
-TEST_F(ParentalConsentCache, test_verification_cache) {
+TEST_F(ParentalConsentCache, TestVerificationCache) {
     std::string auth_token = kw.get_token();
 
     std::shared_ptr<JSON_Value> fail = load_response(
@@ -210,7 +210,7 @@ TEST_F(ParentalConsentCache, test_verification_cache) {
 }
 
 
-TEST_F(ParentalConsentCache, test_verification_cache_disabled) {
+TEST_F(ParentalConsentCache, TestVerificationCacheDisabled) {
     std::string auth_token = kw.get_token();
 
     std::shared_ptr<JSON_Value> fail = load_response(
@@ -241,7 +241,7 @@ TEST_F(ParentalConsentCache, test_verification_cache_disabled) {
 }
 
 
-TEST_F(ParentalConsentCache, test_verification_mix_cache) {
+TEST_F(ParentalConsentCache, TestVerificationMixCache) {
     std::shared_ptr<JSON_Value> fail = load_response(
         "users/me/no_parental_consent.json");
     std::shared_ptr<JSON_Value> success = load_response(
