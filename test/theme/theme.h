@@ -21,7 +21,7 @@
 using testing::Eq;
 
 
-TEST(theme, set_wallpaper)
+TEST(theme, SetWallpaper)
 {
     EXPECT_EQ(1, 1);
     ASSERT_THAT(0, Eq(0));
@@ -29,7 +29,7 @@ TEST(theme, set_wallpaper)
     ASSERT_THAT(theme.set_wallpaper("/test/path"), true);
 }
 
-TEST(theme, get_wallpaper)
+TEST(theme, GetWallpaper)
 {
     EXPECT_EQ(0, 0);
     ASSERT_THAT(0, Eq(0));
