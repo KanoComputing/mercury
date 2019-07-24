@@ -297,11 +297,11 @@ std::string KanoWorld::parse_token(
 /**
  * \brief Returns the token expiration date from the server response
  *
- * \returns A string with the Unix timestamp representing the token expiration
- *          date
+ * \returns A string with the Unix timestamp representing the token expiration date
+ *
  */
-std::string KanoWorld::parse_expiration_date(
-        const std::shared_ptr<JSON_Value> res) const {
+std::string KanoWorld::parse_expiration_date(const std::shared_ptr<JSON_Value> res) const {
+
     if (res) {
         // For some reason, the Unix time returned by the server is divide by
         // 1000 so we convert it back into a Unix time here. See:
@@ -309,7 +309,10 @@ std::string KanoWorld::parse_expiration_date(
         int conversion = 1000;
         string translate = json_object_dotget_string(
             json_object(res.get()), "data.duration");
-        return std::to_string(std::stol(translate) * conversion);
+
+        unsigned long long converted_time = stol(translate);
+        converted_time *= conversion;
+        return std::to_string(converted_time);
     }
 
     return "";
