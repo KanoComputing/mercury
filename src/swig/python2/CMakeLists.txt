@@ -1,5 +1,15 @@
-# Include python
-find_package(PythonLibs REQUIRED)
+
+#
+# FIXME: the find_package functions climbs up to loading python3,
+#        cannot find a way around it - setting manual paths instead
+# find_package(PythonLibs 2.7 EXACT REQUIRED)
+#
+set(PYTHON_INCLUDE_PATH "/usr/include/python2.7")
+set(PYTHON_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libpython2.7.so")
+
+message("PYTHON2 include: ${PYTHON_INCLUDE_PATH}")
+message("PYTHON2 libs: ${PYTHON_LIBRARIES}")
+
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(PYTHON2_NAME ${PROJECT_NAME}_python2)
