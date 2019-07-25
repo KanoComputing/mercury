@@ -17,6 +17,9 @@ def get_token():
     if (os.path.isfile(KANO_KIT_TOKEN_FILE)):
         with open(KANO_KIT_TOKEN_FILE) as f:
             token = f.read().strip()
-        return token
+
+        # Check that the token is in new API JWT format
+        if len(token) > 32:
+            return token
 
     return None
