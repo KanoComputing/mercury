@@ -33,7 +33,7 @@ set_source_files_properties(../${PROJECT_NAME}.i PROPERTIES CPLUSPLUS ON)
 include_directories(..)
 
 # Add swig module
-if(${CMAKE_VERSION} VERSION_GREATER "3.8")
+if (${CMAKE_VERSION} VERSION_GREATER 3.8)
     swig_add_library(
         ${PYTHON2_NAME}
         LANGUAGE python

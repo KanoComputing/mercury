@@ -8,10 +8,10 @@ stage ('Test') {
     ]
 
     make_test(test_repos) {
-		sh "conan remote add dev-server http://dev.kano.me:9300"
+        sh "conan remote add dev-server http://dev.kano.me:9300"
 
-		sh "make build-release"
-		sh "make build-debug"
+        sh "make build-release"
+        sh "make build-debug"
     }
 }
 

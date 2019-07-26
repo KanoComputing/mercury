@@ -47,19 +47,16 @@ using Poco::Net::SSLManager;
 
 
 HTTPClient::HTTPClient() {
-    try {
-        HTTPSessionInstantiator::registerInstantiator();
-        HTTPSSessionInstantiator::registerInstantiator();
+    HTTPSessionInstantiator::registerInstantiator();
+    HTTPSSessionInstantiator::registerInstantiator();
 
-        // Prepare for SSLManager
-        Poco::SharedPtr<AcceptCertificateHandler> cert =
-            new AcceptCertificateHandler(false);
-        const Poco::Net::Context::Ptr context = new Context(
-            Context::CLIENT_USE, "", "", "", Context::VERIFY_NONE, 9, false,
-            "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
-        SSLManager::instance().initializeClient(0, cert, context);
-    } catch (std::exception& e) {
-    }
+    // Prepare for SSLManager
+    Poco::SharedPtr<AcceptCertificateHandler> cert =
+        new AcceptCertificateHandler(false);
+    const Poco::Net::Context::Ptr context = new Context(
+        Context::CLIENT_USE, "", "", "", Context::VERIFY_NONE, 9, false,
+        "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
+    SSLManager::instance().initializeClient(0, cert, context);
 }
 
 

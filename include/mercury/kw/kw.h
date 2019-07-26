@@ -41,13 +41,13 @@ class KanoWorld
     bool login(const string& username, const string& password,
                const bool verbose = false);
     bool logout(const bool verbose = false);
-    bool refresh_token(string token, const bool verbose = false);
+    bool refresh_token(const string& token, const bool verbose = false);
 
     string get_hostname(string config_filename);
-    string get_refresh_header(string token);
+    string get_refresh_header(const string& token);
 
     bool is_logged_in(const bool verbose = false);
-    string whoami();
+    string whoami() const;
 
     /**
      * \brief Determine if the user's account has been verified with parental

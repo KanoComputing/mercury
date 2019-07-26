@@ -17,8 +17,10 @@
 
 #include <ctime>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "mercury/_http/http_client_interface.h"
 
@@ -128,16 +130,21 @@ bool KanoWorld::login(const string& username, const string& password,
 bool KanoWorld::logout(const bool verbose)
 {
     struct stat cache;
-    int rc = stat(data_filename.c_str(), &cache);
+    int rc = stat(this->data_filename.c_str(), &cache);
 
     if (rc != -1) {
-        int rc = unlink(data_filename.c_str());
+        int rc = unlink(this->data_filename.c_str());
     }
 
     if (verbose) {
         cout << "logout - removing cache file success? "
                   << (rc == -1 ? "No" : "Yes") << endl;
     }
+
+    this->token = "";
+    this->expiration_date = "";
+    this->is_verified_cache = false;
+
     return rc != -1;
 }
 
@@ -152,7 +159,7 @@ bool KanoWorld::logout(const bool verbose)
  *
  * \returns True if a new token was returned from the server.
  */
-bool KanoWorld::refresh_token(string token, const bool verbose)
+bool KanoWorld::refresh_token(const string& token, const bool verbose)
 {
     if (!token.length()) {
         return false;
@@ -226,7 +233,7 @@ string KanoWorld::get_hostname(string config_filename)
  *
  * \returns A string with the HTTP header
  */
-string KanoWorld::get_refresh_header(string token)
+string KanoWorld::get_refresh_header(const string& token)
 {
     return (string("Authorization: Bearer " + token));
 }
@@ -250,7 +257,7 @@ bool KanoWorld::is_logged_in(const bool verbose)
         return false;
     }
 
-    std::time_t duration = atol(expiration_date.c_str());
+    std::time_t duration = atol(this->expiration_date.c_str());
 
     if (!duration) {
         return false;
@@ -281,7 +288,7 @@ bool KanoWorld::is_logged_in(const bool verbose)
 /**
  *   Not implemented yet
  */
-string KanoWorld::whoami()
+string KanoWorld::whoami() const
 {
     return "";
 }
@@ -292,13 +299,18 @@ string KanoWorld::whoami()
  *
  * \returns A string with the complete JWT token
  */
-string KanoWorld::parse_token(
-        const shared_ptr<JSON_Value> res) const {
-    if (res) {
-        return json_object_dotget_string(json_object(res.get()), "data.token");
+string KanoWorld::parse_token(const shared_ptr<JSON_Value> res) const {
+    if (!res) {
+        return "";
     }
 
-    return "";
+    const JSON_Object *data = json_value_get_object(res.get());
+
+    if (!json_object_dothas_value_of_type(data, "data.token", JSONString)) {
+        return "";
+    }
+
+    return json_object_dotget_string(data, "data.token");
 }
 
 
@@ -311,20 +323,26 @@ string KanoWorld::parse_token(
  */
 string KanoWorld::parse_expiration_date(
         const shared_ptr<JSON_Value> res) const {
-    if (res) {
-        // For some reason, the Unix time returned by the server is divide by
-        // 1000 so we convert it back into a Unix time here. See:
-        // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
-        int conversion = 1000;
-        string translate = json_object_dotget_string(
-            json_object(res.get()), "data.duration");
-
-        uint64_t converted_time = stol(translate);
-        converted_time *= conversion;
-        return std::to_string(converted_time);
+    if (!res) {
+        return "";
     }
 
-    return "";
+    const JSON_Object *data = json_value_get_object(res.get());
+
+    if (!json_object_dothas_value_of_type(data, "data.duration", JSONString)) {
+        return "";
+    }
+
+    // For some reason, the Unix time returned by the server is divide by
+    // 1000 so we convert it back into a Unix time here. See:
+    // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
+    int conversion = 1000;
+    string translate = json_object_dotget_string(data, "data.duration");
+
+    uint64_t converted_time = stol(translate);
+    converted_time *= conversion;
+
+    return std::to_string(converted_time);
 }
 
 
@@ -348,19 +366,18 @@ string KanoWorld::get_expiration_date() const {
 bool KanoWorld::load_data()
 {
     shared_ptr<JSON_Value> user_data(
-        json_parse_file(data_filename.c_str()),
+        json_parse_file(this->data_filename.c_str()),
         json_value_free);
 
     if (!user_data) {
         return false;
     }
 
-    this->token = json_object_get_string(
-        json_object(user_data.get()), "token");
-    this->expiration_date = json_object_get_string(
-        json_object(user_data.get()), "duration");
-    this->is_verified_cache = json_object_get_boolean(
-        json_object(user_data.get()), "is_verified");
+    const JSON_Object * const data = json_value_get_object(user_data.get());
+
+    this->token = json_object_get_string(data, "token");
+    this->expiration_date = json_object_get_string(data, "duration");
+    this->is_verified_cache = json_object_get_boolean(data, "is_verified");
 
     return true;
 }
@@ -384,17 +401,15 @@ bool KanoWorld::save_data()
         return false;
     }
 
-    json_object_set_string(
-        json_object(user_data.get()), "token", get_token().c_str());
-    json_object_set_string(
-        json_object(user_data.get()), "duration",
-                    get_expiration_date().c_str());
-    json_object_set_boolean(
-        json_object(user_data.get()), "is_verified",
-                    this->is_verified_cache);
+    JSON_Object *data = json_value_get_object(user_data.get());
+
+    json_object_set_string(data, "token", this->get_token().c_str());
+    json_object_set_string(data, "duration",
+                           this->get_expiration_date().c_str());
+    json_object_set_boolean(data, "is_verified", this->is_verified_cache);
 
     JSON_Status rc = json_serialize_to_file(
-        user_data.get(), data_filename.c_str());
+        user_data.get(), this->data_filename.c_str());
 
     return rc == JSONSuccess;
 }
