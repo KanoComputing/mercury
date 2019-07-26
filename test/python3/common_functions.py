@@ -7,10 +7,15 @@
 import os
 
 # Dump all HTTP traffic for failing tests
-HTTP_VERBOSE=True
+HTTP_VERBOSE = True
+
+API_URL = 'https://worldapi-dev.kano.me'
 
 # Set a valid token on this file to do a real test on a Kano Kit
-KANO_KIT_TOKEN_FILE = os.path.join(os.getenv('HOME'), '.kanoprofile/tracker/token')
+KANO_KIT_TOKEN_FILE = os.path.join(
+    os.getenv('HOME'), '.kanoprofile/tracker/token'
+)
+
 
 # Return the token string from the file above
 def get_token():
