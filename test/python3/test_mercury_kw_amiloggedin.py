@@ -23,7 +23,7 @@ def test_is_logged_in_success():
     password = 'kano12345experience'
 
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert s is True
 
@@ -36,7 +36,7 @@ def test_is_logged_in_fail():
     password = 'badpassword'
 
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert s is False
 
@@ -46,7 +46,7 @@ def test_is_logged_in_fail():
 
 def test_timestamp_behind():
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
     username = 'testing_user'
     password = 'kano12345experience'
 
@@ -61,7 +61,7 @@ def test_timestamp_behind():
 
 def test_timestamp_now():
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
 
     # Token should be valid, just by 15 seconds
     fake_duration_file(m.data_filename, time.time() + 15)
@@ -71,7 +71,7 @@ def test_timestamp_now():
 
 def test_timestamp_future():
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
 
     # Token should be valid by 1 day
     fake_duration_file(m.data_filename, time.time() + 86400)
@@ -81,7 +81,7 @@ def test_timestamp_future():
 
 def test_timestamp_corrupted():
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
 
     # Token should be valid by about 1 day
     fake_duration_file(m.data_filename, 'corrupted number')

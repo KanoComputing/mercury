@@ -10,7 +10,7 @@ def test_login_success():
     password = 'kano12345experience'
 
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert s is True
 
@@ -20,7 +20,7 @@ def test_login_and_logout():
     password = 'kano12345experience'
 
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert s is True
 
@@ -33,9 +33,9 @@ def test_login_failed():
     password = 'badpassword'
 
     import mercury
-    m = mercury.KanoWorld()
+    m = mercury.KanoWorld(cf.API_URL)
     s = m.login(username, password, cf.HTTP_VERBOSE)
     assert s is False
 
-    assert (len(m.get_token()) == 0)
-    assert (len(m.get_expiration_date()) == 0)
+    assert len(m.get_token()) == 0
+    assert len(m.get_expiration_date()) == 0
