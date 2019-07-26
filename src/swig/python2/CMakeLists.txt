@@ -4,8 +4,19 @@
 #        cannot find a way around it - setting manual paths instead
 # find_package(PythonLibs 2.7 EXACT REQUIRED)
 #
-set(PYTHON_INCLUDE_PATH "/usr/include/python2.7")
-set(PYTHON_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libpython2.7.so")
+
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.12)
+    find_package(Python2 COMPONENTS Development)
+    set(PYTHON_INCLUDE_PATH ${Python2_INCLUDE_DIRS})
+    set(PYTHON_LIBRARIES ${Python2_LIBRARIES})
+elseif (UNIX AND NOT APPLE)
+    set(PYTHON_INCLUDE_PATH "/usr/include/python2.7")
+    set(PYTHON_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libpython2.7.so")
+else ()
+    message(WARNING "Python 2 couldn't be found on this system so not building")
+    return()
+endif()
+
 
 message("PYTHON2 include: ${PYTHON_INCLUDE_PATH}")
 message("PYTHON2 libs: ${PYTHON_LIBRARIES}")
