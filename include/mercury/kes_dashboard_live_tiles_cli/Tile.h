@@ -12,9 +12,9 @@
 #define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILE_H_
 
 
-#include <string>
-
 #include <parson.h>
+
+#include <string>
 
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 
@@ -22,7 +22,6 @@ using std::string;
 
 
 class Tile : public ITile {
-
  public:  // Constructors & destructors.
     Tile();
 

@@ -8,12 +8,12 @@
  */
 
 
+#include <parson.h>
+
 #include <iostream>
 #include <list>
 #include <memory>
 #include <string>
-
-#include <parson.h>
 
 #include "mercury/_http/http_client_interface.h"
 #include "mercury/kes_dashboard_live_tiles_cli/Exceptions.h"
@@ -28,13 +28,10 @@ using std::shared_ptr;
 using std::string;
 
 
-// NOTE: Slash at the end is important.
-// const string OnlineLoader::KES_DLT_URL = "https://ws.os.kes.kessandbox.co.uk/";
-
-
-OnlineLoader::OnlineLoader(const string& cacheDir,
-                           const shared_ptr<IHTTPClient> httpClient,
-                           const shared_ptr<ITileFactory> tileFactory):
+OnlineLoader::OnlineLoader(
+    const string& cacheDir,
+    const shared_ptr<IHTTPClient> httpClient,
+    const shared_ptr<ITileFactory> tileFactory):
     cacheDir(cacheDir),
     httpClient(httpClient),
     tileFactory(tileFactory) {

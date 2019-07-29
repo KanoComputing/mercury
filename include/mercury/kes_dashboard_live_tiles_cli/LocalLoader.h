@@ -25,7 +25,6 @@ using std::string;
 
 
 class LocalLoader : public ITileLoader {
-
  public:  // Constructors & destructors.
     explicit LocalLoader(const string& cacheDir);
     ~LocalLoader();

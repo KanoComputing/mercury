@@ -16,7 +16,6 @@
 
 
 class IOnlineLoader : public ITileLoader {
-
  public:  // Constructors & destructors.
     virtual ~IOnlineLoader() {}
 

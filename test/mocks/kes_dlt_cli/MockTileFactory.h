@@ -20,7 +20,6 @@ using std::shared_ptr;
 
 
 class MockTileFactory : public ITileFactory {
-
  public:  // ITileFactory Methods.
     MOCK_CONST_METHOD0(create, shared_ptr<ITile>());
 };

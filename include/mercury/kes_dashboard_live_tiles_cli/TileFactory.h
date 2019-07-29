@@ -21,7 +21,6 @@ using std::shared_ptr;
 
 
 class TileFactory : public ITileFactory {
-
  public:  // Constructors & destructors.
     TileFactory();
     ~TileFactory();

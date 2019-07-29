@@ -12,10 +12,10 @@
 #define TEST_FIXTURES_KES_DLT_CLI_KESDLTVALIDRESPONSESFIXTURE_H_
 
 
+#include <parson.h>
+
 #include <memory>
 #include <string>
-
-#include <parson.h>
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 
@@ -28,7 +28,6 @@ using ::testing::WithParamInterface;
 class KesDltValidResponsesFixture :
     public KesDltResponsesFixture,
     public WithParamInterface<string> {
-
  public:
     virtual void SetUp() {
         this->response = this->responses[this->GetParam()];

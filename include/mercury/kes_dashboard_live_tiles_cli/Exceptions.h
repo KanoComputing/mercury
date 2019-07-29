@@ -28,14 +28,16 @@ using std::shared_ptr;
  */
 class KESDLTClientException : public std::exception {
  public:
-    explicit KESDLTClientException(const string& msg, const JSON_Value* data = nullptr) :
-        message(msg), data(data) {
-
+    explicit KESDLTClientException(
+        const string& msg,
+        const JSON_Value* data = nullptr):
+        message(msg),
+        data(data) {
+        // NOLINT
         if (this->data != nullptr) {
             shared_ptr<char> dataStr(
                 json_serialize_to_string_pretty(this->data),
                 json_free_serialized_string);
-
             this->message = this->message + string(dataStr.get());
         }
     }
@@ -58,11 +60,13 @@ class KESDLTClientException : public std::exception {
  */
 class BrokenContractsException : public KESDLTClientException {
  public:
-    BrokenContractsException(const string& msg, const JSON_Value* data = nullptr) :
+    explicit BrokenContractsException(
+        const string& msg,
+        const JSON_Value* data = nullptr):
+        // NOLINT
         KESDLTClientException(
             string("Broken KES API data contract: ") + msg,
-            data
-        ) {}
+            data) {}
 };
 
 
@@ -73,11 +77,13 @@ class BrokenContractsException : public KESDLTClientException {
  */
 class CorruptedCacheException : public KESDLTClientException {
  public:
-    explicit CorruptedCacheException(const string& msg, const JSON_Value* data = nullptr) :
+    explicit CorruptedCacheException(
+        const string& msg,
+        const JSON_Value* data = nullptr):
+        // NOLINT
         KESDLTClientException(
             string("Corrupted KES cache or malformed data: ") + msg,
-            data
-        ) {}
+            data) {}
 };
 
 

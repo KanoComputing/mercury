@@ -20,7 +20,6 @@ using std::shared_ptr;
 
 
 class ITileFactory {
-
  public:  // Constructors & destructors.
     virtual ~ITileFactory() {}
 

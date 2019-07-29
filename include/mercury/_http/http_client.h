@@ -9,8 +9,8 @@
  */
 
 
-#ifndef MERCURY__HTTP_HTTP_CLIENT_H_
-#define MERCURY__HTTP_HTTP_CLIENT_H_
+#ifndef INCLUDE_MERCURY__HTTP_HTTP_CLIENT_H_
+#define INCLUDE_MERCURY__HTTP_HTTP_CLIENT_H_
 
 
 #include <parson.h>
@@ -69,4 +69,4 @@ class HTTPClient : public IHTTPClient {
 };
 
 
-#endif  // MERCURY__HTTP_HTTP_CLIENT_H_
+#endif  // INCLUDE_MERCURY__HTTP_HTTP_CLIENT_H_
