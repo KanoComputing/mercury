@@ -12,12 +12,11 @@
 #define TEST_MOCKS_KES_DLT_CLI_MOCKTILE_H_
 
 
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <parson.h>
 
 #include <string>
-
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 
@@ -25,7 +24,6 @@ using std::string;
 
 
 class MockTile : public ITile {
-
  public:  // ISerialisable Methods.
     MOCK_METHOD1(initialise, bool(JSON_Value* serialisedData));
     MOCK_CONST_METHOD0(serialise, JSON_Value*());
@@ -45,6 +43,4 @@ class MockTile : public ITile {
     MOCK_CONST_METHOD0(getCoverPath, string());
 };
 
-
 #endif  // TEST_MOCKS_KES_DLT_CLI_MOCKTILE_H_
-

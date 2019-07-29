@@ -7,8 +7,8 @@
  */
 
 
-#ifndef MERCURY__HTTP_EXCEPTIONS_H_
-#define MERCURY__HTTP_EXCEPTIONS_H_
+#ifndef INCLUDE_MERCURY__HTTP_EXCEPTIONS_H_
+#define INCLUDE_MERCURY__HTTP_EXCEPTIONS_H_
 
 
 #include <exception>
@@ -74,4 +74,4 @@ class DownloadError : public HTTPClientError {
         ) {}
 };
 
-#endif  // MERCURY__HTTP_EXCEPTIONS_H_
+#endif  // INCLUDE_MERCURY__HTTP_EXCEPTIONS_H_

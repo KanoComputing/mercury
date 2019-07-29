@@ -11,13 +11,14 @@
 #ifndef TEST_FIXTURES_KES_DLT_CLI_KESDLTRESPONSESFIXTURE_H_
 #define TEST_FIXTURES_KES_DLT_CLI_KESDLTRESPONSESFIXTURE_H_
 
+
+#include <gtest/gtest.h>
+#include <parson.h>
+
 #include <iostream>
 #include <map>
 #include <memory>
 #include <string>
-
-#include <parson.h>
-#include <gtest/gtest.h>
 
 #include "mercury/config.h"
 
@@ -31,28 +32,32 @@ using ::testing::Test;
 
 
 class KesDltResponsesFixture : public Test {
-
  public:
     static void SetUpTestCase() {
-        responses["feed1"] = KesDltResponsesFixture::loadResponse("feed1.json");
-        responses["feed2"] = KesDltResponsesFixture::loadResponse("feed2.json");
-        responses["feed3"] = KesDltResponsesFixture::loadResponse("feed3.json");
+        responses["feed1"] =
+            KesDltResponsesFixture::loadResponse("feed1.json");
+        responses["feed2"] =
+            KesDltResponsesFixture::loadResponse("feed2.json");
+        responses["feed3"] =
+            KesDltResponsesFixture::loadResponse("feed3.json");
 
-        responses["malformed_feed1"] = KesDltResponsesFixture::loadResponse("malformed_feed1.json");
-        responses["malformed_feed2"] = KesDltResponsesFixture::loadResponse("malformed_feed2.json");
-        responses["malformed_feed3"] = KesDltResponsesFixture::loadResponse("malformed_feed3.json");
+        responses["malformed_feed1"] =
+            KesDltResponsesFixture::loadResponse("malformed_feed1.json");
+        responses["malformed_feed2"] =
+            KesDltResponsesFixture::loadResponse("malformed_feed2.json");
+        responses["malformed_feed3"] =
+            KesDltResponsesFixture::loadResponse("malformed_feed3.json");
 
-        responses["empty_feed1"] = KesDltResponsesFixture::loadResponse("empty_feed1.json");
+        responses["empty_feed1"] =
+            KesDltResponsesFixture::loadResponse("empty_feed1.json");
 
         for (const auto &keyValue : responses) {
             if (keyValue.second == nullptr) {
                 cerr << "KesDltResponsesFixture: FAILED TO LOAD DATA FOR "
                      << keyValue.first << endl;
             }
-        }
-
-        for (const auto &keyValue : responses) {
-            tileCounts[keyValue.first] = KesDltResponsesFixture::getTileCount(keyValue.second);
+            tileCounts[keyValue.first] =
+                KesDltResponsesFixture::getTileCount(keyValue.second);
         }
     }
 
@@ -80,7 +85,8 @@ class KesDltResponsesFixture : public Test {
         if (!json_object_has_value_of_type(responseData, "shares", JSONArray))
             return -1;
 
-        return json_array_get_count(json_object_get_array(responseData, "shares"));
+        return json_array_get_count(
+            json_object_get_array(responseData, "shares"));
     }
 
  protected:

@@ -12,11 +12,12 @@
 #define TEST_KES_DASHBOARD_LIVE_TILES_CLI_TESTONLINELOADER_H_
 
 
-#include <memory>
-#include <string>
-
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <parson.h>
+
+#include <memory>
+#include <string>
 
 #include "mercury/_http/exceptions.h"
 #include "mercury/_http/http_client_interface.h"
@@ -48,11 +49,12 @@ INSTANTIATE_TEST_CASE_P(
  * Check that OnlineLoader.getTiles() calls HTTPClient.GET()
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsHTTPClientGET) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
-    shared_ptr<MockTileFactory> mockTileFactory = make_shared<MockTileFactory>();
-    shared_ptr<MockTile> mockTile = make_shared<MockTile>();
+    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockTileFactory = make_shared<MockTileFactory>();
+    auto mockTile = make_shared<MockTile>();
 
-    OnlineLoader onlineLoader("/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
+    OnlineLoader onlineLoader(
+        "/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
 
     // Ensuring the remainder of the function doesn't throw Exceptions by
     // returning a valid KES response from the HTTPClient.GET().
@@ -82,11 +84,12 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsHTTPClientGET) {
  * calls for each tile data TileFactory.create().
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileFactoryCreate) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
-    shared_ptr<MockTileFactory> mockTileFactory = make_shared<MockTileFactory>();
-    shared_ptr<MockTile> mockTile = make_shared<MockTile>();
+    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockTileFactory = make_shared<MockTileFactory>();
+    auto mockTile = make_shared<MockTile>();
 
-    OnlineLoader onlineLoader("/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
+    OnlineLoader onlineLoader(
+        "/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
     ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
@@ -124,11 +127,12 @@ MATCHER_P(AnyInJsonArray, jsonArray, "") {
  * calls for each tile data Tile.initialise() with the expected JSON.
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
-    shared_ptr<MockTileFactory> mockTileFactory = make_shared<MockTileFactory>();
-    shared_ptr<MockTile> mockTile = make_shared<MockTile>();
+    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockTileFactory = make_shared<MockTileFactory>();
+    auto mockTile = make_shared<MockTile>();
 
-    OnlineLoader onlineLoader("/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
+    OnlineLoader onlineLoader(
+        "/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
     ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
@@ -162,9 +166,9 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
  * calls for each tile data Tile.download() with the given cacheDir.
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileDownload) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
-    shared_ptr<MockTileFactory> mockTileFactory = make_shared<MockTileFactory>();
-    shared_ptr<MockTile> mockTile = make_shared<MockTile>();
+    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockTileFactory = make_shared<MockTileFactory>();
+    auto mockTile = make_shared<MockTile>();
 
     const string cacheDir = "/tmp/kes-dlt-cli/test";
     OnlineLoader onlineLoader(cacheDir, mockHttpClient, mockTileFactory);
@@ -195,8 +199,9 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileDownload) {
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * throws a BrokenContractsException when JSON does not contain "shares" array.
  */
-TEST_F(KesDltResponsesFixture, GetTilesThrowsBrokenContractsExceptionWhenMissingSharesField) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
+TEST_F(KesDltResponsesFixture,
+       GetTilesThrowsBrokenContractsExceptionWhenMissingSharesField) {
+    auto mockHttpClient = make_shared<MockHTTPClient>();
 
     const string cacheDir = "/tmp/kes-dlt-cli/test";
     OnlineLoader onlineLoader(cacheDir, mockHttpClient);
@@ -212,10 +217,11 @@ TEST_F(KesDltResponsesFixture, GetTilesThrowsBrokenContractsExceptionWhenMissing
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * throws a BrokenContractsException when Tile.initialise() fails.
  */
-TEST_F(KesDltResponsesFixture, GetTilesThrowsBrokenContractsExceptionWhenTileInitialiseFails) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
-    shared_ptr<MockTileFactory> mockTileFactory = make_shared<MockTileFactory>();
-    shared_ptr<MockTile> mockTile = make_shared<MockTile>();
+TEST_F(KesDltResponsesFixture,
+       GetTilesThrowsBrokenContractsExceptionWhenTileInitialiseFails) {
+    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockTileFactory = make_shared<MockTileFactory>();
+    auto mockTile = make_shared<MockTile>();
 
     const string cacheDir = "/tmp/kes-dlt-cli/test";
     OnlineLoader onlineLoader(cacheDir, mockHttpClient, mockTileFactory);
@@ -239,10 +245,11 @@ TEST_F(KesDltResponsesFixture, GetTilesThrowsBrokenContractsExceptionWhenTileIni
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * throws a DownloadError when Tile.download() fails.
  */
-TEST_F(KesDltResponsesFixture, GetTilesThrowsDownloadErrorWhenTileDownloadFails) {
-    shared_ptr<MockHTTPClient> mockHttpClient = make_shared<MockHTTPClient>();
-    shared_ptr<MockTileFactory> mockTileFactory = make_shared<MockTileFactory>();
-    shared_ptr<MockTile> mockTile = make_shared<MockTile>();
+TEST_F(KesDltResponsesFixture,
+       GetTilesThrowsDownloadErrorWhenTileDownloadFails) {
+    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockTileFactory = make_shared<MockTileFactory>();
+    auto mockTile = make_shared<MockTile>();
 
     const string cacheDir = "/tmp/kes-dlt-cli/test";
     OnlineLoader onlineLoader(cacheDir, mockHttpClient, mockTileFactory);

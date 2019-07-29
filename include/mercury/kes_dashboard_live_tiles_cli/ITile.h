@@ -21,7 +21,6 @@ using std::string;
 
 
 class ITile : public ISerialisable, public IDownloadable {
-
  public:  // Constructors & destructors.
     virtual ~ITile() {}
 

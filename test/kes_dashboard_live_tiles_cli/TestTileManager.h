@@ -12,10 +12,10 @@
 #define TEST_KES_DASHBOARD_LIVE_TILES_CLI_TESTTILEMANAGER_H_
 
 
+#include <gtest/gtest.h>
+
 #include <list>
 #include <memory>
-
-#include <gtest/gtest.h>
 
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 #include "mercury/kes_dashboard_live_tiles_cli/TileManager.h"

@@ -33,12 +33,11 @@ constexpr double ONE_HOUR_MS = 1000 * 60 * 60;  // in milliseconds
 
 
 class OnlineLoader : public IOnlineLoader {
-
  public:  // Constructors & destructors.
     OnlineLoader(
         const string& cacheDir,
         const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>(),
-        const shared_ptr<ITileFactory> tileFactory = make_shared<TileFactory>());
+        const shared_ptr<ITileFactory> tileFactory = make_shared<TileFactory>());  // NOLINT
 
     ~OnlineLoader();
 
@@ -53,7 +52,8 @@ class OnlineLoader : public IOnlineLoader {
     double getQueryCooldown() const override;
 
  public:  // Constants.
-    static constexpr const char* KES_DLT_URL = "https://ws.os.kes.kessandbox.co.uk/";
+    static constexpr const char* KES_DLT_URL =
+        "https://ws.os.kes.kessandbox.co.uk/";
 
  private:  // Members.
     shared_ptr<IHTTPClient> httpClient;

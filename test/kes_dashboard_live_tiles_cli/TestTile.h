@@ -11,6 +11,7 @@
 #ifndef TEST_KES_DASHBOARD_LIVE_TILES_CLI_TESTTILE_H_
 #define TEST_KES_DASHBOARD_LIVE_TILES_CLI_TESTTILE_H_
 
+
 #include <gtest/gtest.h>
 
 
@@ -22,7 +23,6 @@ TEST(TestTile, InitialiseSetsAllKESContractMembers) {
     EXPECT_TRUE(false);
 }
 
-
 /**
  * TODO
  */
@@ -31,7 +31,6 @@ TEST(TestTile, InitialiseAlsoSetsCoverPath) {
     EXPECT_TRUE(false);
 }
 
-
 /**
  * TODO
  */
@@ -39,7 +38,6 @@ TEST(TestTile, InitialiseFailsForMissingKESContractMembers) {
     // TODO
     EXPECT_TRUE(false);
 }
-
 
 /**
  * TODO

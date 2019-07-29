@@ -156,7 +156,6 @@ bool HTTPClient::DL(const std::string& url, const std::string& path) {
 
         std::unique_ptr<std::istream> pStr(uriStream.open(uri));
         Poco::StreamCopier::copyStream(*pStr.get(), out);
-
     } catch (const std::exception& e) {
         throw DownloadError(url, e.what());
     }

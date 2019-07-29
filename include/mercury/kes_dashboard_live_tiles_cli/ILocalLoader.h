@@ -23,7 +23,6 @@ using std::shared_ptr;
 
 
 class ILocalLoader : public ITileLoader {
-
  public:  // Constructors & destructors.
     virtual ~ILocalLoader() {}
 

@@ -8,14 +8,14 @@
  */
 
 
+#include <parson.h>
+
 #include <errno.h>
 #include <sys/stat.h>
 
 #include <iostream>
 #include <memory>
 #include <string>
-
-#include <parson.h>
 
 #include "mercury/_http/http_client.h"
 #include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
@@ -62,7 +62,7 @@ bool Tile::initialise(JSON_Value* serialisedData) {
         !json_object_has_value_of_type(data, "app", JSONString) ||
         !json_object_has_value_of_type(data, "openUrl", JSONString) ||
         !json_object_has_value_of_type(data, "fallbackUrl", JSONString)) {
-
+        // NOLINT
         return false;
     }
 

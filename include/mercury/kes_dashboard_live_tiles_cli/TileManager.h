@@ -25,7 +25,6 @@ using std::shared_ptr;
 
 
 class TileManager : public ITileManager {
-
  public:  // Constructors & destructors.
     TileManager();
     ~TileManager();

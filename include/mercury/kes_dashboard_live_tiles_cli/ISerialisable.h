@@ -16,7 +16,6 @@
 
 
 class ISerialisable {
-
  public:  // Constructors & destructors.
     virtual ~ISerialisable() {}
 

@@ -8,7 +8,7 @@
  */
 
 
-#include <chrono>
+#include <chrono>  // NOLINT
 
 using std::chrono::duration_cast;
 using std::chrono::milliseconds;
@@ -17,6 +17,5 @@ using std::chrono::system_clock;
 
 double getTimestamp() {
     return duration_cast<milliseconds>(
-        system_clock::now().time_since_epoch()
-    ).count();
+        system_clock::now().time_since_epoch()).count();
 }

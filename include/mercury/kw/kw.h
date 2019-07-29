@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef MERCURY_KW_KW_H_
-#define MERCURY_KW_KW_H_
+#ifndef INCLUDE_MERCURY_KW_KW_H_
+#define INCLUDE_MERCURY_KW_KW_H_
 
 
 #include <memory>
@@ -27,8 +27,7 @@ using std::string;
  * \class KanoWorld
  * \brief Provides access to Kano World Services Network API
  */
-class KanoWorld
-{
+class KanoWorld {
  public:
     /**
      * \brief Constructor
@@ -90,4 +89,4 @@ class KanoWorld
 };
 
 
-#endif  // MERCURY_KW_KW_H_
+#endif  // INCLUDE_MERCURY_KW_KW_H_

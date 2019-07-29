@@ -8,7 +8,6 @@
  */
 
 
-#include <chrono>
 #include <exception>
 #include <iostream>
 #include <list>
@@ -44,8 +43,12 @@ list<shared_ptr<ITile>> TileManager::getTiles(bool cache) const {
     LocalLoader localLoader(this->cacheDir);
     list<shared_ptr<ITile>> tiles;
 
+    bool isCooldown =
+        (localLoader.getLastUpdated() + onlineLoader.getQueryCooldown()) >
+        getTimestamp();
+
     // Check that we're not spamming the server.
-    if (!cache && (localLoader.getLastUpdated() + onlineLoader.getQueryCooldown() < getTimestamp())) {
+    if (!cache && !isCooldown) {
         // Download the feed of tiles from the KES.
         try {
             tiles = onlineLoader.getTiles();

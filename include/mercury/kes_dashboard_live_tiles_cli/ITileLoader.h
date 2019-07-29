@@ -22,7 +22,6 @@ using std::shared_ptr;
 
 
 class ITileLoader {
-
  public:  // Constructors & destructors.
     virtual ~ITileLoader() {}
 

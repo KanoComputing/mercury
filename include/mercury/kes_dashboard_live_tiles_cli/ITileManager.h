@@ -22,7 +22,6 @@ using std::shared_ptr;
 
 
 class ITileManager {
-
  public:  // Constructors & destructors.
     virtual ~ITileManager() {}
 

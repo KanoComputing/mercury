@@ -18,7 +18,6 @@ using std::string;
 
 
 class IDownloadable {
-
  public:  // Constructors & destructors.
     virtual ~IDownloadable() {}
 

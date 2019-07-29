@@ -9,8 +9,8 @@
  */
 
 
-#ifndef MERCURY_THEME_THEME_H_
-#define MERCURY_THEME_THEME_H_
+#ifndef INCLUDE_MERCURY_THEME_THEME_H_
+#define INCLUDE_MERCURY_THEME_THEME_H_
 
 
 #include <string>
@@ -32,4 +32,4 @@ class Theme
 };
 
 
-#endif  // MERCURY_THEME_THEME_H_
+#endif  // INCLUDE_MERCURY_THEME_THEME_H_
