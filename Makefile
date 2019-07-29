@@ -50,3 +50,6 @@ lint:
 
 docs:
 	cd docs && make all
+
+conan-package:
+	conan create --test-folder test/test_package . KanoComputing/stable

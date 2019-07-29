@@ -18,10 +18,8 @@ add_library(mercury_obj OBJECT
     utils/Time.cpp
 )
 target_include_directories(mercury_obj PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
-    ${OPENSSL_INCLUDE_DIR}
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
 )
 set_property(TARGET mercury_obj PROPERTY POSITION_INDEPENDENT_CODE ON)
@@ -40,17 +38,13 @@ set_target_properties(mercury_static
 set_property(TARGET mercury_static PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(mercury_shared PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
-    ${OPENSSL_INCLUDE_DIR}
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
 )
 target_include_directories(mercury_static PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../../include>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_PARSON}>
-    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_POCO}>
-    ${OPENSSL_INCLUDE_DIR}
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:include>
 )
 
