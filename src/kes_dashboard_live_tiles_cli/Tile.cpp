@@ -28,7 +28,7 @@ using std::string;
 
 
 Tile::Tile():
-    Tile("", "", "", "", "", "", "", "", "") {
+    Tile("", "", "", "", "", "", "", "") {
     // Empty constructor.
 }
 

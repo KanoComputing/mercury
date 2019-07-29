@@ -52,13 +52,13 @@ class OnlineLoader : public IOnlineLoader {
     double getQueryCooldown() const override;
 
  public:  // Constants.
-    static constexpr const char* KES_DLT_URL =
-        "https://ws.os.kes.kessandbox.co.uk/";
+    // static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kano.me/";
+    static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kessandbox.co.uk/";  // NOLINT
 
  private:  // Members.
-    shared_ptr<IHTTPClient> httpClient;
-    shared_ptr<ITileFactory> tileFactory;
-    string cacheDir;
+    const shared_ptr<IHTTPClient> httpClient;
+    const shared_ptr<ITileFactory> tileFactory;
+    const string cacheDir;
 
  private:  // Constants.
     const double QUERY_COOLDOWN = ONE_HOUR_MS;

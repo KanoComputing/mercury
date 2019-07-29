@@ -9,11 +9,11 @@
  */
 
 
-#ifndef MERCURY_CONFIG_H_
-#define MERCURY_CONFIG_H_
+#ifndef INCLUDE_MERCURY_CONFIG_H_
+#define INCLUDE_MERCURY_CONFIG_H_
 
 
 const char CMAKE_PROJ_BASE_DIR[] = "@CMAKE_SOURCE_DIR@";
 
 
-#endif  // MERCURY_CONFIG_H_
+#endif  // INCLUDE_MERCURY_CONFIG_H_

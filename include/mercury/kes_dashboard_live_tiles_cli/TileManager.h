@@ -12,11 +12,16 @@
 #define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILEMANAGER_H_
 
 
+#include <stdlib.h>
+
 #include <list>
 #include <memory>
 #include <string>
 
+#include "mercury/kes_dashboard_live_tiles_cli/IOnlineLoader.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
+#include "mercury/kes_dashboard_live_tiles_cli/ITileCache.h"
+#include "mercury/kes_dashboard_live_tiles_cli/ITileLoader.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITileManager.h"
 
 using std::list;
@@ -26,17 +31,27 @@ using std::shared_ptr;
 
 class TileManager : public ITileManager {
  public:  // Constructors & destructors.
-    TileManager();
+    TileManager(
+        const string& cacheDir = "",
+        const shared_ptr<IOnlineLoader> onlineLoader = nullptr,
+        const shared_ptr<ITileCache> tileCache = nullptr,
+        const shared_ptr<ITileLoader> defaultTileLoader = nullptr);
     ~TileManager();
 
  public:  // ITileManager Methods.
     list<shared_ptr<ITile>> getTiles(bool cache = true) const override;
 
+ private:  // Methods.
+    bool isCooldown() const;
+
  private:  // Members.
     string cacheDir;
+    shared_ptr<IOnlineLoader> onlineLoader;
+    shared_ptr<ITileCache> tileCache;
+    shared_ptr<ITileLoader> defaultTileLoader;
 
  private:  // Constants.
-    const string CACHE_DIR = ".kes-dlt-cli";
+    const string CACHE_DIRNAME = ".kes-dlt-cli";
 };
 
 #endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILEMANAGER_H_

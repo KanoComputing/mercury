@@ -56,11 +56,11 @@ list<shared_ptr<ITile>> OnlineLoader::getTiles() {
     responseData = json_value_get_object(response.get());
 
     // Get the array of tile data objects from the response.
-    if (!json_object_has_value_of_type(responseData, "shares", JSONArray)) {
+    if (!json_object_has_value_of_type(responseData, "tiles", JSONArray)) {
         throw BrokenContractsException(
             "Does not contain array of tiles: ", response.get());
     }
-    tilesData = json_object_get_array(responseData, "shares");
+    tilesData = json_object_get_array(responseData, "tiles");
 
     // Create Tile objects from the feed data and download additional data.
     for (int i = 0; i < json_array_get_count(tilesData); i++) {
