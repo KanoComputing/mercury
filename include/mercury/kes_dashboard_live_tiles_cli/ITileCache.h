@@ -1,5 +1,5 @@
 /**
- * \file ILocalLoader.h
+ * \file ITileCache.h
  *
  * \copyright Copyright (C) 2019 Kano Computing Ltd.
  *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
@@ -8,8 +8,8 @@
  */
 
 
-#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ILOCALLOADER_H_
-#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ILOCALLOADER_H_
+#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILECACHE_H_
+#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILECACHE_H_
 
 
 #include <list>
@@ -22,9 +22,9 @@ using std::list;
 using std::shared_ptr;
 
 
-class ILocalLoader : public ITileLoader {
+class ITileCache : public ITileLoader {
  public:  // Constructors & destructors.
-    virtual ~ILocalLoader() {}
+    virtual ~ITileCache() {}
 
  public:  // Methods.
     virtual void update(const list<shared_ptr<ITile>>& tiles) = 0;
@@ -32,4 +32,4 @@ class ILocalLoader : public ITileLoader {
     virtual bool isCacheEmpty() const = 0;
 };
 
-#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ILOCALLOADER_H_
+#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILECACHE_H_

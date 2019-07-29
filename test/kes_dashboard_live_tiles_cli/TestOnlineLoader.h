@@ -26,6 +26,7 @@
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 #include "test/fixtures/kes_dlt_cli/KesDltValidResponsesFixture.h"
+#include "test/matchers/JsonMatchers.h"
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"
 #include "test/mocks/mock_http_client.h"
@@ -113,15 +114,6 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileFactoryCreate) {
     onlineLoader.getTiles();
 }
 
-
-MATCHER_P(AnyInJsonArray, jsonArray, "") {
-    for (int i = 0; i < json_array_get_count(jsonArray); i++)
-        if (json_value_equals(json_array_get_value(jsonArray, i), arg))
-            return true;
-    return false;
-}
-
-
 /**
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * calls for each tile data Tile.initialise() with the expected JSON.
@@ -151,12 +143,18 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
         .WillByDefault(Return(true));
 
     JSON_Array* tilesData = json_object_get_array(
-        json_value_get_object(this->response.get()), "shares");
+        json_value_get_object(this->response.get()), "tiles");
 
-    // TODO: Should use AllInJsonArray to check that each item passed to
-    // initialise is at a unique index in a given array. No clue how to atm.
-    EXPECT_CALL(*mockTile, initialise(AnyInJsonArray(tilesData)))
-        .Times(this->tileCount);
+    JSON_Value* tileData;
+
+    // Expect that Tile.initialise() is called with each individual
+    // tileData from the KES response.
+    for (int i = 0; i < json_array_get_count(tilesData); i++) {
+        tileData = json_array_get_value(tilesData, i);
+
+        EXPECT_CALL(*mockTile, initialise(JsonEq(tileData)))
+            .Times(1);
+    }
 
     onlineLoader.getTiles();
 }
@@ -197,10 +195,10 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileDownload) {
 
 /**
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
- * throws a BrokenContractsException when JSON does not contain "shares" array.
+ * throws a BrokenContractsException when JSON does not contain "tiles" array.
  */
 TEST_F(KesDltResponsesFixture,
-       GetTilesThrowsBrokenContractsExceptionWhenMissingSharesField) {
+       GetTilesThrowsBrokenContractsExceptionWhenMissingTilesField) {
     auto mockHttpClient = make_shared<MockHTTPClient>();
 
     const string cacheDir = "/tmp/kes-dlt-cli/test";
@@ -208,7 +206,7 @@ TEST_F(KesDltResponsesFixture,
 
     // Set the HTTPClient.GET to return a given malformed KES response.
     ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(responses["malformed_feed1"]));
+        .WillByDefault(Return(responses["invalid_feed1"]));
 
     ASSERT_THROW(onlineLoader.getTiles(), BrokenContractsException);
 }
