@@ -19,6 +19,7 @@
 
 #include <sys/stat.h>
 
+using Mercury::KanoWorld::KanoWorld;
 using testing::Eq;
 
 

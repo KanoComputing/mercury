@@ -18,6 +18,7 @@
 #include <mercury/theme/theme.h>
 
 
+using Mercury::Theme::Theme;
 using testing::Eq;
 
 

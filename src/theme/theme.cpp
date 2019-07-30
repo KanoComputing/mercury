@@ -7,9 +7,11 @@
  */
 
 #include <string>
-using std::string;
 
 #include "mercury/theme/theme.h"
+
+using Mercury::Theme::Theme;
+using std::string;
 
 /**
  * \warning Not implemented
@@ -18,6 +20,7 @@ bool Theme::set_wallpaper(string wallpaper_path)
 {
     return true;
 }
+
 
 /**
  * \warning Not implemented

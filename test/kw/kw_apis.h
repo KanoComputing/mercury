@@ -29,6 +29,7 @@
 #include <string>
 
 
+using Mercury::KanoWorld::KanoWorld;
 using testing::Eq;
 
 

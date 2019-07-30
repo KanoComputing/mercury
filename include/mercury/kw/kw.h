@@ -23,6 +23,10 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace Mercury {
+namespace KanoWorld {
+
+
 /**
  * \class KanoWorld
  * \brief Provides access to Kano World Services Network API
@@ -87,6 +91,10 @@ class KanoWorld {
     string expiration_date;
     bool is_verified_cache;
 };
+
+
+};  // namespace KanoWorld
+};  // namespace Mercury
 
 
 #endif  // INCLUDE_MERCURY_KW_KW_H_
