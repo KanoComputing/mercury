@@ -22,6 +22,8 @@
 #include <memory>
 #include <string>
 
+using Mercury::KanoWorld::KanoWorld;
+
 
 class KWUtils {
  public:

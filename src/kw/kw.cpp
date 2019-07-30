@@ -24,6 +24,8 @@
 
 #include "mercury/_http/http_client_interface.h"
 
+using Mercury::KanoWorld::KanoWorld;
+
 using std::cout;
 using std::endl;
 using std::exception;

@@ -11,5 +11,5 @@
 #include "mercury/kw/kw.h"
 
 int main() {
-    KanoWorld();
+    Mercury::KanoWorld::KanoWorld();
 }

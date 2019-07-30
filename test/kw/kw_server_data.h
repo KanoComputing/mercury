@@ -16,6 +16,7 @@
 
 #include <mercury/kw/kw.h>
 
+using Mercury::KanoWorld::KanoWorld;
 using testing::Eq;
 
 
