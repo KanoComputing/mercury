@@ -53,23 +53,52 @@ class KanoWorld {
     string whoami() const;
 
     /**
-     * \brief Determine if the user's account has been verified with parental
-     *        permission.
-     *
-     * \param cache    (Optional) Whether to use the cached value or query
-     *                 directly from the API
+     * \brief Read from the cache if the account has been verified with
+     *        parental permission
      */
-    bool is_account_verified(const bool cache = true);
+    bool get_account_verified() const;
     /**
-     * \brief Clear the cached value of the account verification
+     * \brief Set the the account verified status
+     *
+     * \param verified    The value to set it to
+     * \param save        Whether to save changes to disk
      */
-    void clear_account_verified_cache();
+    void set_account_verified(const bool verified, const bool save = true);
+    /**
+     * \brief Refresh the cached value for whether the user's account has been
+     *        verified with parental permission.
+     *
+     * \param sticky   (Optional) Whether to use the cached value in the case
+     *                 where the account has been seen to be verified or query
+     *                 directly from the API every time.
+     */
+    bool refresh_account_verified(const bool sticky = false);
 
     /**
      * \brief Extract the authentication token
      */
     string get_token() const;
+    /**
+     * \brief Set the authentication token
+     *
+     * \param token_val   Value to set the token to.
+     * \param save        Whether to save changes to disk
+     */
+    void set_token(const string& token_val, const bool save = true);
+
+    /**
+     * \brief Extract the authentication token
+     */
     string get_expiration_date() const;
+    /**
+     * \brief Set the authentication token
+     *
+     * \param expiration   Value to set the expiration to.
+     * \param save         Whether to save changes to disk
+     */
+    void set_expiration_date(const string& expiration,
+                             const bool save = true);
+
     bool load_data();
 
  public:
