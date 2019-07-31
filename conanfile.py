@@ -9,8 +9,11 @@ class MercuryConan(ConanFile):
     description = ""
     settings = "os", "compiler", "build_type", "arch"
     options = {
+        "shared": [True, False],
     }
     default_options = {
+        "shared": False,
+        "OpenSSL:no_threads": not tools.os_info.is_macos
     }
     generators = "cmake", "qmake"
     exports_sources = [
@@ -27,9 +30,6 @@ class MercuryConan(ConanFile):
         "Poco/1.9.2@pocoproject/stable",
     )
     generators = "cmake"
-    default_options = {
-        "OpenSSL:no_threads": not tools.os_info.is_macos
-    }
 
     def build(self):
         cmake = CMake(self)
@@ -47,9 +47,12 @@ class MercuryConan(ConanFile):
         self.copy("*.h", dst="include", src="include")
         self.copy("*mercury.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.so", dst="lib", keep_path=False)
-        self.copy("*.dylib", dst="lib", keep_path=False)
-        self.copy("*.a", dst="lib", keep_path=False)
+
+        if self.options.shared:
+            self.copy("*.so", dst="lib", keep_path=False)
+            self.copy("*.dylib", dst="lib", keep_path=False)
+        else:
+            self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["mercury"]
