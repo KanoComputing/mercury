@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import ConanFile, CMake, tools
 
 
 class MercuryConan(ConanFile):
@@ -28,7 +28,7 @@ class MercuryConan(ConanFile):
     )
     generators = "cmake"
     default_options = {
-        "OpenSSL:no_threads": True
+        "OpenSSL:no_threads": not tools.os_info.is_macos
     }
 
     def build(self):

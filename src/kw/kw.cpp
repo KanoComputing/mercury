@@ -36,12 +36,13 @@ using std::string;
 
 
 KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
-    http_client(client),
-    data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
-    token(""),
-    api_url(url),
-    expiration_date(""),
-    is_verified_cache(false) {
+        http_client(client),
+        data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
+        token(""),
+        api_url(url),
+        expiration_date(""),
+        is_verified_cache(false) {
+    load_data();
 }
 
 
@@ -103,8 +104,8 @@ bool KanoWorld::login(const string& username, const string& password,
         return false;
     }
 
-    this->token = this->parse_token(res);
-    this->expiration_date = this->parse_expiration_date(res);
+    this->set_token(this->parse_token(res), false);
+    this->set_expiration_date(this->parse_expiration_date(res), false);
     this->save_data();
 
     if (verbose) {
@@ -143,9 +144,10 @@ bool KanoWorld::logout(const bool verbose)
                   << (rc == -1 ? "No" : "Yes") << endl;
     }
 
-    this->token = "";
-    this->expiration_date = "";
-    this->is_verified_cache = false;
+    this->set_token("", false);
+    this->set_expiration_date("", false);
+    this->set_account_verified(false, false);
+    this->save_data();
 
     return rc != -1;
 }
@@ -195,8 +197,8 @@ bool KanoWorld::refresh_token(const string& token, const bool verbose)
         return false;
     }
 
-    this->token = this->parse_token(res);
-    this->expiration_date = this->parse_expiration_date(res);
+    this->set_token(this->parse_token(res), false);
+    this->set_expiration_date(this->parse_expiration_date(res), false);
     this->save_data();
 
     if (verbose) {
@@ -259,7 +261,7 @@ bool KanoWorld::is_logged_in(const bool verbose)
         return false;
     }
 
-    std::time_t duration = atol(this->expiration_date.c_str());
+    std::time_t duration = atol(this->get_expiration_date().c_str());
 
     if (!duration) {
         return false;
@@ -353,8 +355,28 @@ string KanoWorld::get_token() const {
 }
 
 
+void KanoWorld::set_token(const string& token_val, const bool save) {
+    this->token = token_val;
+
+    if (save) {
+        this->save_data();
+    }
+}
+
+
 string KanoWorld::get_expiration_date() const {
     return this->expiration_date;
+}
+
+/**
+ * \warning Currently does no validation on the date, just blindly sets it
+ */
+void KanoWorld::set_expiration_date(const string& expiration, const bool save) {
+    this->expiration_date = expiration;
+
+    if (save) {
+        this->save_data();
+    }
 }
 
 
@@ -377,9 +399,11 @@ bool KanoWorld::load_data()
 
     const JSON_Object * const data = json_value_get_object(user_data.get());
 
-    this->token = json_object_get_string(data, "token");
-    this->expiration_date = json_object_get_string(data, "duration");
-    this->is_verified_cache = json_object_get_boolean(data, "is_verified");
+    this->set_token(json_object_get_string(data, "token"), false);
+    this->set_expiration_date(json_object_get_string(data, "duration"), false);
+    this->set_account_verified(
+        json_object_get_boolean(data, "is_verified"), false);
+    this->save_data();
 
     return true;
 }
@@ -408,36 +432,40 @@ bool KanoWorld::save_data()
     json_object_set_string(data, "token", this->get_token().c_str());
     json_object_set_string(data, "duration",
                            this->get_expiration_date().c_str());
-    json_object_set_boolean(data, "is_verified", this->is_verified_cache);
+    json_object_set_boolean(data, "is_verified", this->get_account_verified());
 
-    JSON_Status rc = json_serialize_to_file(
+    JSON_Status rc = json_serialize_to_file_pretty(
         user_data.get(), this->data_filename.c_str());
 
     return rc == JSONSuccess;
 }
 
 
-/**
- * \warning Implementation not finalised
- */
-bool KanoWorld::is_account_verified(const bool cache) {
-    this->load_data();
-
-    if (cache && this->is_verified_cache) {
-        return true;
-    }
-
-    this->is_verified_cache = this->is_account_verified_api();
-    this->save_data();
-
+bool KanoWorld::get_account_verified() const {
     return this->is_verified_cache;
 }
 
 
-void KanoWorld::clear_account_verified_cache() {
-    this->load_data();
-    this->is_verified_cache = false;
-    this->save_data();
+void KanoWorld::set_account_verified(const bool verified, const bool save) {
+    this->is_verified_cache = verified;
+
+    if (save) {
+        this->save_data();
+    }
+}
+
+
+/**
+ * \warning Implementation not finalised
+ */
+bool KanoWorld::refresh_account_verified(const bool sticky) {
+    if (sticky && this->get_account_verified()) {
+        return true;
+    }
+
+    this->set_account_verified(this->is_account_verified_api(), true);
+
+    return this->get_account_verified();
 }
 
 

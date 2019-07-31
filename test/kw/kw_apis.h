@@ -122,6 +122,10 @@ TEST(kw, Whoami)
 }
 
 
+/**
+ * KanoWorld::refresh_account_verified() should hit the API to determine if the
+ * account is verified and return the value returned by the API.
+ */
 INSTANTIATE_TEST_CASE_P(
     ParentalConsentAPIResponses,
     ParentalConsentAPI,
@@ -131,8 +135,6 @@ INSTANTIATE_TEST_CASE_P(
         std::make_tuple(false, "users/me/invalid_parental_consent.json")
     )
 );
-
-
 TEST_P(ParentalConsentAPI, TestAccountVerification)
 {
     std::string auth_token = kw.get_token();
@@ -147,11 +149,15 @@ TEST_P(ParentalConsentAPI, TestAccountVerification)
         .Times(1)
         .WillRepeatedly(testing::Return(this->json_data));
 
-    kw.clear_account_verified_cache();
-    EXPECT_EQ(kw.is_account_verified(), this->expected);
+    kw.set_account_verified(false, true);;
+    EXPECT_EQ(kw.refresh_account_verified(), this->expected);
 }
 
 
+/**
+ * KanoWorld::refresh_account_verified() should return false when the
+ * HTTPClient throws an exception (for example, when there is a server error)
+ */
 INSTANTIATE_TEST_CASE_P(
     ParentalConsentExceptions,
     ParentalConsentException,
@@ -160,8 +166,6 @@ INSTANTIATE_TEST_CASE_P(
         HTTPRequestFailedError(400, "Request error")
     )
 );
-
-
 TEST_P(ParentalConsentException, TestAccountVerificationException)
 {
     std::string auth_token = kw.get_token();
@@ -177,11 +181,16 @@ TEST_P(ParentalConsentException, TestAccountVerificationException)
         .WillRepeatedly(
             testing::Throw(this->GetParam()));
 
-    kw.clear_account_verified_cache();
-    EXPECT_EQ(kw.is_account_verified(), false);
+    kw.set_account_verified(false, true);;
+    EXPECT_EQ(kw.refresh_account_verified(), false);
 }
 
 
+/**
+ * KanoWorld::refresh_account_verified() should start to use the cache when it
+ * has seen that the API has given it verification when the sticky parameter is
+ * set.
+ */
 TEST_F(ParentalConsentCache, TestVerificationCache) {
     std::string auth_token = kw.get_token();
 
@@ -203,14 +212,18 @@ TEST_F(ParentalConsentCache, TestVerificationCache) {
         .WillOnce(testing::Throw(SessionInitError("InitError")))
         .WillRepeatedly(testing::Return(success));
 
-    kw.clear_account_verified_cache();
-    EXPECT_EQ(kw.is_account_verified(), false);
-    EXPECT_EQ(kw.is_account_verified(), true);
-    EXPECT_EQ(kw.is_account_verified(), true);
-    EXPECT_EQ(kw.is_account_verified(), true);
+    kw.set_account_verified(false, true);;
+    EXPECT_EQ(kw.refresh_account_verified(true), false);
+    EXPECT_EQ(kw.refresh_account_verified(true), true);
+    EXPECT_EQ(kw.refresh_account_verified(true), true);
+    EXPECT_EQ(kw.refresh_account_verified(true), true);
 }
 
 
+/**
+ * KanoWorld::refresh_account_verified() should never use the cache when the
+ * sticky parameter is set.
+ */
 TEST_F(ParentalConsentCache, TestVerificationCacheDisabled) {
     std::string auth_token = kw.get_token();
 
@@ -232,16 +245,22 @@ TEST_F(ParentalConsentCache, TestVerificationCacheDisabled) {
         .WillOnce(testing::Throw(SessionInitError("InitError")))
         .WillRepeatedly(testing::Return(success));
 
-    kw.clear_account_verified_cache();
+    kw.set_account_verified(false, true);;
 
-    EXPECT_EQ(kw.is_account_verified(false), false);
-    EXPECT_EQ(kw.is_account_verified(false), true);
-    EXPECT_EQ(kw.is_account_verified(false), false);
-    EXPECT_EQ(kw.is_account_verified(false), true);
-    EXPECT_EQ(kw.is_account_verified(false), true);
+    EXPECT_EQ(kw.refresh_account_verified(false), false);
+    EXPECT_EQ(kw.refresh_account_verified(false), true);
+    EXPECT_EQ(kw.refresh_account_verified(false), false);
+    EXPECT_EQ(kw.refresh_account_verified(false), true);
+    EXPECT_EQ(kw.refresh_account_verified(false), true);
 }
 
 
+/**
+ * KanoWorld::refresh_account_verified() should start to use the cache when it
+ * has seen that the API has given it verification when the sticky parameter is
+ * set but revert to querying the API directly when called after with this
+ * value removed.
+ */
 TEST_F(ParentalConsentCache, TestVerificationMixCache) {
     std::shared_ptr<JSON_Value> fail = load_response(
         "users/me/no_parental_consent.json");
@@ -264,12 +283,12 @@ TEST_F(ParentalConsentCache, TestVerificationMixCache) {
         .WillOnce(testing::Return(success))
         .WillOnce(testing::Return(fail));
 
-    kw.clear_account_verified_cache();
-    EXPECT_EQ(kw.is_account_verified(true), false);
-    EXPECT_EQ(kw.is_account_verified(true), true);
-    EXPECT_EQ(kw.is_account_verified(true), true);
-    EXPECT_EQ(kw.is_account_verified(true), true);
-    EXPECT_EQ(kw.is_account_verified(false), false);
+    kw.set_account_verified(false, true);;
+    EXPECT_EQ(kw.refresh_account_verified(true), false);
+    EXPECT_EQ(kw.refresh_account_verified(true), true);
+    EXPECT_EQ(kw.refresh_account_verified(true), true);
+    EXPECT_EQ(kw.refresh_account_verified(true), true);
+    EXPECT_EQ(kw.refresh_account_verified(false), false);
 }
 
 
