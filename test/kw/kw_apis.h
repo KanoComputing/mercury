@@ -33,6 +33,29 @@ using Mercury::KanoWorld::KanoWorld;
 using testing::Eq;
 
 
+/**
+ * Ensure that the API url is correctly set when no argument is passed to the
+ * constructor
+ */
+TEST(kw, DefaultConstructor) {
+    KanoWorld kw;
+
+    EXPECT_EQ(kw.api_url, "https://worldapi.kano.me");
+}
+
+
+/**
+ * Ensure that the API url is correctly set when an argument is passed to the
+ * constructor
+ */
+TEST(kw, URLConstructor) {
+    std::string url = "sometesturl";
+    KanoWorld kw(url);
+
+    EXPECT_EQ(kw.api_url, url);
+}
+
+
 TEST(kw, RenewTokenMalformed)
 {
     KanoWorld kw(KanoWorldAPI::URL);

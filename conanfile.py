@@ -5,8 +5,8 @@ class MercuryConan(ConanFile):
     name = "Mercury"
     version = "1.0"
     license = "GPLv2"
-    url = ""
-    description = ""
+    url = "https://github.com/KanoComputing/mercury"
+    description = "A cross-platform base layer for configuring the system"
     settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
@@ -15,7 +15,6 @@ class MercuryConan(ConanFile):
         "shared": False,
         "OpenSSL:no_threads": not tools.os_info.is_macos
     }
-    generators = "cmake", "qmake"
     exports_sources = [
         "CMakeLists.txt",
         "src/*.cpp",
@@ -28,6 +27,7 @@ class MercuryConan(ConanFile):
         "gtest/1.8.1@bincrafters/stable",
         "parson/0.1.0@bincrafters/stable",
         "Poco/1.9.2@pocoproject/stable",
+        "yaml-cpp/0.6.2@bincrafters/stable",
     )
     generators = "cmake"
 
