@@ -18,6 +18,7 @@
 #include "kes_dashboard_live_tiles_client/TestTileCache.h"
 #include "kes_dashboard_live_tiles_client/TestTileManager.h"
 
+#include "kw/apiconfig.h"
 #include "kw/kw_apis.h"
 #include "kw/kw_persistence.h"
 #include "kw/kw_server_data.h"

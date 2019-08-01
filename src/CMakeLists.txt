@@ -12,6 +12,7 @@ add_library(mercury_obj OBJECT
     kes_dashboard_live_tiles_client/TileCache.cpp
     kes_dashboard_live_tiles_client/TileFactory.cpp
     kes_dashboard_live_tiles_client/TileManager.cpp
+    kw/APIConfig.cpp
     kw/kw.cpp
     theme/theme.cpp
     utils/Filesystem.cpp
@@ -50,10 +51,16 @@ target_include_directories(mercury_static PUBLIC
 )
 
 target_link_libraries(mercury_shared
-    PUBLIC CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
+    PUBLIC CONAN_PKG::parson
+           CONAN_PKG::Poco
+           CONAN_PKG::yaml-cpp
+           ${OPENSSL_LIBRARIES}
 )
 target_link_libraries(mercury_static
-    PUBLIC CONAN_PKG::parson CONAN_PKG::Poco ${OPENSSL_LIBRARIES}
+    PUBLIC CONAN_PKG::parson
+           CONAN_PKG::Poco
+           CONAN_PKG::yaml-cpp
+           ${OPENSSL_LIBRARIES}
 )
 
 

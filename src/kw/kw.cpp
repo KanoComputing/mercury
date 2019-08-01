@@ -43,7 +43,7 @@ KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
         http_client(client),
         data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
         token(""),
-        api_url(url),
+        api_url(init_api_url(url)),
         expiration_date(""),
         is_verified_cache(false) {
     load_data();
@@ -510,4 +510,13 @@ bool KanoWorld::is_account_verified_api() const {
     }
 
     return static_cast<bool>(verified);
+}
+
+
+string KanoWorld::init_api_url(const std::string& url) const {
+    if (!url.empty()) {
+        return url;
+    }
+
+    return APIConfig().get_api_url();
 }

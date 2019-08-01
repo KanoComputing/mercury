@@ -17,7 +17,9 @@
 
 #include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
+#include "mercury/kw/APIConfig.h"
 
+using Mercury::KanoWorld::APIConfig;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
@@ -39,7 +41,7 @@ class KanoWorld {
      * \param client    (Optional) The HTTP client to use for requests
      */
     KanoWorld(
-        const string& url = "https://worldapi.kano.me",
+        const string& url = "",
         shared_ptr<Mercury::HTTP::IHTTPClient> client =
             make_shared<Mercury::HTTP::HTTPClient>());
 
@@ -115,6 +117,10 @@ class KanoWorld {
     string parse_token(const shared_ptr<JSON_Value> res) const;
     string parse_expiration_date(const shared_ptr<JSON_Value> res) const;
     bool save_data();
+    /**
+     * \brief Helper for initialising the api_url member variable
+     */
+    std::string init_api_url(const std::string& url) const;
 
  private:
     shared_ptr<Mercury::HTTP::IHTTPClient> http_client;
