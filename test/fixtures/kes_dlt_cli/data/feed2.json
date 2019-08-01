@@ -8,9 +8,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01567313837806327754/cover.png",
             "openUrl": "https://world.kano.me/creation/musical-potions_1391",
-            "fallbackUrl": "https://world.kano.me/creation/musical-potions_1391",
-            "created": "2018-12-19T11:32:49.108218",
-            "featured": true
+            "fallbackUrl": "https://world.kano.me/creation/musical-potions_1391"
         },
         {
             "id": "01521734738379806642",
@@ -20,9 +18,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01521734738379806642/cover.png",
             "openUrl": "https://world.kano.me/creation/mini-treats",
-            "fallbackUrl": "https://world.kano.me/creation/mini-treats",
-            "created": "2018-10-17T14:15:17.047009",
-            "featured": true
+            "fallbackUrl": "https://world.kano.me/creation/mini-treats"
         },
         {
             "id": "01508199509388170323",
@@ -32,9 +28,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01508199509388170323/cover.png",
             "openUrl": "https://world.kano.me/creation/unusual-relics",
-            "fallbackUrl": "https://world.kano.me/creation/unusual-relics",
-            "created": "2018-09-28T22:03:12.015011",
-            "featured": true
+            "fallbackUrl": "https://world.kano.me/creation/unusual-relics"
         },
         {
             "id": "01567509680178091020",
@@ -44,9 +38,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01567509680178091020/cover.png",
             "openUrl": "https://world.kano.me/creation/levitate-candles",
-            "fallbackUrl": "https://world.kano.me/creation/levitate-candles",
-            "created": "2018-12-19T18:01:55.33829",
-            "featured": true
+            "fallbackUrl": "https://world.kano.me/creation/levitate-candles"
         },
         {
             "id": "01509646158811655379",
@@ -56,9 +48,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01509646158811655379/cover.png",
             "openUrl": "https://world.kano.me/creation/halloween-pumpkins",
-            "fallbackUrl": "https://world.kano.me/creation/halloween-pumpkins",
-            "created": "2018-09-30T21:57:26.065727",
-            "featured": true
+            "fallbackUrl": "https://world.kano.me/creation/halloween-pumpkins"
         },
         {
             "id": "01510262517136384264",
@@ -68,9 +58,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01510262517136384264/cover.png",
             "openUrl": "https://world.kano.me/creation/midnight-snack-for-ratty",
-            "fallbackUrl": "https://world.kano.me/creation/midnight-snack-for-ratty",
-            "created": "2018-10-01T18:22:01.703639",
-            "featured": true
+            "fallbackUrl": "https://world.kano.me/creation/midnight-snack-for-ratty"
         },
         {
             "id": "01724135382113038776",
@@ -80,9 +68,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01724135382113038776/cover.png",
             "openUrl": "https://world.kano.me/creation/aa_86034",
-            "fallbackUrl": "https://world.kano.me/creation/aa_86034",
-            "created": "2019-07-23T20:29:13.991259",
-            "featured": false
+            "fallbackUrl": "https://world.kano.me/creation/aa_86034"
         },
         {
             "id": "01724131811292690870",
@@ -92,9 +78,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01724131811292690870/cover.png",
             "openUrl": "https://world.kano.me/creation/water-bubbles_86033",
-            "fallbackUrl": "https://world.kano.me/creation/water-bubbles_86033",
-            "created": "2019-07-23T20:22:08.316686",
-            "featured": false
+            "fallbackUrl": "https://world.kano.me/creation/water-bubbles_86033"
         },
         {
             "id": "01724130861030923700",
@@ -104,9 +88,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01724130861030923700/cover.png",
             "openUrl": "https://world.kano.me/creation/lime-cake_86032",
-            "fallbackUrl": "https://world.kano.me/creation/lime-cake_86032",
-            "created": "2019-07-23T20:20:15.036929",
-            "featured": false
+            "fallbackUrl": "https://world.kano.me/creation/lime-cake_86032"
         },
         {
             "id": "01724130860326280626",
@@ -116,9 +98,7 @@
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01724130860326280626/cover.png",
             "openUrl": "https://world.kano.me/creation/lime-cake",
-            "fallbackUrl": "https://world.kano.me/creation/lime-cake",
-            "created": "2019-07-23T20:20:14.952554",
-            "featured": false
+            "fallbackUrl": "https://world.kano.me/creation/lime-cake"
         }
     ]
 }

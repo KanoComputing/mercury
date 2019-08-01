@@ -8,9 +8,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01508155954225510468/cover.png",
             "openUrl": "https: //world.kano.me/creation/aguamenti",
-            "fallbackUrl": "https: //world.kano.me/creation/aguamenti",
-            "created": "2018-09-28T20: 36: 39.835477",
-            "featured": true
+            "fallbackUrl": "https: //world.kano.me/creation/aguamenti"
         },
         {
             "id": "01508156874296423493",
@@ -20,9 +18,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01508156874296423493/cover.png",
             "openUrl": "https: //world.kano.me/creation/aguamenti-1",
-            "fallbackUrl": "https: //world.kano.me/creation/aguamenti-1",
-            "created": "2018-09-28T20: 38: 29.516766",
-            "featured": true
+            "fallbackUrl": "https: //world.kano.me/creation/aguamenti-1"
         },
         {
             "id": "01567315872974902219",
@@ -32,9 +28,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01567315872974902219/cover.png",
             "openUrl": "https: //world.kano.me/creation/carve-the-pumpkin",
-            "fallbackUrl": "https: //world.kano.me/creation/carve-the-pumpkin",
-            "created": "2018-12-19T11: 36: 51.719856",
-            "featured": true
+            "fallbackUrl": "https: //world.kano.me/creation/carve-the-pumpkin"
         },
         {
             "id": "01510262517136384264",
@@ -44,9 +38,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01510262517136384264/cover.png",
             "openUrl": "https: //world.kano.me/creation/midnight-snack-for-ratty",
-            "fallbackUrl": "https: //world.kano.me/creation/midnight-snack-for-ratty",
-            "created": "2018-10-01T18: 22: 01.703639",
-            "featured": true
+            "fallbackUrl": "https: //world.kano.me/creation/midnight-snack-for-ratty"
         },
         {
             "id": "01508125513678345272",
@@ -56,9 +48,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01508125513678345272/cover.png",
             "openUrl": "https: //world.kano.me/creation/purple-haze",
-            "fallbackUrl": "https: //world.kano.me/creation/purple-haze",
-            "created": "2018-09-28T19: 36: 11.039565",
-            "featured": true
+            "fallbackUrl": "https: //world.kano.me/creation/purple-haze"
         },
         {
             "id": "01509653606620490965",
@@ -68,9 +58,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01509653606620490965/cover.png",
             "openUrl": "https: //world.kano.me/creation/vibrant-vapour",
-            "fallbackUrl": "https: //world.kano.me/creation/vibrant-vapour",
-            "created": "2018-09-30T22: 12: 13.913079",
-            "featured": true
+            "fallbackUrl": "https: //world.kano.me/creation/vibrant-vapour"
         },
         {
             "id": "01725258580367536533",
@@ -80,9 +68,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725258580367536533/cover.png",
             "openUrl": "https: //world.kano.me/creation/jazz",
-            "fallbackUrl": "https: //world.kano.me/creation/jazz",
-            "created": "2019-07-25T09: 40: 49.657457",
-            "featured": false
+            "fallbackUrl": "https: //world.kano.me/creation/jazz"
         },
         {
             "id": "01725249951434305940",
@@ -92,9 +78,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725249951434305940/cover.png",
             "openUrl": "https: //world.kano.me/creation/jasmine-w",
-            "fallbackUrl": "https: //world.kano.me/creation/jasmine-w",
-            "created": "2019-07-25T09: 23: 41.008438",
-            "featured": false
+            "fallbackUrl": "https: //world.kano.me/creation/jasmine-w"
         },
         {
             "id": "01725246008931152275",
@@ -104,9 +88,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725246008931152275/cover.png",
             "openUrl": "https: //world.kano.me/creation/jasmine_86303",
-            "fallbackUrl": "https: //world.kano.me/creation/jasmine_86303",
-            "created": "2019-07-25T09: 15: 51.025155",
-            "featured": false
+            "fallbackUrl": "https: //world.kano.me/creation/jasmine_86303"
         },
         {
             "id": "01725244347449897361",
@@ -116,9 +98,7 @@
             "app": "make-apps",
             "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725244347449897361/cover.png",
             "openUrl": "https: //world.kano.me/creation/gg_86302",
-            "fallbackUrl": "https: //world.kano.me/creation/gg_86302",
-            "created": "2019-07-25T09: 12: 32.96154",
-            "featured": false
+            "fallbackUrl": "https: //world.kano.me/creation/gg_86302"
         }
     ]
 }

@@ -7,6 +7,7 @@
             "username": "FoxBear",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01509646158811655379/cover.png",
+            "coverPath": "01509646158811655379/cover.png",
             "openUrl": "https://world.kano.me/creation/halloween-pumpkins",
             "fallbackUrl": "https://world.kano.me/creation/halloween-pumpkins"
         },
@@ -17,6 +18,7 @@
             "username": "JamesPhelps",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01567330252407969755/cover.png",
+            "coverPath": "01567330252407969755/cover.png",
             "openUrl": "https://world.kano.me/creation/rainbow-fireworks_1395",
             "fallbackUrl": "https://world.kano.me/creation/rainbow-fireworks_1395"
         },
@@ -27,6 +29,7 @@
             "username": "TyrantLizardRex",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01638455600532709598/cover.png",
+            "coverPath": "01638455600532709598/cover.png",
             "openUrl": "https://world.kano.me/creation/never-ending-death-eaters",
             "fallbackUrl": "https://world.kano.me/creation/never-ending-death-eaters"
         },
@@ -37,6 +40,7 @@
             "username": "OliverPhelps",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01567521674293678113/cover.png",
+            "coverPath": "01567521674293678113/cover.png",
             "openUrl": "https://world.kano.me/creation/lumos-remix",
             "fallbackUrl": "https://world.kano.me/creation/lumos-remix"
         },
@@ -47,6 +51,7 @@
             "username": "TyrantLizardRex",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01510262517136384264/cover.png",
+            "coverPath": "01510262517136384264/cover.png",
             "openUrl": "https://world.kano.me/creation/midnight-snack-for-ratty",
             "fallbackUrl": "https://world.kano.me/creation/midnight-snack-for-ratty"
         },
@@ -57,6 +62,7 @@
             "username": "FoxBear",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01508142310473362495/cover.png",
+            "coverPath": "01508142310473362495/cover.png",
             "openUrl": "https://world.kano.me/creation/noisy-mandrakes",
             "fallbackUrl": "https://world.kano.me/creation/noisy-mandrakes"
         },
@@ -67,6 +73,7 @@
             "username": "asgtimothydog",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723118778789295937/cover.png",
+            "coverPath": "01723118778789295937/cover.png",
             "openUrl": "https://world.kano.me/creation/hoot_85644",
             "fallbackUrl": "https://world.kano.me/creation/hoot_85644"
         },
@@ -77,6 +84,7 @@
             "username": "lunalu",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723098892713157439/cover.png",
+            "coverPath": "01723098892713157439/cover.png",
             "openUrl": "https://world.kano.me/creation/just-vomit-beans-please",
             "fallbackUrl": "https://world.kano.me/creation/just-vomit-beans-please"
         },
@@ -87,6 +95,7 @@
             "username": "lunalu",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723092448592880446/cover.png",
+            "coverPath": "01723092448592880446/cover.png",
             "openUrl": "https://world.kano.me/creation/run-away-from-bludgers",
             "fallbackUrl": "https://world.kano.me/creation/run-away-from-bludgers"
         },
@@ -97,6 +106,7 @@
             "username": "7TECS_ABELA2019",
             "app": "make-apps",
             "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723087041639750461/cover.png",
+            "coverPath": "01723087041639750461/cover.png",
             "openUrl": "https://world.kano.me/creation/changing-puffs-to-random-colours-x-10",
             "fallbackUrl": "https://world.kano.me/creation/changing-puffs-to-random-colours-x-10"
         }

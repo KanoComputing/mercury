@@ -27,8 +27,8 @@ using std::endl;
 using std::string;
 
 
-Tile::Tile():
-    Tile("", "", "", "", "", "", "", "") {
+Tile::Tile(const shared_ptr<IHTTPClient> httpClient):
+    Tile("", "", "", "", "", "", "", "", "", httpClient) {
     // Empty constructor.
 }
 
@@ -37,10 +37,11 @@ Tile::Tile(const string& id, const string& cover,
            const string& title, const string& description,
            const string& username, const string& app,
            const string& openUrl, const string& fallbackUrl,
-           const string& coverPath):
+           const string& coverPath, const shared_ptr<IHTTPClient> httpClient):
     id(id), cover(cover), title(title),
     description(description), username(username), app(app),
-    openUrl(openUrl), fallbackUrl(fallbackUrl), coverPath(coverPath) {
+    openUrl(openUrl), fallbackUrl(fallbackUrl), coverPath(coverPath),
+    httpClient(httpClient) {
     // Empty constructor.
 }
 
@@ -117,10 +118,8 @@ bool Tile::download(const string& baseDir) {
         return false;
     }
 
-    HTTPClient httpClient;
-
     // Download the cover.
-    if (!httpClient.DL(this->cover, this->coverPath)) {
+    if (!this->httpClient->DL(this->cover, this->coverPath)) {
         cerr << "Failed to download: URL: " << this->cover
              << " to " << this->coverPath << endl;
         return false;
