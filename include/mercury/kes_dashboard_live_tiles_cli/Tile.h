@@ -14,22 +14,29 @@
 
 #include <parson.h>
 
+#include <memory>
 #include <string>
 
+#include "mercury/_http/http_client.h"
+#include "mercury/_http/http_client_interface.h"
 #include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 
 
 class Tile : public ITile {
  public:  // Constructors & destructors.
-    Tile();
+    explicit Tile(
+        const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>());
 
     Tile(const string& id, const string& cover,
          const string& title, const string& description,
          const string& username, const string& app,
          const string& openUrl, const string& fallbackUrl,
-         const string& coverPath = "");
+         const string& coverPath = "",
+         const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>());
 
     ~Tile();
 
@@ -61,6 +68,7 @@ class Tile : public ITile {
     string app;
     string openUrl;
     string fallbackUrl;
+    const shared_ptr<IHTTPClient> httpClient;
 };
 
 #endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_TILE_H_

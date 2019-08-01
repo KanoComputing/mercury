@@ -13,7 +13,6 @@
 
 
 #include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <parson.h>
 
 #include <string>

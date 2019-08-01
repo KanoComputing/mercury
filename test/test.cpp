@@ -14,7 +14,7 @@
 // #include "kes_dashboard_live_tiles_cli/LiveTestTileManager.h"
 #include "kes_dashboard_live_tiles_cli/TestDefaultTileLoader.h"
 #include "kes_dashboard_live_tiles_cli/TestOnlineLoader.h"
-// #include "kes_dashboard_live_tiles_cli/TestTile.h"
+#include "kes_dashboard_live_tiles_cli/TestTile.h"
 #include "kes_dashboard_live_tiles_cli/TestTileCache.h"
 #include "kes_dashboard_live_tiles_cli/TestTileManager.h"
 

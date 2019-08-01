@@ -35,26 +35,23 @@ using ::testing::Test;
 class KesDltResponsesFixture : public Test {
  public:
     static void SetUpTestCase() {
-        rawResponses["empty_feed1"] =
-            KesDltResponsesFixture::loadRawResponse("empty_feed1.json");
-        rawResponses["feed1"] =
-            KesDltResponsesFixture::loadRawResponse("feed1.json");
-        rawResponses["feed2"] =
-            KesDltResponsesFixture::loadRawResponse("feed2.json");
-        rawResponses["feed3"] =
-            KesDltResponsesFixture::loadRawResponse("feed3.json");
-        rawResponses["invalid_feed1"] =
-            KesDltResponsesFixture::loadRawResponse("invalid_feed1.json");
-        rawResponses["invalid_feed2"] =
-            KesDltResponsesFixture::loadRawResponse("invalid_feed2.json");
-        rawResponses["malformed_feed1"] =
-            KesDltResponsesFixture::loadRawResponse("malformed_feed1.json");
+        rawResponses["empty_feed1"] = loadData("empty_feed1.json");
+        rawResponses["feed1"] = loadData("feed1.json");
+        rawResponses["feed2"] = loadData("feed2.json");
+        rawResponses["feed3"] = loadData("feed3.json");
+        rawResponses["invalid_feed1"] = loadData("invalid_feed1.json");
+        rawResponses["invalid_feed2"] = loadData("invalid_feed2.json");
+        rawResponses["malformed_feed1"] = loadData("malformed_feed1.json");
 
         for (const auto &keyValue : rawResponses) {
-            responses[keyValue.first] =
-                KesDltResponsesFixture::getResponse(keyValue.second);
-            tileCounts[keyValue.first] =
-                KesDltResponsesFixture::getTileCount(responses[keyValue.first]);
+            responses[keyValue.first] = parseJson(keyValue.second);
+            tileCounts[keyValue.first] = getTileCount(responses[keyValue.first]);  // NOLINT
+        }
+
+        rawCaches["tile_cache1"] = loadData("tile_cache1.json");
+
+        for (const auto &keyValue : rawCaches) {
+            caches[keyValue.first] = parseJson(keyValue.second);
         }
     }
 
@@ -64,9 +61,8 @@ class KesDltResponsesFixture : public Test {
     virtual void TearDown() {}
 
  private:
-    static string loadRawResponse(const string& filename) {
-        const string path = string(CMAKE_PROJ_BASE_DIR) +
-            "/test/fixtures/kes_dlt_cli/data/" + filename;
+    static string loadData(const string& filename) {
+        const string path = dataDir + "/" + filename;
 
         // TODO: Add this to mercury/utils/filesystem.
         // Read raw data file in.
@@ -78,7 +74,7 @@ class KesDltResponsesFixture : public Test {
         return buffer.str();
     }
 
-    static shared_ptr<JSON_Value> getResponse(const string& data) {
+    static shared_ptr<JSON_Value> parseJson(const string& data) {
         return shared_ptr<JSON_Value>(
             json_parse_string(data.c_str()),
             json_value_free);
@@ -98,10 +94,16 @@ class KesDltResponsesFixture : public Test {
     }
 
  protected:
+    static string dataDir;
     static map<string, string> rawResponses;
     static map<string, shared_ptr<JSON_Value>> responses;
     static map<string, int> tileCounts;
+    static map<string, string> rawCaches;
+    static map<string, shared_ptr<JSON_Value>> caches;
 };
+
+string KesDltResponsesFixture::dataDir =  // NOLINT
+    string(CMAKE_PROJ_BASE_DIR) + "/test/fixtures/kes_dlt_cli/data/";
 
 map<string, string> KesDltResponsesFixture::rawResponses =
     map<string, string>();
@@ -112,5 +114,10 @@ map<string, shared_ptr<JSON_Value>> KesDltResponsesFixture::responses =
 map<string, int> KesDltResponsesFixture::tileCounts =
     map<string, int>();
 
+map<string, string> KesDltResponsesFixture::rawCaches =
+    map<string, string>();
+
+map<string, shared_ptr<JSON_Value>> KesDltResponsesFixture::caches =
+    map<string, shared_ptr<JSON_Value>>();
 
 #endif  // TEST_FIXTURES_KES_DLT_CLI_KESDLTRESPONSESFIXTURE_H_
