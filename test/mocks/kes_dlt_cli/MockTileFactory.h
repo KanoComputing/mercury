@@ -19,42 +19,50 @@
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
 
-using std::shared_ptr;
-using std::string;
 
-using KESDLTC::ITile;
-using KESDLTC::ITileFactory;
+namespace KESDLTC {
+namespace test {
 
-
-class MockTileFactory : public ITileFactory {
+class MockTileFactory : public KESDLTC::ITileFactory {
  public:  // ITileFactory Methods.
-    MOCK_CONST_METHOD0(create, shared_ptr<ITile>());
+    MOCK_CONST_METHOD0(create, std::shared_ptr<KESDLTC::ITile>());
 
     /**
      * \brief Google Mock doesn't permit optional arguments so simply implement
      *        the mocked function signature and offload to the mocked
      *        implementation (create_impl)
      */
-    virtual shared_ptr<ITile> create(
-        const string& id, const string& cover,
-        const string& title, const string& description,
-        const string& username, const string& app,
-        const string& openUrl, const string& fallbackUrl,
-        const string& coverPath = "") const {
+    virtual std::shared_ptr<KESDLTC::ITile> create(
+        const std::string& id,
+        const std::string& cover,
+        const std::string& title,
+        const std::string& description,
+        const std::string& username,
+        const std::string& app,
+        const std::string& openUrl,
+        const std::string& fallbackUrl,
+        const std::string& coverPath = "") const {
         // NOLINT
         return this->create_impl(
-            id, cover, title, description, username, app, openUrl, fallbackUrl,
-            coverPath);
+            id, cover, title, description, username, app,
+            openUrl, fallbackUrl, coverPath);
     }
 
     MOCK_CONST_METHOD9(
         create_impl,
-        shared_ptr<ITile>(
-            const string& id, const string& cover,
-            const string& title, const string& description,
-            const string& username, const string& app,
-            const string& openUrl, const string& fallbackUrl,
-            const string& coverPath));
+        std::shared_ptr<ITile>(
+            const std::string& id,
+            const std::string& cover,
+            const std::string& title,
+            const std::string& description,
+            const std::string& username,
+            const std::string& app,
+            const std::string& openUrl,
+            const std::string& fallbackUrl,
+            const std::string& coverPath));
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_MOCKS_KES_DLT_CLI_MOCKTILEFACTORY_H_

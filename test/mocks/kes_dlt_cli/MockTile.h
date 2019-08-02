@@ -19,29 +19,31 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 
-using std::string;
 
-using KESDLTC::ITile;
+namespace KESDLTC {
+namespace test {
 
-
-class MockTile : public ITile {
+class MockTile : public KESDLTC::ITile {
  public:  // ISerialisable Methods.
     MOCK_METHOD1(initialise, bool(JSON_Value* serialisedData));
     MOCK_CONST_METHOD0(serialise, JSON_Value*());
 
  public:  // IDownloadable Methods.
-    MOCK_METHOD1(download, bool(const string& baseDir));
+    MOCK_METHOD1(download, bool(const std::string& baseDir));
 
  public:  // ITile Methods.
-    MOCK_CONST_METHOD0(getId, string());
-    MOCK_CONST_METHOD0(getCover, string());
-    MOCK_CONST_METHOD0(getTitle, string());
-    MOCK_CONST_METHOD0(getDescription, string());
-    MOCK_CONST_METHOD0(getUsername, string());
-    MOCK_CONST_METHOD0(getApp, string());
-    MOCK_CONST_METHOD0(getOpenUrl, string());
-    MOCK_CONST_METHOD0(getFallbackUrl, string());
-    MOCK_CONST_METHOD0(getCoverPath, string());
+    MOCK_CONST_METHOD0(getId, std::string());
+    MOCK_CONST_METHOD0(getCover, std::string());
+    MOCK_CONST_METHOD0(getTitle, std::string());
+    MOCK_CONST_METHOD0(getDescription, std::string());
+    MOCK_CONST_METHOD0(getUsername, std::string());
+    MOCK_CONST_METHOD0(getApp, std::string());
+    MOCK_CONST_METHOD0(getOpenUrl, std::string());
+    MOCK_CONST_METHOD0(getFallbackUrl, std::string());
+    MOCK_CONST_METHOD0(getCoverPath, std::string());
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_MOCKS_KES_DLT_CLI_MOCKTILE_H_

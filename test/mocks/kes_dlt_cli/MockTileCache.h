@@ -16,27 +16,29 @@
 
 #include <list>
 #include <memory>
-#include <string>
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileCache.h"
 
-using std::list;
-using std::shared_ptr;
-using std::string;
 
-using KESDLTC::internal::ITileCache;
-using KESDLTC::ITile;
+namespace KESDLTC {
+namespace test {
 
-
-class MockTileCache : public ITileCache {
+class MockTileCache : public KESDLTC::internal::ITileCache {
  public:  // ITileLoader Methods.
-    MOCK_METHOD0(getTiles, list<shared_ptr<ITile>>());
+    MOCK_METHOD0(
+        getTiles,
+        std::list<std::shared_ptr<KESDLTC::ITile>>());
 
  public:  // ITileCache Methods.
-    MOCK_METHOD1(update, void(const list<shared_ptr<ITile>>& tiles));
+    MOCK_METHOD1(
+        update,
+        void(const std::list<std::shared_ptr<KESDLTC::ITile>>& tiles));
     MOCK_CONST_METHOD0(getLastUpdated, double());
     MOCK_CONST_METHOD0(isCacheEmpty, bool());
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_MOCKS_KES_DLT_CLI_MOCKTILECACHE_H_

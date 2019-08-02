@@ -19,15 +19,14 @@
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 
-using std::shared_ptr;
-using std::string;
 
-using ::testing::WithParamInterface;
-
+namespace KESDLTC {
+namespace test {
 
 class KesDltValidResponsesFixture :
     public KesDltResponsesFixture,
-    public WithParamInterface<string> {
+    public ::testing::WithParamInterface<std::string> {
+ // NOLINT
  public:
     virtual void SetUp() {
         this->response = this->responses[this->GetParam()];
@@ -36,8 +35,11 @@ class KesDltValidResponsesFixture :
     virtual void TearDown() {}
 
  protected:
-    shared_ptr<JSON_Value> response;
+    std::shared_ptr<JSON_Value> response;
     int tileCount;
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_FIXTURES_KES_DLT_CLI_KESDLTVALIDRESPONSESFIXTURE_H_

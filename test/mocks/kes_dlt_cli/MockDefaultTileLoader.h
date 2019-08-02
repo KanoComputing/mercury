@@ -16,22 +16,20 @@
 
 #include <list>
 #include <memory>
-#include <string>
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileLoader.h"
 
-using std::list;
-using std::shared_ptr;
-using std::string;
 
-using KESDLTC::internal::ITileLoader;
-using KESDLTC::ITile;
+namespace KESDLTC {
+namespace test {
 
-
-class MockDefaultTileLoader : public ITileLoader {
+class MockDefaultTileLoader : public KESDLTC::internal::ITileLoader {
  public:  // ITileLoader Methods.
-    MOCK_METHOD0(getTiles, list<shared_ptr<ITile>>());
+    MOCK_METHOD0(getTiles, std::list<std::shared_ptr<KESDLTC::ITile>>());
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_MOCKS_KES_DLT_CLI_MOCKDEFAULTTILELOADER_H_
