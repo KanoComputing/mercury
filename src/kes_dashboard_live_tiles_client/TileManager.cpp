@@ -28,6 +28,15 @@ using std::list;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::internal::DefaultTileLoader;
+using KESDLTC::internal::IOnlineLoader;
+using KESDLTC::internal::ITileCache;
+using KESDLTC::internal::ITileLoader;
+using KESDLTC::internal::OnlineLoader;
+using KESDLTC::internal::TileCache;
+using KESDLTC::ITile;
+using KESDLTC::TileManager;
+
 
 TileManager::TileManager(
     const string& cacheDir,

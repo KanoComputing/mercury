@@ -25,6 +25,9 @@ using std::list;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::internal::ITileLoader;
+using KESDLTC::ITile;
+
 
 class MockDefaultTileLoader : public ITileLoader {
  public:  // ITileLoader Methods.

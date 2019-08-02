@@ -25,6 +25,10 @@
 
 using std::make_shared;
 
+using KESDLTC::internal::CorruptedCacheException;
+using KESDLTC::internal::TileCache;
+
+
 /**
  * Check that for a given cache data TileCache.getTiles() calls
  * for each tile data TileFactory.create() to create a new Tile.

@@ -25,6 +25,9 @@ using std::list;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::internal::IOnlineLoader;
+using KESDLTC::ITile;
+
 
 class MockOnlineLoader : public IOnlineLoader {
  public:  // ITileLoader Methods.

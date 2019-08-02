@@ -22,6 +22,9 @@
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::ITile;
+using KESDLTC::ITileFactory;
+
 
 class MockTileFactory : public ITileFactory {
  public:  // ITileFactory Methods.

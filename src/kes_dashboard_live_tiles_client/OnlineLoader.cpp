@@ -28,6 +28,10 @@ using std::list;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::internal::OnlineLoader;
+using KESDLTC::ITile;
+using KESDLTC::ITileFactory;
+
 
 OnlineLoader::OnlineLoader(
     const string& cacheDir,

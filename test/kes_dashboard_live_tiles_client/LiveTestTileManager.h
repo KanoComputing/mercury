@@ -29,6 +29,9 @@ using std::list;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::ITile;
+using KESDLTC::TileManager;
+
 
 /**
  * This test actually runs live. It will perform an http request to the live

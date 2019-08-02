@@ -24,6 +24,8 @@
 
 using ::testing::Return;
 
+using KESDLTC::internal::DefaultTileLoader;
+
 
 /**
  * Check that DefaultTileLoader.getTiles() calls TileFactory.create() for each

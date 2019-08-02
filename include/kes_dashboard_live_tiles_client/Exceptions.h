@@ -22,6 +22,9 @@ using std::string;
 using std::shared_ptr;
 
 
+namespace KESDLTC {
+namespace internal {
+
 /**
  * \class KESDLTClientException
  * \brief Base exception to throw when there is an error with this client
@@ -85,6 +88,9 @@ class CorruptedCacheException : public KESDLTClientException {
             string("Corrupted KES cache or malformed data: ") + msg,
             data) {}
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
 
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_EXCEPTIONS_H_

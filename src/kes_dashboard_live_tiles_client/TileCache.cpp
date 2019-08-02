@@ -28,6 +28,11 @@ using std::list;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::internal::CorruptedCacheException;
+using KESDLTC::internal::TileCache;
+using KESDLTC::ITile;
+using KESDLTC::ITileFactory;
+
 
 TileCache::TileCache(
     const string& cacheDir,

@@ -41,6 +41,9 @@ using ::testing::StrEq;
 using ::testing::Values;
 using ::testing::Return;
 
+using KESDLTC::internal::BrokenContractsException;
+using KESDLTC::internal::OnlineLoader;
+
 
 INSTANTIATE_TEST_CASE_P(
     Parameterised,
