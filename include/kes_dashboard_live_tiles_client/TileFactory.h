@@ -22,6 +22,8 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace KESDLTC {
+
 class TileFactory : public ITileFactory {
  public:  // Constructors & destructors.
     TileFactory();
@@ -36,5 +38,8 @@ class TileFactory : public ITileFactory {
         const string& openUrl, const string& fallbackUrl,
         const string& coverPath = "") const override;
 };
+
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_TILEFACTORY_H_

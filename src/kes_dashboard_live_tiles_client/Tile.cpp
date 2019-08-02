@@ -26,6 +26,8 @@ using std::cerr;
 using std::endl;
 using std::string;
 
+using KESDLTC::Tile;
+
 
 Tile::Tile(const shared_ptr<IHTTPClient> httpClient):
     Tile("", "", "", "", "", "", "", "", "", httpClient) {

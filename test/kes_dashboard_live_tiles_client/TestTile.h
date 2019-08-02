@@ -34,6 +34,8 @@ using std::string;
 using ::testing::Return;
 using ::testing::StartsWith;
 
+using KESDLTC::Tile;
+
 
 /**
  * Chech that Tile() constructor sets all members.

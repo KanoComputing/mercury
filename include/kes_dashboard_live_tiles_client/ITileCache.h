@@ -22,6 +22,9 @@ using std::list;
 using std::shared_ptr;
 
 
+namespace KESDLTC {
+namespace internal {
+
 class ITileCache : public ITileLoader {
  public:  // Constructors & destructors.
     virtual ~ITileCache() {}
@@ -31,5 +34,9 @@ class ITileCache : public ITileLoader {
     virtual double getLastUpdated() const = 0;
     virtual bool isCacheEmpty() const = 0;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILECACHE_H_

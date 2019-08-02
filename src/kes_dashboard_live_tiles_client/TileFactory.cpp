@@ -19,6 +19,10 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
+using KESDLTC::ITile;
+using KESDLTC::Tile;
+using KESDLTC::TileFactory;
+
 
 TileFactory::TileFactory() {
     // Emptry constructor.

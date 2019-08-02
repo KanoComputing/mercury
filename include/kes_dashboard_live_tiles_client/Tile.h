@@ -27,6 +27,8 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace KESDLTC {
+
 class Tile : public ITile {
  public:  // Constructors & destructors.
     explicit Tile(
@@ -71,5 +73,8 @@ class Tile : public ITile {
     string fallbackUrl;
     const shared_ptr<IHTTPClient> httpClient;
 };
+
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_TILE_H_

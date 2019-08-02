@@ -21,6 +21,9 @@ using std::list;
 using std::shared_ptr;
 
 
+namespace KESDLTC {
+namespace internal {
+
 class ITileLoader {
  public:  // Constructors & destructors.
     virtual ~ITileLoader() {}
@@ -28,5 +31,9 @@ class ITileLoader {
  public:  // Methods.
     virtual list<shared_ptr<ITile>> getTiles() = 0;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILELOADER_H_

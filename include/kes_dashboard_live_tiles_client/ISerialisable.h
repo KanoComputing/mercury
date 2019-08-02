@@ -15,6 +15,9 @@
 #include <parson.h>
 
 
+namespace KESDLTC {
+namespace internal {
+
 class ISerialisable {
  public:  // Constructors & destructors.
     virtual ~ISerialisable() {}
@@ -23,5 +26,9 @@ class ISerialisable {
     virtual bool initialise(JSON_Value* serialisedData) = 0;
     virtual JSON_Value* serialise() const = 0;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ISERIALISABLE_H_

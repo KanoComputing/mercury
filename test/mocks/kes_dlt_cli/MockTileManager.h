@@ -21,6 +21,9 @@
 
 using std::shared_ptr;
 
+using KESDLTC::ITile;
+using KESDLTC::ITileManager;
+
 
 class MockTileManager : public ITileManager {
  public:  // ITileManager Methods.

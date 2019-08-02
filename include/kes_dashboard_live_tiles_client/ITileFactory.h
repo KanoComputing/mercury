@@ -21,6 +21,8 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace KESDLTC {
+
 class ITileFactory {
  public:  // Constructors & destructors.
     virtual ~ITileFactory() {}
@@ -34,5 +36,8 @@ class ITileFactory {
         const string& openUrl, const string& fallbackUrl,
         const string& coverPath = "") const = 0;
 };
+
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILEFACTORY_H__

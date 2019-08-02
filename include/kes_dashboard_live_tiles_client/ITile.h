@@ -20,7 +20,9 @@
 using std::string;
 
 
-class ITile : public ISerialisable, public IDownloadable {
+namespace KESDLTC {
+
+class ITile : public internal::ISerialisable, public internal::IDownloadable {
  public:  // Constructors & destructors.
     virtual ~ITile() {}
 
@@ -37,5 +39,8 @@ class ITile : public ISerialisable, public IDownloadable {
  public:  // Methods.
     virtual string getCoverPath() const = 0;
 };
+
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILE_H__

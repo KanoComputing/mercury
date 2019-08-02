@@ -20,6 +20,10 @@
 using std::list;
 using std::shared_ptr;
 
+using KESDLTC::internal::DefaultTileLoader;
+using KESDLTC::ITile;
+using KESDLTC::ITileFactory;
+
 
 DefaultTileLoader::DefaultTileLoader(
     const shared_ptr<ITileFactory> tileFactory):

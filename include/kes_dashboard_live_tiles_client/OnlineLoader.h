@@ -30,6 +30,10 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace KESDLTC {
+namespace internal {
+
+
 constexpr double ONE_HOUR_MS = 1000 * 60 * 60;  // in milliseconds
 
 
@@ -64,5 +68,9 @@ class OnlineLoader : public IOnlineLoader {
  private:  // Constants.
     const double QUERY_COOLDOWN = ONE_HOUR_MS;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ONLINELOADER_H_

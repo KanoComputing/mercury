@@ -37,6 +37,8 @@ using std::string;
 using ::testing::Eq;
 using ::testing::Return;
 
+using KESDLTC::ITile;
+using KESDLTC::TileManager;
 
 /**
  * Check that TileManager.getCache(false) calls and returns

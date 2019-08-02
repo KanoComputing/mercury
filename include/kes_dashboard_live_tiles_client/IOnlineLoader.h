@@ -15,6 +15,9 @@
 #include "kes_dashboard_live_tiles_client/ITileLoader.h"
 
 
+namespace KESDLTC {
+namespace internal {
+
 class IOnlineLoader : public ITileLoader {
  public:  // Constructors & destructors.
     virtual ~IOnlineLoader() {}
@@ -22,5 +25,9 @@ class IOnlineLoader : public ITileLoader {
  public:  // Methods.
     virtual double getQueryCooldown() const = 0;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_IONLINELOADER_H_

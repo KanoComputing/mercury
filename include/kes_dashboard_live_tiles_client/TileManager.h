@@ -29,13 +29,15 @@ using std::string;
 using std::shared_ptr;
 
 
+namespace KESDLTC {
+
 class TileManager : public ITileManager {
  public:  // Constructors & destructors.
     TileManager(
         const string& cacheDir = "",
-        const shared_ptr<IOnlineLoader> onlineLoader = nullptr,
-        const shared_ptr<ITileCache> tileCache = nullptr,
-        const shared_ptr<ITileLoader> defaultTileLoader = nullptr);
+        const shared_ptr<internal::IOnlineLoader> onlineLoader = nullptr,
+        const shared_ptr<internal::ITileCache> tileCache = nullptr,
+        const shared_ptr<internal::ITileLoader> defaultTileLoader = nullptr);
     ~TileManager();
 
  public:  // ITileManager Methods.
@@ -46,12 +48,15 @@ class TileManager : public ITileManager {
 
  private:  // Members.
     string cacheDir;
-    shared_ptr<IOnlineLoader> onlineLoader;
-    shared_ptr<ITileCache> tileCache;
-    shared_ptr<ITileLoader> defaultTileLoader;
+    shared_ptr<internal::IOnlineLoader> onlineLoader;
+    shared_ptr<internal::ITileCache> tileCache;
+    shared_ptr<internal::ITileLoader> defaultTileLoader;
 
  private:  // Constants.
     const string CACHE_DIRNAME = ".kes-dlt-cli";
 };
+
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_TILEMANAGER_H_

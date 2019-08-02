@@ -27,6 +27,9 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace KESDLTC {
+namespace internal {
+
 class TileCache : public ITileCache {
  public:  // Constructors & destructors.
     explicit TileCache(
@@ -56,5 +59,9 @@ class TileCache : public ITileCache {
     const shared_ptr<ITileFactory> tileFactory;
     const string CACHE_FILE = "cache.json";
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_TILECACHE_H_

@@ -21,6 +21,8 @@
 
 using std::string;
 
+using KESDLTC::ITile;
+
 
 class MockTile : public ITile {
  public:  // ISerialisable Methods.

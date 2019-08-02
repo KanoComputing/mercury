@@ -11,7 +11,6 @@
 #ifndef INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_DEFAULTTILELOADER_H_
 #define INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_DEFAULTTILELOADER_H_
 
-
 #include <list>
 #include <memory>
 #include <string>
@@ -27,10 +26,14 @@ using std::shared_ptr;
 using std::string;
 
 
+namespace KESDLTC {
+namespace internal {
+
 class DefaultTileLoader : public ITileLoader {
  public:  // Constructors & destructors.
     DefaultTileLoader(
-        const shared_ptr<ITileFactory> tileFactory = make_shared<TileFactory>());  // NOLINT
+        const shared_ptr<ITileFactory> tileFactory =
+            make_shared<TileFactory>());
     ~DefaultTileLoader();
 
  public:  // ITileLoader Methods.
@@ -39,5 +42,9 @@ class DefaultTileLoader : public ITileLoader {
  private:  // Members.
     const shared_ptr<ITileFactory> tileFactory;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_DEFAULTTILELOADER_H_

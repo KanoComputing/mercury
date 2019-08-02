@@ -17,6 +17,9 @@
 using std::string;
 
 
+namespace KESDLTC {
+namespace internal {
+
 class IDownloadable {
  public:  // Constructors & destructors.
     virtual ~IDownloadable() {}
@@ -24,5 +27,9 @@ class IDownloadable {
  public:  // Methods.
     virtual bool download(const string& baseDir) = 0;
 };
+
+}  // namespace internal
+}  // namespace KESDLTC
+
 
 #endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_IDOWNLOADABLE_H_
