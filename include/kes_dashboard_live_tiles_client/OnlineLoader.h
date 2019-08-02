@@ -16,12 +16,13 @@
 #include <memory>
 #include <string>
 
+#include "kes_dashboard_live_tiles_client/IOnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/ITile.h"
+#include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "kes_dashboard_live_tiles_client/TileFactory.h"
+
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
-#include "mercury/kes_dashboard_live_tiles_cli/IOnlineLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITileFactory.h"
-#include "mercury/kes_dashboard_live_tiles_cli/TileFactory.h"
 
 using std::list;
 using std::make_shared;

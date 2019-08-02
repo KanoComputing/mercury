@@ -14,11 +14,11 @@
 #include <memory>
 #include <string>
 
-#include "mercury/kes_dashboard_live_tiles_cli/DefaultTileLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/OnlineLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/TileCache.h"
-#include "mercury/kes_dashboard_live_tiles_cli/TileManager.h"
+#include "kes_dashboard_live_tiles_client/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/ITile.h"
+#include "kes_dashboard_live_tiles_client/OnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/TileCache.h"
+#include "kes_dashboard_live_tiles_client/TileManager.h"
 #include "mercury/utils/Time.h"
 
 using std::cerr;

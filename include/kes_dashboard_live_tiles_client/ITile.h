@@ -14,8 +14,8 @@
 
 #include <string>
 
-#include "mercury/kes_dashboard_live_tiles_cli/IDownloadable.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ISerialisable.h"
+#include "kes_dashboard_live_tiles_client/IDownloadable.h"
+#include "kes_dashboard_live_tiles_client/ISerialisable.h"
 
 using std::string;
 

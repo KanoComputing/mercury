@@ -20,7 +20,7 @@
 #include <memory>
 #include <string>
 
-#include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
+#include "kes_dashboard_live_tiles_client/Tile.h"
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 #include "test/fixtures/kes_dlt_cli/TileCacheFixture.h"
