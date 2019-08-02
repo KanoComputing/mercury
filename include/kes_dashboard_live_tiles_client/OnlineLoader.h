@@ -24,11 +24,6 @@
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
 
-using std::list;
-using std::make_shared;
-using std::shared_ptr;
-using std::string;
-
 
 namespace KESDLTC {
 namespace internal {
@@ -40,9 +35,11 @@ constexpr double ONE_HOUR_MS = 1000 * 60 * 60;  // in milliseconds
 class OnlineLoader : public IOnlineLoader {
  public:  // Constructors & destructors.
     OnlineLoader(
-        const string& cacheDir,
-        const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>(),
-        const shared_ptr<ITileFactory> tileFactory = make_shared<TileFactory>());  // NOLINT
+        const std::string& cacheDir,
+        const std::shared_ptr<IHTTPClient> httpClient =
+            std::make_shared<HTTPClient>(),
+        const std::shared_ptr<ITileFactory> tileFactory =
+            std::make_shared<TileFactory>());
 
     ~OnlineLoader();
 
@@ -51,7 +48,7 @@ class OnlineLoader : public IOnlineLoader {
      * \throws  BrokenContractsException
      * \throws  DownloadError
      */
-    list<shared_ptr<ITile>> getTiles() override;
+    std::list<std::shared_ptr<ITile>> getTiles() override;
 
  public:  // IOnlineLoader Methods.
     double getQueryCooldown() const override;
@@ -61,9 +58,9 @@ class OnlineLoader : public IOnlineLoader {
     static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kessandbox.co.uk/";  // NOLINT
 
  private:  // Members.
-    const shared_ptr<IHTTPClient> httpClient;
-    const shared_ptr<ITileFactory> tileFactory;
-    const string cacheDir;
+    const std::shared_ptr<IHTTPClient> httpClient;
+    const std::shared_ptr<ITileFactory> tileFactory;
+    const std::string cacheDir;
 
  private:  // Constants.
     const double QUERY_COOLDOWN = ONE_HOUR_MS;

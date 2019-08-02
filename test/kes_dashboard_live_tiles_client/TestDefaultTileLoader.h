@@ -22,6 +22,8 @@
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"
 
+using std::make_shared;
+
 using ::testing::Return;
 
 using KESDLTC::internal::DefaultTileLoader;

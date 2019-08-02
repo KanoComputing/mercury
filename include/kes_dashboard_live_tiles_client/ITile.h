@@ -17,8 +17,6 @@
 #include "kes_dashboard_live_tiles_client/IDownloadable.h"
 #include "kes_dashboard_live_tiles_client/ISerialisable.h"
 
-using std::string;
-
 
 namespace KESDLTC {
 
@@ -27,17 +25,17 @@ class ITile : public internal::ISerialisable, public internal::IDownloadable {
     virtual ~ITile() {}
 
  public:  // KES Contractual Methods.
-    virtual string getId() const = 0;
-    virtual string getUsername() const = 0;
-    virtual string getTitle() const = 0;
-    virtual string getDescription() const = 0;
-    virtual string getApp() const = 0;
-    virtual string getCover() const = 0;
-    virtual string getOpenUrl() const = 0;
-    virtual string getFallbackUrl() const = 0;
+    virtual std::string getId() const = 0;
+    virtual std::string getUsername() const = 0;
+    virtual std::string getTitle() const = 0;
+    virtual std::string getDescription() const = 0;
+    virtual std::string getApp() const = 0;
+    virtual std::string getCover() const = 0;
+    virtual std::string getOpenUrl() const = 0;
+    virtual std::string getFallbackUrl() const = 0;
 
  public:  // Methods.
-    virtual string getCoverPath() const = 0;
+    virtual std::string getCoverPath() const = 0;
 };
 
 }  // namespace KESDLTC

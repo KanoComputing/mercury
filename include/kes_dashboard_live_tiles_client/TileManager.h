@@ -24,36 +24,32 @@
 #include "kes_dashboard_live_tiles_client/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/ITileManager.h"
 
-using std::list;
-using std::string;
-using std::shared_ptr;
-
 
 namespace KESDLTC {
 
 class TileManager : public ITileManager {
  public:  // Constructors & destructors.
     TileManager(
-        const string& cacheDir = "",
-        const shared_ptr<internal::IOnlineLoader> onlineLoader = nullptr,
-        const shared_ptr<internal::ITileCache> tileCache = nullptr,
-        const shared_ptr<internal::ITileLoader> defaultTileLoader = nullptr);
+        const std::string& cacheDir = "",
+        const std::shared_ptr<internal::IOnlineLoader> onlineLoader = nullptr,
+        const std::shared_ptr<internal::ITileCache> tileCache = nullptr,
+        const std::shared_ptr<internal::ITileLoader> defaultTileLoader = nullptr);  // NOLINT
     ~TileManager();
 
  public:  // ITileManager Methods.
-    list<shared_ptr<ITile>> getTiles(bool cache = true) const override;
+    std::list<std::shared_ptr<ITile>> getTiles(bool cache = true) const override;  // NOLINT
 
  private:  // Methods.
     bool isCooldown() const;
 
  private:  // Members.
-    string cacheDir;
-    shared_ptr<internal::IOnlineLoader> onlineLoader;
-    shared_ptr<internal::ITileCache> tileCache;
-    shared_ptr<internal::ITileLoader> defaultTileLoader;
+    std::string cacheDir;
+    std::shared_ptr<internal::IOnlineLoader> onlineLoader;
+    std::shared_ptr<internal::ITileCache> tileCache;
+    std::shared_ptr<internal::ITileLoader> defaultTileLoader;
 
  private:  // Constants.
-    const string CACHE_DIRNAME = ".kes-dlt-cli";
+    const std::string CACHE_DIRNAME = ".kes-dlt-cli";
 };
 
 }  // namespace KESDLTC

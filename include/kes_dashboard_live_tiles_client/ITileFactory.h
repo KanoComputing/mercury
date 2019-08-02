@@ -17,9 +17,6 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 
-using std::shared_ptr;
-using std::string;
-
 
 namespace KESDLTC {
 
@@ -28,13 +25,17 @@ class ITileFactory {
     virtual ~ITileFactory() {}
 
  public:  // Methods.
-    virtual shared_ptr<ITile> create() const = 0;
-    virtual shared_ptr<ITile> create(
-        const string& id, const string& cover,
-        const string& title, const string& description,
-        const string& username, const string& app,
-        const string& openUrl, const string& fallbackUrl,
-        const string& coverPath = "") const = 0;
+    virtual std::shared_ptr<ITile> create() const = 0;
+    virtual std::shared_ptr<ITile> create(
+        const std::string& id,
+        const std::string& cover,
+        const std::string& title,
+        const std::string& description,
+        const std::string& username,
+        const std::string& app,
+        const std::string& openUrl,
+        const std::string& fallbackUrl,
+        const std::string& coverPath = "") const = 0;
 };
 
 }  // namespace KESDLTC

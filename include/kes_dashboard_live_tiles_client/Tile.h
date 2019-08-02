@@ -22,24 +22,26 @@
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
 
-using std::make_shared;
-using std::shared_ptr;
-using std::string;
-
 
 namespace KESDLTC {
 
 class Tile : public ITile {
  public:  // Constructors & destructors.
     explicit Tile(
-        const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>());
+        const std::shared_ptr<IHTTPClient> httpClient =
+            std::make_shared<HTTPClient>());
 
-    Tile(const string& id, const string& cover,
-         const string& title, const string& description,
-         const string& username, const string& app,
-         const string& openUrl, const string& fallbackUrl,
-         const string& coverPath = "",
-         const shared_ptr<IHTTPClient> httpClient = make_shared<HTTPClient>());
+    Tile(const std::string& id,
+         const std::string& cover,
+         const std::string& title,
+         const std::string& description,
+         const std::string& username,
+         const std::string& app,
+         const std::string& openUrl,
+         const std::string& fallbackUrl,
+         const std::string& coverPath = "",
+         const std::shared_ptr<IHTTPClient> httpClient =
+            std::make_shared<HTTPClient>());
 
     ~Tile();
 
@@ -48,30 +50,30 @@ class Tile : public ITile {
     JSON_Value* serialise() const override;
 
  public:  // IDownloadable Methods.
-    bool download(const string& baseDir) override;
+    bool download(const std::string& baseDir) override;
 
  public:  // ITile Methods.
-    string getId() const override;
-    string getCover() const override;
-    string getTitle() const override;
-    string getDescription() const override;
-    string getUsername() const override;
-    string getApp() const override;
-    string getOpenUrl() const override;
-    string getFallbackUrl() const override;
-    string getCoverPath() const override;
+    std::string getId() const override;
+    std::string getCover() const override;
+    std::string getTitle() const override;
+    std::string getDescription() const override;
+    std::string getUsername() const override;
+    std::string getApp() const override;
+    std::string getOpenUrl() const override;
+    std::string getFallbackUrl() const override;
+    std::string getCoverPath() const override;
 
  private:  // Members.
-    string id;
-    string cover;
-    string coverPath;
-    string title;
-    string description;
-    string username;
-    string app;
-    string openUrl;
-    string fallbackUrl;
-    const shared_ptr<IHTTPClient> httpClient;
+    std::string id;
+    std::string cover;
+    std::string coverPath;
+    std::string title;
+    std::string description;
+    std::string username;
+    std::string app;
+    std::string openUrl;
+    std::string fallbackUrl;
+    const std::shared_ptr<IHTTPClient> httpClient;
 };
 
 }  // namespace KESDLTC

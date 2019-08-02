@@ -13,17 +13,11 @@
 
 #include <list>
 #include <memory>
-#include <string>
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
 #include "kes_dashboard_live_tiles_client/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/TileFactory.h"
-
-using std::list;
-using std::make_shared;
-using std::shared_ptr;
-using std::string;
 
 
 namespace KESDLTC {
@@ -32,15 +26,15 @@ namespace internal {
 class DefaultTileLoader : public ITileLoader {
  public:  // Constructors & destructors.
     DefaultTileLoader(
-        const shared_ptr<ITileFactory> tileFactory =
-            make_shared<TileFactory>());
+        const std::shared_ptr<ITileFactory> tileFactory =
+            std::make_shared<TileFactory>());
     ~DefaultTileLoader();
 
  public:  // ITileLoader Methods.
-    list<shared_ptr<ITile>> getTiles() override;
+    std::list<std::shared_ptr<ITile>> getTiles() override;
 
  private:  // Members.
-    const shared_ptr<ITileFactory> tileFactory;
+    const std::shared_ptr<ITileFactory> tileFactory;
 };
 
 }  // namespace internal
