@@ -8,8 +8,8 @@
  */
 
 
-#ifndef INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILE_H__
-#define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILE_H__
+#ifndef INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILE_H__
+#define INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILE_H__
 
 
 #include <string>
@@ -38,4 +38,4 @@ class ITile : public ISerialisable, public IDownloadable {
     virtual string getCoverPath() const = 0;
 };
 
-#endif  // INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_ITILE_H__
+#endif  // INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_ITILE_H__
