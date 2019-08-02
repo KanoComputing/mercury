@@ -25,28 +25,24 @@
 
 #include "mercury/config.h"
 
-using std::list;
-using std::shared_ptr;
-using std::string;
 
-using KESDLTC::ITile;
-using KESDLTC::TileManager;
-
+namespace KESDLTC {
+namespace test {
 
 /**
  * This test actually runs live. It will perform an http request to the live
  * KES and write to the filesystem tiles. For debugging purposes only.
  */
 TEST(TestTileManager, DoesSomethingOrOther) {
-    const string cacheDir =
-        string(CMAKE_PROJ_BASE_DIR) + "/build/test/tmp/.kes-dlt-cli";
+    const std::string cacheDir =
+        std::string(CMAKE_PROJ_BASE_DIR) + "/build/test/tmp/.kes-dlt-cli";
 
     // Wipe cache.
-    const string cmd = string("rm -rf ") + cacheDir;
+    const std::string cmd = std::string("rm -rf ") + cacheDir;
     system(cmd.c_str());
 
-    list<shared_ptr<ITile>> tiles;
-    TileManager tileManager(cacheDir);
+    std::list<std::shared_ptr<KESDLTC::ITile>> tiles;
+    KESDLTC::TileManager tileManager(cacheDir);
 
     // Download from KES.
     tiles = tileManager.getTiles(false);
@@ -69,5 +65,8 @@ TEST(TestTileManager, DoesSomethingOrOther) {
 
     // TODO: EXPECT_FALSE(exists(cacheDir + "/cache.json"));
 }
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_LIVETESTTILEMANAGER_H_

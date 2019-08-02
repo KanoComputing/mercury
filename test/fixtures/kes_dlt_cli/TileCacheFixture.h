@@ -27,17 +27,13 @@
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 
 
-using std::ofstream;
-using std::shared_ptr;
-using std::string;
-
-using ::testing::Test;
-
+namespace KESDLTC {
+namespace test {
 
 class TileCacheFixture : public KesDltResponsesFixture {
  public:
     TileCacheFixture():
-        cacheDir(string(CMAKE_PROJ_BASE_DIR) + "/build/test/tmp/.kes-dlt-cli"),
+        cacheDir(std::string(CMAKE_PROJ_BASE_DIR) + "/build/test/tmp/.kes-dlt-cli"),  // NOLINT
         cacheFile("cache.json"),
         cachePath(this->cacheDir + "/" + this->cacheFile) {
         // Empty constructor.
@@ -48,25 +44,28 @@ class TileCacheFixture : public KesDltResponsesFixture {
     virtual void TearDown() {}
 
  protected:
-    void initialiseCache(const string& data) const {
+    void initialiseCache(const std::string& data) const {
         create_directories(this->cacheDir);
 
         // TODO: Add this to mercury/utils/filesystem.
-        ofstream file(this->cachePath);
+        std::ofstream file(this->cachePath);
         file << data;
         file.close();
     }
 
     void clearCache() const {
         // UGH! I know... I know...
-        const string cmd = "rm -rf " + this->cacheDir;
+        const std::string cmd = "rm -rf " + this->cacheDir;
         system(cmd.c_str());
     }
 
  protected:
-    const string cacheDir;
-    const string cacheFile;
-    const string cachePath;
+    const std::string cacheDir;
+    const std::string cacheFile;
+    const std::string cachePath;
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_FIXTURES_KES_DLT_CLI_TILECACHEFIXTURE_H_

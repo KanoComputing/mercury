@@ -19,19 +19,22 @@
 
 #include "kes_dashboard_live_tiles_client/ITileManager.h"
 
-using std::shared_ptr;
 
-using KESDLTC::ITile;
-using KESDLTC::ITileManager;
-
+namespace KESDLTC {
+namespace test {
 
 class MockTileManager : public ITileManager {
  public:  // ITileManager Methods.
-    virtual list<shared_ptr<ITile>> getTiles(bool cache = true) const {
+    virtual std::list<std::shared_ptr<KESDLTC::ITile>> getTiles(bool cache = true) const {  // NOLINT
         return this->getTiles_impl(cache)
     }
 
-    MOCK_CONST_METHOD1(getTiles_impl list<shared_ptr<ITile>>(bool cache));
+    MOCK_CONST_METHOD1(
+        getTiles_impl,
+        std::list<std::shared_ptr<KESDLTC::ITile>>(bool cache));
 };
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_MOCKS_KES_DLT_CLI_MOCKTILEMANAGER_H_

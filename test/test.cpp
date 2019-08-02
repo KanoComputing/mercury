@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-// #include "kes_dashboard_live_tiles_client/LiveTestTileManager.h"
+#include "kes_dashboard_live_tiles_client/LiveTestTileManager.h"
 #include "kes_dashboard_live_tiles_client/TestDefaultTileLoader.h"
 #include "kes_dashboard_live_tiles_client/TestOnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/TestTile.h"

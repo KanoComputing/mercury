@@ -32,53 +32,48 @@
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"
 #include "test/mocks/mock_http_client.h"
 
-using std::shared_ptr;
-using std::string;
-using std::make_shared;
 
-using ::testing::_;
-using ::testing::StrEq;
-using ::testing::Values;
-using ::testing::Return;
-
-using KESDLTC::internal::BrokenContractsException;
-using KESDLTC::internal::OnlineLoader;
-
+namespace KESDLTC {
+namespace test {
 
 INSTANTIATE_TEST_CASE_P(
     Parameterised,
     KesDltValidResponsesFixture,
-    Values("feed1", "feed2", "feed3"));
+    ::testing::Values("feed1", "feed2", "feed3"));
 
 /**
  * Check that OnlineLoader.getTiles() calls HTTPClient.GET()
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsHTTPClientGET) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
-    auto mockTileFactory = make_shared<MockTileFactory>();
-    auto mockTile = make_shared<MockTile>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockTileFactory = std::make_shared<MockTileFactory>();
+    auto mockTile = std::make_shared<MockTile>();
 
-    OnlineLoader onlineLoader(
+    KESDLTC::internal::OnlineLoader onlineLoader(
         "/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
 
     // Ensuring the remainder of the function doesn't throw Exceptions by
     // returning a valid KES response from the HTTPClient.GET().
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(this->response));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(this->response));
 
     // Return the same mock Tile each for each tile data from the response.
     ON_CALL(*mockTileFactory, create)
-        .WillByDefault(Return(mockTile));
+        .WillByDefault(::testing::Return(mockTile));
 
     // Ignore the call to Tile.initialise().
     ON_CALL(*mockTile, initialise)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     // Ignore the call to Tile.download().
     ON_CALL(*mockTile, download)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
-    EXPECT_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
+    EXPECT_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
         .Times(1);
 
     onlineLoader.getTiles();
@@ -89,28 +84,30 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsHTTPClientGET) {
  * calls for each tile data TileFactory.create().
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileFactoryCreate) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
-    auto mockTileFactory = make_shared<MockTileFactory>();
-    auto mockTile = make_shared<MockTile>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockTileFactory = std::make_shared<MockTileFactory>();
+    auto mockTile = std::make_shared<MockTile>();
 
-    OnlineLoader onlineLoader(
+    KESDLTC::internal::OnlineLoader onlineLoader(
         "/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(this->response));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(this->response));
 
     // Return the same mock Tile each for each tile data from the response.
     ON_CALL(*mockTileFactory, create)
-        .WillByDefault(Return(mockTile));
+        .WillByDefault(::testing::Return(mockTile));
 
     // Ignore the call to Tile.initialise().
     ON_CALL(*mockTile, initialise)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     // Ignore the call to Tile.download().
     ON_CALL(*mockTile, download)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     EXPECT_CALL(*mockTileFactory, create)
         .Times(this->tileCount);
@@ -123,28 +120,30 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileFactoryCreate) {
  * calls for each tile data Tile.initialise() with the expected JSON.
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
-    auto mockTileFactory = make_shared<MockTileFactory>();
-    auto mockTile = make_shared<MockTile>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockTileFactory = std::make_shared<MockTileFactory>();
+    auto mockTile = std::make_shared<MockTile>();
 
-    OnlineLoader onlineLoader(
+    KESDLTC::internal::OnlineLoader onlineLoader(
         "/tmp/kes-dlt-cli/test", mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(this->response));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(this->response));
 
     // Return the same mock Tile each for each tile data from the response.
     ON_CALL(*mockTileFactory, create)
-        .WillByDefault(Return(mockTile));
+        .WillByDefault(::testing::Return(mockTile));
 
     // Ignore the call to Tile.initialise().
     ON_CALL(*mockTile, initialise)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     // Ignore the call to Tile.download().
     ON_CALL(*mockTile, download)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     JSON_Array* tilesData = json_object_get_array(
         json_value_get_object(this->response.get()), "tiles");
@@ -168,30 +167,33 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
  * calls for each tile data Tile.download() with the given cacheDir.
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileDownload) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
-    auto mockTileFactory = make_shared<MockTileFactory>();
-    auto mockTile = make_shared<MockTile>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockTileFactory = std::make_shared<MockTileFactory>();
+    auto mockTile = std::make_shared<MockTile>();
 
-    const string cacheDir = "/tmp/kes-dlt-cli/test";
-    OnlineLoader onlineLoader(cacheDir, mockHttpClient, mockTileFactory);
+    const std::string cacheDir = "/tmp/kes-dlt-cli/test";
+    KESDLTC::internal::OnlineLoader onlineLoader(
+        cacheDir, mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(this->response));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(this->response));
 
     // Return the same mock Tile each for each tile data from the response.
     ON_CALL(*mockTileFactory, create)
-        .WillByDefault(Return(mockTile));
+        .WillByDefault(::testing::Return(mockTile));
 
     // Ignore the call to Tile.initialise().
     ON_CALL(*mockTile, initialise)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     // Ignore the call to Tile.download().
     ON_CALL(*mockTile, download)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
-    EXPECT_CALL(*mockTile, download(StrEq(cacheDir)))
+    EXPECT_CALL(*mockTile, download(::testing::StrEq(cacheDir)))
         .Times(this->tileCount);
 
     onlineLoader.getTiles();
@@ -201,78 +203,99 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileDownload) {
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * throws a BrokenContractsException when JSON does not contain "tiles" array.
  */
-TEST_F(KesDltResponsesFixture,
-       GetTilesThrowsBrokenContractsExceptionWhenMissingTilesField) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
+TEST_F(
+    KesDltResponsesFixture,
+    GetTilesThrowsBrokenContractsExceptionWhenMissingTilesField) {
+    // NOLINT
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
 
-    const string cacheDir = "/tmp/kes-dlt-cli/test";
-    OnlineLoader onlineLoader(cacheDir, mockHttpClient);
+    const std::string cacheDir = "/tmp/kes-dlt-cli/test";
+    KESDLTC::internal::OnlineLoader onlineLoader(cacheDir, mockHttpClient);
 
     // Set the HTTPClient.GET to return a given malformed KES response.
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(responses["invalid_feed1"]));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(responses["invalid_feed1"]));
 
-    ASSERT_THROW(onlineLoader.getTiles(), BrokenContractsException);
+    ASSERT_THROW(
+        onlineLoader.getTiles(),
+        KESDLTC::internal::BrokenContractsException);
 }
 
 /**
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * throws a BrokenContractsException when Tile.initialise() fails.
  */
-TEST_F(KesDltResponsesFixture,
-       GetTilesThrowsBrokenContractsExceptionWhenTileInitialiseFails) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
-    auto mockTileFactory = make_shared<MockTileFactory>();
-    auto mockTile = make_shared<MockTile>();
+TEST_F(
+    KesDltResponsesFixture,
+    GetTilesThrowsBrokenContractsExceptionWhenTileInitialiseFails) {
+    // NOLINT
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockTileFactory = std::make_shared<MockTileFactory>();
+    auto mockTile = std::make_shared<MockTile>();
 
-    const string cacheDir = "/tmp/kes-dlt-cli/test";
-    OnlineLoader onlineLoader(cacheDir, mockHttpClient, mockTileFactory);
+    const std::string cacheDir = "/tmp/kes-dlt-cli/test";
+    KESDLTC::internal::OnlineLoader onlineLoader(
+        cacheDir, mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(responses["feed1"]));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(responses["feed1"]));
 
     // Return the same mock Tile each for each tile data from the response.
     ON_CALL(*mockTileFactory, create)
-        .WillByDefault(Return(mockTile));
+        .WillByDefault(::testing::Return(mockTile));
 
     // Set the mock Tile.initialise() to return false for failure.
     ON_CALL(*mockTile, initialise)
-        .WillByDefault(Return(false));
+        .WillByDefault(::testing::Return(false));
 
-    ASSERT_THROW(onlineLoader.getTiles(), BrokenContractsException);
+    ASSERT_THROW(
+        onlineLoader.getTiles(),
+        KESDLTC::internal::BrokenContractsException);
 }
 
 /**
  * Check that for a given HTTPClient.GET() response OnlineLoader.getTiles()
  * throws a DownloadError when Tile.download() fails.
  */
-TEST_F(KesDltResponsesFixture,
-       GetTilesThrowsDownloadErrorWhenTileDownloadFails) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
-    auto mockTileFactory = make_shared<MockTileFactory>();
-    auto mockTile = make_shared<MockTile>();
+TEST_F(
+    KesDltResponsesFixture,
+    GetTilesThrowsDownloadErrorWhenTileDownloadFails) {
+    // NOLINT
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockTileFactory = std::make_shared<MockTileFactory>();
+    auto mockTile = std::make_shared<MockTile>();
 
-    const string cacheDir = "/tmp/kes-dlt-cli/test";
-    OnlineLoader onlineLoader(cacheDir, mockHttpClient, mockTileFactory);
+    const std::string cacheDir = "/tmp/kes-dlt-cli/test";
+    KESDLTC::internal::OnlineLoader onlineLoader(
+        cacheDir, mockHttpClient, mockTileFactory);
 
     // Set the HTTPClient.GET to return a given valid KES response.
-    ON_CALL(*mockHttpClient, GET_impl(OnlineLoader::KES_DLT_URL, _))
-        .WillByDefault(Return(responses["feed1"]));
+    ON_CALL(
+        *mockHttpClient,
+        GET_impl(KESDLTC::internal::OnlineLoader::KES_DLT_URL, ::testing::_))
+        .WillByDefault(::testing::Return(responses["feed1"]));
 
     // Return the same mock Tile each for each tile data from the response.
     ON_CALL(*mockTileFactory, create)
-        .WillByDefault(Return(mockTile));
+        .WillByDefault(::testing::Return(mockTile));
 
     // Ignore the call to Tile.initialise().
     ON_CALL(*mockTile, initialise)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     // Set the mock Tile.download() to return false for failure.
     ON_CALL(*mockTile, download)
-        .WillByDefault(Return(false));
+        .WillByDefault(::testing::Return(false));
 
     ASSERT_THROW(onlineLoader.getTiles(), DownloadError);
 }
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_TESTONLINELOADER_H_

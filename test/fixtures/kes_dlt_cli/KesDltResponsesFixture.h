@@ -22,17 +22,11 @@
 
 #include "mercury/config.h"
 
-using std::ifstream;
-using std::make_shared;
-using std::map;
-using std::shared_ptr;
-using std::string;
-using std::stringstream;
 
-using ::testing::Test;
+namespace KESDLTC {
+namespace test {
 
-
-class KesDltResponsesFixture : public Test {
+class KesDltResponsesFixture : public ::testing::Test {
  public:
     static void SetUpTestCase() {
         rawResponses["empty_feed1"] = loadData("empty_feed1.json");
@@ -61,26 +55,26 @@ class KesDltResponsesFixture : public Test {
     virtual void TearDown() {}
 
  private:
-    static string loadData(const string& filename) {
-        const string path = dataDir + "/" + filename;
+    static std::string loadData(const std::string& filename) {
+        const std::string path = dataDir + "/" + filename;
 
         // TODO: Add this to mercury/utils/filesystem.
         // Read raw data file in.
-        ifstream file(path);
-        stringstream buffer;
+        std::ifstream file(path);
+        std::stringstream buffer;
         buffer << file.rdbuf();
         file.close();
 
         return buffer.str();
     }
 
-    static shared_ptr<JSON_Value> parseJson(const string& data) {
-        return shared_ptr<JSON_Value>(
+    static std::shared_ptr<JSON_Value> parseJson(const std::string& data) {
+        return std::shared_ptr<JSON_Value>(
             json_parse_string(data.c_str()),
             json_value_free);
     }
 
-    static int getTileCount(shared_ptr<JSON_Value> response) {
+    static int getTileCount(std::shared_ptr<JSON_Value> response) {
         if (response == nullptr)
             return -1;
 
@@ -94,30 +88,33 @@ class KesDltResponsesFixture : public Test {
     }
 
  protected:
-    static string dataDir;
-    static map<string, string> rawResponses;
-    static map<string, shared_ptr<JSON_Value>> responses;
-    static map<string, int> tileCounts;
-    static map<string, string> rawCaches;
-    static map<string, shared_ptr<JSON_Value>> caches;
+    static std::string dataDir;
+    static std::map<std::string, std::string> rawResponses;
+    static std::map<std::string, std::shared_ptr<JSON_Value>> responses;
+    static std::map<std::string, int> tileCounts;
+    static std::map<std::string, std::string> rawCaches;
+    static std::map<std::string, std::shared_ptr<JSON_Value>> caches;
 };
 
-string KesDltResponsesFixture::dataDir =  // NOLINT
-    string(CMAKE_PROJ_BASE_DIR) + "/test/fixtures/kes_dlt_cli/data/";
+std::string KesDltResponsesFixture::dataDir =  // NOLINT
+    std::string(CMAKE_PROJ_BASE_DIR) + "/test/fixtures/kes_dlt_cli/data/";
 
-map<string, string> KesDltResponsesFixture::rawResponses =
-    map<string, string>();
+std::map<std::string, std::string> KesDltResponsesFixture::rawResponses =
+    std::map<std::string, std::string>();
 
-map<string, shared_ptr<JSON_Value>> KesDltResponsesFixture::responses =
-    map<string, shared_ptr<JSON_Value>>();
+std::map<std::string, std::shared_ptr<JSON_Value>> KesDltResponsesFixture::responses =  // NOLINT
+    std::map<std::string, std::shared_ptr<JSON_Value>>();
 
-map<string, int> KesDltResponsesFixture::tileCounts =
-    map<string, int>();
+std::map<std::string, int> KesDltResponsesFixture::tileCounts =
+    std::map<std::string, int>();
 
-map<string, string> KesDltResponsesFixture::rawCaches =
-    map<string, string>();
+std::map<std::string, std::string> KesDltResponsesFixture::rawCaches =
+    std::map<std::string, std::string>();
 
-map<string, shared_ptr<JSON_Value>> KesDltResponsesFixture::caches =
-    map<string, shared_ptr<JSON_Value>>();
+std::map<std::string, std::shared_ptr<JSON_Value>> KesDltResponsesFixture::caches =  // NOLINT
+    std::map<std::string, std::shared_ptr<JSON_Value>>();
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_FIXTURES_KES_DLT_CLI_KESDLTRESPONSESFIXTURE_H_

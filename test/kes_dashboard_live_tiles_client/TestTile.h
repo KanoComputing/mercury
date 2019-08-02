@@ -27,21 +27,15 @@
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/mock_http_client.h"
 
-using std::endl;
-using std::shared_ptr;
-using std::string;
 
-using ::testing::Return;
-using ::testing::StartsWith;
-
-using KESDLTC::Tile;
-
+namespace KESDLTC {
+namespace test {
 
 /**
  * Chech that Tile() constructor sets all members.
  */
 TEST(TestTile, EmptyConstructor) {
-    Tile tile;
+    KESDLTC::Tile tile;
 
     EXPECT_EQ(tile.getId(), "");
     EXPECT_EQ(tile.getUsername(), "");
@@ -58,7 +52,7 @@ TEST(TestTile, EmptyConstructor) {
  * Chech that Tile(args) constructor sets all members.
  */
 TEST(TestTile, FullConstructor) {
-    Tile tile(
+    KESDLTC::Tile tile(
         "id", "cover", "title", "description", "username", "app", "openUrl",
         "fallbackUrl", "coverPath");
 
@@ -87,32 +81,32 @@ TEST_F(KesDltResponsesFixture, InitialiseSetsAllKESContractMembers) {
             0);
     JSON_Object* data = json_value_get_object(tileData);
 
-    Tile tile;
+    KESDLTC::Tile tile;
     tile.initialise(tileData);
 
     EXPECT_EQ(
-        string(json_object_get_string(data, "id")),
+        std::string(json_object_get_string(data, "id")),
         tile.getId());
     EXPECT_EQ(
-        string(json_object_get_string(data, "username")),
+        std::string(json_object_get_string(data, "username")),
         tile.getUsername());
     EXPECT_EQ(
-        string(json_object_get_string(data, "title")),
+        std::string(json_object_get_string(data, "title")),
         tile.getTitle());
     EXPECT_EQ(
-        string(json_object_get_string(data, "description")),
+        std::string(json_object_get_string(data, "description")),
         tile.getDescription());
     EXPECT_EQ(
-        string(json_object_get_string(data, "app")),
+        std::string(json_object_get_string(data, "app")),
         tile.getApp());
     EXPECT_EQ(
-        string(json_object_get_string(data, "cover")),
+        std::string(json_object_get_string(data, "cover")),
         tile.getCover());
     EXPECT_EQ(
-        string(json_object_get_string(data, "openUrl")),
+        std::string(json_object_get_string(data, "openUrl")),
         tile.getOpenUrl());
     EXPECT_EQ(
-        string(json_object_get_string(data, "fallbackUrl")),
+        std::string(json_object_get_string(data, "fallbackUrl")),
         tile.getFallbackUrl());
     EXPECT_EQ("", tile.getCoverPath());
 }
@@ -131,35 +125,35 @@ TEST_F(KesDltResponsesFixture, InitialiseAlsoSetsCoverPath) {
             0);
     JSON_Object* data = json_value_get_object(tileData);
 
-    Tile tile;
+    KESDLTC::Tile tile;
     tile.initialise(tileData);
 
     EXPECT_EQ(
-        string(json_object_get_string(data, "id")),
+        std::string(json_object_get_string(data, "id")),
         tile.getId());
     EXPECT_EQ(
-        string(json_object_get_string(data, "username")),
+        std::string(json_object_get_string(data, "username")),
         tile.getUsername());
     EXPECT_EQ(
-        string(json_object_get_string(data, "title")),
+        std::string(json_object_get_string(data, "title")),
         tile.getTitle());
     EXPECT_EQ(
-        string(json_object_get_string(data, "description")),
+        std::string(json_object_get_string(data, "description")),
         tile.getDescription());
     EXPECT_EQ(
-        string(json_object_get_string(data, "app")),
+        std::string(json_object_get_string(data, "app")),
         tile.getApp());
     EXPECT_EQ(
-        string(json_object_get_string(data, "cover")),
+        std::string(json_object_get_string(data, "cover")),
         tile.getCover());
     EXPECT_EQ(
-        string(json_object_get_string(data, "openUrl")),
+        std::string(json_object_get_string(data, "openUrl")),
         tile.getOpenUrl());
     EXPECT_EQ(
-        string(json_object_get_string(data, "fallbackUrl")),
+        std::string(json_object_get_string(data, "fallbackUrl")),
         tile.getFallbackUrl());
     EXPECT_EQ(
-        string(json_object_get_string(data, "coverPath")),
+        std::string(json_object_get_string(data, "coverPath")),
         tile.getCoverPath());
 }
 
@@ -177,7 +171,7 @@ TEST_F(KesDltResponsesFixture, InitialiseFailsForMissingKESContractMembers) {
             0);
     JSON_Object* data = json_value_get_object(tileData);
 
-    Tile tile;
+    KESDLTC::Tile tile;
 
     EXPECT_FALSE(tile.initialise(tileData));
 }
@@ -196,22 +190,22 @@ TEST_F(KesDltResponsesFixture, SerialiseWritesAllKESContractMembers) {
             0);
     JSON_Object* data = json_value_get_object(tileData);
 
-    Tile tile;
+    KESDLTC::Tile tile;
     tile.initialise(tileData);
 
-    shared_ptr<JSON_Value> result(
+    std::shared_ptr<JSON_Value> result(
         tile.serialise(), json_value_free);
 
-    shared_ptr<char> resultStr(
+    std::shared_ptr<char> resultStr(
         json_serialize_to_string_pretty(result.get()),
         json_free_serialized_string);
-    shared_ptr<char> tileDataStr(
+    std::shared_ptr<char> tileDataStr(
         json_serialize_to_string_pretty(tileData),
         json_free_serialized_string);
 
     EXPECT_THAT(result.get(), JsonEq(tileData))
-        << "tileData was: " << string(tileDataStr.get()) << endl
-        << "result was: " << string(resultStr.get()) << endl;
+        << "tileData was: " << std::string(tileDataStr.get()) << std::endl
+        << "result was: " << std::string(resultStr.get()) << std::endl;
 }
 
 /**
@@ -228,22 +222,22 @@ TEST_F(KesDltResponsesFixture, SerialiseAlsoWritesCoverPath) {
             0);
     JSON_Object* data = json_value_get_object(tileData);
 
-    Tile tile;
+    KESDLTC::Tile tile;
     tile.initialise(tileData);
 
-    shared_ptr<JSON_Value> result(
+    std::shared_ptr<JSON_Value> result(
         tile.serialise(), json_value_free);
 
-    shared_ptr<char> resultStr(
+    std::shared_ptr<char> resultStr(
         json_serialize_to_string_pretty(result.get()),
         json_free_serialized_string);
-    shared_ptr<char> tileDataStr(
+    std::shared_ptr<char> tileDataStr(
         json_serialize_to_string_pretty(tileData),
         json_free_serialized_string);
 
     EXPECT_THAT(result.get(), JsonEq(tileData))
-        << "tileData was: " << string(tileDataStr.get()) << endl
-        << "result was: " << string(resultStr.get()) << endl;
+        << "tileData was: " << std::string(tileDataStr.get()) << std::endl
+        << "result was: " << std::string(resultStr.get()) << std::endl;
 }
 
 /**
@@ -259,7 +253,7 @@ TEST_F(KesDltResponsesFixture, SerialiseAlsoWritesCoverPath) {
  * arguments.
  */
 TEST_F(TileCacheFixture, DownloadCallsDL) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
 
     JSON_Value* tileData =
         json_array_get_value(
@@ -269,15 +263,15 @@ TEST_F(TileCacheFixture, DownloadCallsDL) {
                 "tiles"),
             0);
 
-    Tile tile(mockHttpClient);
+    KESDLTC::Tile tile(mockHttpClient);
     tile.initialise(tileData);
 
     ON_CALL(*mockHttpClient, DL)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     EXPECT_CALL(
         *mockHttpClient,
-        DL(tile.getCover(), StartsWith(this->cacheDir)))
+        DL(tile.getCover(), ::testing::StartsWith(this->cacheDir)))
         .Times(1);
 
     tile.download(this->cacheDir);
@@ -288,7 +282,7 @@ TEST_F(TileCacheFixture, DownloadCallsDL) {
  * expected value.
  */
 TEST_F(TileCacheFixture, DownloadSetsCoverPath) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
 
     JSON_Value* tileData =
         json_array_get_value(
@@ -298,22 +292,22 @@ TEST_F(TileCacheFixture, DownloadSetsCoverPath) {
                 "tiles"),
             0);
 
-    Tile tile(mockHttpClient);
+    KESDLTC::Tile tile(mockHttpClient);
     tile.initialise(tileData);
 
     ON_CALL(*mockHttpClient, DL)
-        .WillByDefault(Return(true));
+        .WillByDefault(::testing::Return(true));
 
     EXPECT_EQ(
         tile.getCoverPath(),
-        string(json_object_get_string(
+        std::string(json_object_get_string(
             json_value_get_object(tileData), "coverPath")));
 
     tile.download(this->cacheDir);
 
-    const string expectedCoverPath =
+    const std::string expectedCoverPath =
         this->cacheDir + "/" +
-        string(json_object_get_string(
+        std::string(json_object_get_string(
             json_value_get_object(tileData), "coverPath"));
 
     EXPECT_EQ(tile.getCoverPath(), expectedCoverPath);
@@ -331,7 +325,7 @@ TEST_F(TileCacheFixture, DownloadSetsCoverPath) {
  * Check that Tile.download() returns false when HTTPClient.DL also does so.
  */
 TEST_F(TileCacheFixture, DownloadFailsWhenDLFails) {
-    auto mockHttpClient = make_shared<MockHTTPClient>();
+    auto mockHttpClient = std::make_shared<MockHTTPClient>();
 
     JSON_Value* tileData =
         json_array_get_value(
@@ -341,13 +335,16 @@ TEST_F(TileCacheFixture, DownloadFailsWhenDLFails) {
                 "tiles"),
             0);
 
-    Tile tile(mockHttpClient);
+    KESDLTC::Tile tile(mockHttpClient);
     tile.initialise(tileData);
 
     ON_CALL(*mockHttpClient, DL)
-        .WillByDefault(Return(false));
+        .WillByDefault(::testing::Return(false));
 
     EXPECT_FALSE(tile.download(this->cacheDir));
 }
+
+}  // namespace test
+}  // namespace KESDLTC
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_TESTTILE_H_
