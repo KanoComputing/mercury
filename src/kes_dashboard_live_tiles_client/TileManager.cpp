@@ -25,6 +25,7 @@ using std::cerr;
 using std::endl;
 using std::exception;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 

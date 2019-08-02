@@ -21,11 +21,6 @@
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
 #include "kes_dashboard_live_tiles_client/TileFactory.h"
 
-using std::list;
-using std::make_shared;
-using std::shared_ptr;
-using std::string;
-
 
 namespace KESDLTC {
 namespace internal {
@@ -33,15 +28,16 @@ namespace internal {
 class TileCache : public ITileCache {
  public:  // Constructors & destructors.
     explicit TileCache(
-        const string& cacheDir,
-        const shared_ptr<ITileFactory> tileFactory = make_shared<TileFactory>());  // NOLINT
+        const std::string& cacheDir,
+        const std::shared_ptr<ITileFactory> tileFactory =
+            std::make_shared<TileFactory>());
     ~TileCache();
 
  public:  // ITileLoader Methods.
-    list<shared_ptr<ITile>> getTiles() override;
+    std::list<std::shared_ptr<ITile>> getTiles() override;
 
  public:  // ITileCache Methods.
-    void update(const list<shared_ptr<ITile>>& tiles) override;
+    void update(const std::list<std::shared_ptr<ITile>>& tiles) override;
     double getLastUpdated() const override;
     bool isCacheEmpty() const override;
 
@@ -50,14 +46,14 @@ class TileCache : public ITileCache {
     void setCacheData();
 
  private:  // Members.
-    string cacheDir;
-    string cachePath;
-    shared_ptr<JSON_Value> cacheDataRoot;
+    std::string cacheDir;
+    std::string cachePath;
+    std::shared_ptr<JSON_Value> cacheDataRoot;
     JSON_Object* cacheData;
 
  private:  // Constants.
-    const shared_ptr<ITileFactory> tileFactory;
-    const string CACHE_FILE = "cache.json";
+    const std::shared_ptr<ITileFactory> tileFactory;
+    const std::string CACHE_FILE = "cache.json";
 };
 
 }  // namespace internal

@@ -17,9 +17,6 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 
-using std::list;
-using std::shared_ptr;
-
 
 namespace KESDLTC {
 namespace internal {
@@ -29,7 +26,7 @@ class ITileLoader {
     virtual ~ITileLoader() {}
 
  public:  // Methods.
-    virtual list<shared_ptr<ITile>> getTiles() = 0;
+    virtual std::list<std::shared_ptr<ITile>> getTiles() = 0;
 };
 
 }  // namespace internal

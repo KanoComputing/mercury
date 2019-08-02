@@ -18,9 +18,6 @@
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileLoader.h"
 
-using std::list;
-using std::shared_ptr;
-
 
 namespace KESDLTC {
 namespace internal {
@@ -30,7 +27,7 @@ class ITileCache : public ITileLoader {
     virtual ~ITileCache() {}
 
  public:  // Methods.
-    virtual void update(const list<shared_ptr<ITile>>& tiles) = 0;
+    virtual void update(const std::list<std::shared_ptr<ITile>>& tiles) = 0;
     virtual double getLastUpdated() const = 0;
     virtual bool isCacheEmpty() const = 0;
 };

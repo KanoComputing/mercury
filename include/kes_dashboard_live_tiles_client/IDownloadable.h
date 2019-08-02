@@ -14,8 +14,6 @@
 
 #include <string>
 
-using std::string;
-
 
 namespace KESDLTC {
 namespace internal {
@@ -25,7 +23,7 @@ class IDownloadable {
     virtual ~IDownloadable() {}
 
  public:  // Methods.
-    virtual bool download(const string& baseDir) = 0;
+    virtual bool download(const std::string& baseDir) = 0;
 };
 
 }  // namespace internal
