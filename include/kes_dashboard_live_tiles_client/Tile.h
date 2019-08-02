@@ -17,9 +17,10 @@
 #include <memory>
 #include <string>
 
+#include "kes_dashboard_live_tiles_client/ITile.h"
+
 #include "mercury/_http/http_client.h"
 #include "mercury/_http/http_client_interface.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
 
 using std::make_shared;
 using std::shared_ptr;

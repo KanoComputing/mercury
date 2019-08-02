@@ -16,10 +16,10 @@
 #include <memory>
 #include <string>
 
-#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITileFactory.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITileLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/TileFactory.h"
+#include "kes_dashboard_live_tiles_client/ITile.h"
+#include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "kes_dashboard_live_tiles_client/ITileLoader.h"
+#include "kes_dashboard_live_tiles_client/TileFactory.h"
 
 using std::list;
 using std::make_shared;

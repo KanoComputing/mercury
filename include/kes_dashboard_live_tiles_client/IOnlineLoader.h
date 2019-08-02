@@ -12,7 +12,7 @@
 #define INCLUDE_MERCURY_KES_DASHBOARD_LIVE_TILES_CLI_IONLINELOADER_H_
 
 
-#include "mercury/kes_dashboard_live_tiles_cli/ITileLoader.h"
+#include "kes_dashboard_live_tiles_client/ITileLoader.h"
 
 
 class IOnlineLoader : public ITileLoader {

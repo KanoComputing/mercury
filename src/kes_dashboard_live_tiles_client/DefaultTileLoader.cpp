@@ -13,9 +13,9 @@
 #include <list>
 #include <memory>
 
-#include "mercury/kes_dashboard_live_tiles_cli/DefaultTileLoader.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/ITileFactory.h"
+#include "kes_dashboard_live_tiles_client/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/ITile.h"
+#include "kes_dashboard_live_tiles_client/ITileFactory.h"
 
 using std::list;
 using std::shared_ptr;

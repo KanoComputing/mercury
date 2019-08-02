@@ -19,10 +19,11 @@
 #include <memory>
 #include <string>
 
+#include "kes_dashboard_live_tiles_client/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/OnlineLoader.h"
+
 #include "mercury/_http/exceptions.h"
 #include "mercury/_http/http_client_interface.h"
-#include "mercury/kes_dashboard_live_tiles_cli/Exceptions.h"
-#include "mercury/kes_dashboard_live_tiles_cli/OnlineLoader.h"
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 #include "test/fixtures/kes_dlt_cli/KesDltValidResponsesFixture.h"

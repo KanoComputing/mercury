@@ -11,12 +11,12 @@
 
 #include <gtest/gtest.h>
 
-// #include "kes_dashboard_live_tiles_cli/LiveTestTileManager.h"
-#include "kes_dashboard_live_tiles_cli/TestDefaultTileLoader.h"
-#include "kes_dashboard_live_tiles_cli/TestOnlineLoader.h"
-#include "kes_dashboard_live_tiles_cli/TestTile.h"
-#include "kes_dashboard_live_tiles_cli/TestTileCache.h"
-#include "kes_dashboard_live_tiles_cli/TestTileManager.h"
+// #include "kes_dashboard_live_tiles_client/LiveTestTileManager.h"
+#include "kes_dashboard_live_tiles_client/TestDefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/TestOnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/TestTile.h"
+#include "kes_dashboard_live_tiles_client/TestTileCache.h"
+#include "kes_dashboard_live_tiles_client/TestTileManager.h"
 
 #include "kw/kw_apis.h"
 #include "kw/kw_persistence.h"

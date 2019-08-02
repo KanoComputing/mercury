@@ -11,9 +11,9 @@
 #include <memory>
 #include <string>
 
-#include "mercury/kes_dashboard_live_tiles_cli/ITile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/Tile.h"
-#include "mercury/kes_dashboard_live_tiles_cli/TileFactory.h"
+#include "kes_dashboard_live_tiles_client/ITile.h"
+#include "kes_dashboard_live_tiles_client/Tile.h"
+#include "kes_dashboard_live_tiles_client/TileFactory.h"
 
 using std::make_shared;
 using std::shared_ptr;

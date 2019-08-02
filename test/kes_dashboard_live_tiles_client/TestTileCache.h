@@ -17,8 +17,8 @@
 
 #include <memory>
 
-#include "mercury/kes_dashboard_live_tiles_cli/Exceptions.h"
-#include "mercury/kes_dashboard_live_tiles_cli/TileCache.h"
+#include "kes_dashboard_live_tiles_client/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/TileCache.h"
 
 #include "test/fixtures/kes_dlt_cli/TileCacheFixture.h"
 #include "test/matchers/JsonMatchers.h"

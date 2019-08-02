@@ -17,7 +17,7 @@
 #include <list>
 #include <memory>
 
-#include "mercury/kes_dashboard_live_tiles_cli/ITileManager.h"
+#include "kes_dashboard_live_tiles_client/ITileManager.h"
 
 using std::shared_ptr;
 
