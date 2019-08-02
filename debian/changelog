@@ -1,5 +1,5 @@
-mercury (1.0-1) unstable; urgency=low
+mercury (4.3.0-0) unstable; urgency=low
 
   * Mercury initial version
 
- -- Team Kano <dev@kano.me>  Thu, 11 Apr 2019 16:25:00 +0100
+ -- Team Kano <dev@kano.me>  Fri, 2 Aug 2019 16:25:00 +0100
