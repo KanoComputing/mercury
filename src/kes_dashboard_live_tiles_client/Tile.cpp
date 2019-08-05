@@ -18,7 +18,7 @@
 #include <string>
 
 #include "kes_dashboard_live_tiles_client/Tile.h"
-#include "mercury/_http/http_client.h"
+#include "mercury/http/http_client.h"
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/String.h"
 
@@ -28,6 +28,8 @@ using std::shared_ptr;
 using std::string;
 
 using KESDLTC::Tile;
+
+using Mercury::HTTP::IHTTPClient;
 
 
 Tile::Tile(const shared_ptr<IHTTPClient> httpClient):

@@ -13,12 +13,16 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <mercury/_http/http_client.h>
+#include <mercury/http/http_client.h>
 
 #include <map>
 #include <memory>
 #include <string>
 
+
+namespace Mercury {
+namespace HTTP {
+namespace test {
 
 /**
  * \class MockHTTPClient
@@ -56,7 +60,7 @@
  * Ultimately, this makes no difference from the test's perspective.
  *
  */
-class MockHTTPClient : public IHTTPClient {
+class MockHTTPClient : public Mercury::HTTP::IHTTPClient {
  public:
     /**
      * \brief Google Mock doesn't permit optional arguments so simply implement
@@ -159,5 +163,8 @@ class MockHTTPClient : public IHTTPClient {
             const std::map<std::string, std::string>& headers));
 };
 
+}  // namespace test
+}  // namespace HTTP
+}  // namespace Mercury
 
 #endif  // TEST_MOCKS_MOCK_HTTP_CLIENT_H_

@@ -14,8 +14,8 @@
 #include <gmock/gmock.h>
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
-#include <mercury/_http/exceptions.h>
-#include <mercury/_http/http_client.h>
+#include <mercury/http/exceptions.h>
+#include <mercury/http/http_client.h>
 #include <mercury/kw/kw.h>
 #include <parson.h>
 #include <test/fixtures/kw_api.h>
@@ -162,8 +162,8 @@ INSTANTIATE_TEST_CASE_P(
     ParentalConsentExceptions,
     ParentalConsentException,
     ::testing::Values(
-        SessionInitError("Init error"),
-        HTTPRequestFailedError(400, "Request error")
+        Mercury::HTTP::SessionInitError("Init error"),
+        Mercury::HTTP::HTTPRequestFailedError(400, "Request error")
     )
 );
 TEST_P(ParentalConsentException, TestAccountVerificationException)
@@ -209,7 +209,7 @@ TEST_F(ParentalConsentCache, TestVerificationCache) {
         .Times(2)
         .WillOnce(testing::Return(fail))
         .WillOnce(testing::Return(success))
-        .WillOnce(testing::Throw(SessionInitError("InitError")))
+        .WillOnce(testing::Throw(Mercury::HTTP::SessionInitError("InitError")))
         .WillRepeatedly(testing::Return(success));
 
     kw.set_account_verified(false, true);;
@@ -242,7 +242,7 @@ TEST_F(ParentalConsentCache, TestVerificationCacheDisabled) {
         .Times(5)
         .WillOnce(testing::Return(fail))
         .WillOnce(testing::Return(success))
-        .WillOnce(testing::Throw(SessionInitError("InitError")))
+        .WillOnce(testing::Throw(Mercury::HTTP::SessionInitError("InitError")))
         .WillRepeatedly(testing::Return(success));
 
     kw.set_account_verified(false, true);;
@@ -279,7 +279,7 @@ TEST_F(ParentalConsentCache, TestVerificationMixCache) {
         .Times(3)
         .WillOnce(testing::Return(fail))
         .WillOnce(testing::Return(success))
-        .WillOnce(testing::Throw(SessionInitError("InitError")))
+        .WillOnce(testing::Throw(Mercury::HTTP::SessionInitError("InitError")))
         .WillOnce(testing::Return(success))
         .WillOnce(testing::Return(fail));
 

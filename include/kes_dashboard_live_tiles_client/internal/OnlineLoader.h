@@ -21,8 +21,8 @@
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
 #include "kes_dashboard_live_tiles_client/TileFactory.h"
 
-#include "mercury/_http/http_client.h"
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/http_client.h"
+#include "mercury/http/http_client_interface.h"
 
 
 namespace KESDLTC {
@@ -36,8 +36,8 @@ class OnlineLoader : public IOnlineLoader {
  public:  // Constructors & destructors.
     OnlineLoader(
         const std::string& cacheDir,
-        const std::shared_ptr<IHTTPClient> httpClient =
-            std::make_shared<HTTPClient>(),
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
+            std::make_shared<Mercury::HTTP::HTTPClient>(),
         const std::shared_ptr<ITileFactory> tileFactory =
             std::make_shared<TileFactory>());
 
@@ -58,7 +58,7 @@ class OnlineLoader : public IOnlineLoader {
     static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kessandbox.co.uk/";  // NOLINT
 
  private:  // Members.
-    const std::shared_ptr<IHTTPClient> httpClient;
+    const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
     const std::shared_ptr<ITileFactory> tileFactory;
     const std::string cacheDir;
 

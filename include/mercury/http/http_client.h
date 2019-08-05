@@ -19,8 +19,11 @@
 #include <memory>
 #include <string>
 
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/http_client_interface.h"
 
+
+namespace Mercury {
+namespace HTTP {
 
 /**
  * \class HTTPClient
@@ -67,6 +70,9 @@ class HTTPClient : public IHTTPClient {
             std::map<std::string, std::string>(),
         const std::string& body = "");
 };
+
+}  // namespace HTTP
+}  // namespace Mercury
 
 
 #endif  // INCLUDE_MERCURY__HTTP_HTTP_CLIENT_H_
