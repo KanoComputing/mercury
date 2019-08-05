@@ -1,5 +1,5 @@
 /**
- * \file TestTileManager.h
+ * \file LiveTestTileManager.h
  *
  * \copyright Copyright (C) 2019 Kano Computing Ltd.
  *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
@@ -33,7 +33,7 @@ namespace test {
  * This test actually runs live. It will perform an http request to the live
  * KES and write to the filesystem tiles. For debugging purposes only.
  */
-TEST(TestTileManager, DoesSomethingOrOther) {
+TEST(LiveTestTileManager, DoesSomethingOrOther) {
     const std::string cacheDir =
         std::string(CMAKE_PROJ_BASE_DIR) + "/build/test/tmp/.kes-dlt-cli";
 
