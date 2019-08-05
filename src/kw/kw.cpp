@@ -22,7 +22,11 @@
 #include <string>
 #include <utility>
 
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/http_client_interface.h"
+
+using Mercury::HTTP::IHTTPClient;
+using Mercury::HTTP::HTTPRequestFailedError;
+using Mercury::HTTP::SessionInitError;
 
 using Mercury::KanoWorld::KanoWorld;
 

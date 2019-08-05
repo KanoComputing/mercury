@@ -5,7 +5,7 @@ project(mercury VERSION 0.1 LANGUAGES CXX)
 find_package(OpenSSL)
 
 add_library(mercury_obj OBJECT
-    _http/http_client.cpp
+    http/http_client.cpp
     kes_dashboard_live_tiles_client/DefaultTileLoader.cpp
     kes_dashboard_live_tiles_client/OnlineLoader.cpp
     kes_dashboard_live_tiles_client/Tile.cpp

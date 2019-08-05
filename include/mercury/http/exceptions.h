@@ -16,6 +16,9 @@
 #include <string>
 
 
+namespace Mercury {
+namespace HTTP {
+
 /**
  * \class HTTPClientError
  * \brief Base exception to throw when there is an error with the HTTPClient
@@ -73,5 +76,9 @@ class DownloadError : public HTTPClientError {
             std::string(" failed: ") + msg
         ) {}
 };
+
+}  // namespace HTTP
+}  // namespace Mercury
+
 
 #endif  // INCLUDE_MERCURY__HTTP_EXCEPTIONS_H_

@@ -253,7 +253,8 @@ TEST_F(KesDltResponsesFixture, SerialiseAlsoWritesCoverPath) {
  * arguments.
  */
 TEST_F(TileCacheFixture, DownloadCallsDL) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
 
     JSON_Value* tileData =
         json_array_get_value(
@@ -282,7 +283,8 @@ TEST_F(TileCacheFixture, DownloadCallsDL) {
  * expected value.
  */
 TEST_F(TileCacheFixture, DownloadSetsCoverPath) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
 
     JSON_Value* tileData =
         json_array_get_value(
@@ -325,7 +327,8 @@ TEST_F(TileCacheFixture, DownloadSetsCoverPath) {
  * Check that Tile.download() returns false when HTTPClient.DL also does so.
  */
 TEST_F(TileCacheFixture, DownloadFailsWhenDLFails) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
 
     JSON_Value* tileData =
         json_array_get_value(

@@ -19,8 +19,8 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 
-#include "mercury/_http/http_client.h"
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/http_client.h"
+#include "mercury/http/http_client_interface.h"
 
 
 namespace KESDLTC {
@@ -28,8 +28,8 @@ namespace KESDLTC {
 class Tile : public ITile {
  public:  // Constructors & destructors.
     explicit Tile(
-        const std::shared_ptr<IHTTPClient> httpClient =
-            std::make_shared<HTTPClient>());
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
+            std::make_shared<Mercury::HTTP::HTTPClient>());
 
     Tile(const std::string& id,
          const std::string& cover,
@@ -40,8 +40,8 @@ class Tile : public ITile {
          const std::string& openUrl,
          const std::string& fallbackUrl,
          const std::string& coverPath = "",
-         const std::shared_ptr<IHTTPClient> httpClient =
-            std::make_shared<HTTPClient>());
+         const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
+            std::make_shared<Mercury::HTTP::HTTPClient>());
 
     ~Tile();
 
@@ -73,7 +73,7 @@ class Tile : public ITile {
     std::string app;
     std::string openUrl;
     std::string fallbackUrl;
-    const std::shared_ptr<IHTTPClient> httpClient;
+    const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
 };
 
 }  // namespace KESDLTC

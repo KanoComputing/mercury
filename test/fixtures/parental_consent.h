@@ -14,7 +14,7 @@
 
 
 #include <gtest/gtest.h>
-#include <mercury/_http/exceptions.h>
+#include <mercury/http/exceptions.h>
 #include <parson.h>
 #include <test/fixtures/kw_api.h>
 
@@ -56,7 +56,8 @@ class ParentalConsentAPI : public APIResponse {};
 
 
 class ParentalConsentException :
-    public ::testing::TestWithParam<HTTPClientError>, public KWUtils {
+    public ::testing::TestWithParam<Mercury::HTTP::HTTPClientError>,
+    public KWUtils {
  public:
     virtual void SetUp() {
         this->login();

@@ -16,8 +16,11 @@
 #include <memory>
 #include <string>
 
-#include "mercury/_http/exceptions.h"
+#include "mercury/http/exceptions.h"
 
+
+namespace Mercury {
+namespace HTTP {
 
 /**
  * \interface IHTTPClient
@@ -83,6 +86,9 @@ class IHTTPClient {
      */
     virtual bool DL(const std::string& url, const std::string& path) = 0;
 };
+
+}  // namespace HTTP
+}  // namespace Mercury
 
 
 #endif  // INCLUDE_MERCURY__HTTP_HTTP_CLIENT_INTERFACE_H_
