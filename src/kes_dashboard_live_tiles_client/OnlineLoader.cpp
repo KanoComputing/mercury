@@ -19,8 +19,7 @@
 #include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
-
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/http_client_interface.h"
 
 using std::cerr;
 using std::endl;
@@ -31,6 +30,9 @@ using std::string;
 using KESDLTC::internal::OnlineLoader;
 using KESDLTC::ITile;
 using KESDLTC::ITileFactory;
+
+using Mercury::HTTP::DownloadError;
+using Mercury::HTTP::IHTTPClient;
 
 
 OnlineLoader::OnlineLoader(

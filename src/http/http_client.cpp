@@ -6,7 +6,7 @@
  *
  */
 
-#include "mercury/_http/http_client.h"
+#include "mercury/http/http_client.h"
 
 #include <parson.h>
 #include <Poco/FileStream.h>
@@ -44,6 +44,8 @@ using Poco::Net::HTTPMessage;
 using Poco::Net::Context;
 using Poco::Net::AcceptCertificateHandler;
 using Poco::Net::SSLManager;
+
+using Mercury::HTTP::HTTPClient;
 
 
 HTTPClient::HTTPClient() {

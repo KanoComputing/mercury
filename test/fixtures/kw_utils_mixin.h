@@ -22,8 +22,6 @@
 #include <memory>
 #include <string>
 
-using Mercury::KanoWorld::KanoWorld;
-
 
 class KWUtils {
  public:
@@ -31,7 +29,7 @@ class KWUtils {
         username("testaccount"),
         password("testpassword"),
         auth_success(load_response("accounts/auth/login_success.json")),
-        client(std::make_shared<MockHTTPClient>()),
+        client(std::make_shared<Mercury::HTTP::test::MockHTTPClient>()),
         kw(KanoWorldAPI::URL, this->client) {}
 
  protected:
@@ -54,8 +52,8 @@ class KWUtils {
     const std::string username;
     const std::string password;
     const std::shared_ptr<JSON_Value> auth_success;
-    std::shared_ptr<MockHTTPClient> client;
-    KanoWorld kw;
+    std::shared_ptr<Mercury::HTTP::test::MockHTTPClient> client;
+    Mercury::KanoWorld::KanoWorld kw;
 };
 
 

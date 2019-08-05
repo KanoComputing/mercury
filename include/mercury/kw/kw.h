@@ -15,8 +15,8 @@
 #include <memory>
 #include <string>
 
-#include "mercury/_http/http_client.h"
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/http_client.h"
+#include "mercury/http/http_client_interface.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -38,8 +38,10 @@ class KanoWorld {
      *
      * \param client    (Optional) The HTTP client to use for requests
      */
-    KanoWorld(const string& url = "https://worldapi.kano.me",
-              shared_ptr<IHTTPClient> client = make_shared<HTTPClient>());
+    KanoWorld(
+        const string& url = "https://worldapi.kano.me",
+        shared_ptr<Mercury::HTTP::IHTTPClient> client =
+            make_shared<Mercury::HTTP::HTTPClient>());
 
     bool login(const string& username, const string& password,
                const bool verbose = false);
@@ -115,7 +117,7 @@ class KanoWorld {
     bool save_data();
 
  private:
-    shared_ptr<IHTTPClient> http_client;
+    shared_ptr<Mercury::HTTP::IHTTPClient> http_client;
     string token;
     string expiration_date;
     bool is_verified_cache;

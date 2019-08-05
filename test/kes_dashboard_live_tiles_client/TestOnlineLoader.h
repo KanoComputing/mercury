@@ -22,8 +22,8 @@
 #include "kes_dashboard_live_tiles_client/internal/Exceptions.h"
 #include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
 
-#include "mercury/_http/exceptions.h"
-#include "mercury/_http/http_client_interface.h"
+#include "mercury/http/exceptions.h"
+#include "mercury/http/http_client_interface.h"
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 #include "test/fixtures/kes_dlt_cli/KesDltValidResponsesFixture.h"
@@ -45,7 +45,8 @@ INSTANTIATE_TEST_CASE_P(
  * Check that OnlineLoader.getTiles() calls HTTPClient.GET()
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsHTTPClientGET) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
     auto mockTileFactory = std::make_shared<MockTileFactory>();
     auto mockTile = std::make_shared<MockTile>();
 
@@ -84,7 +85,8 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsHTTPClientGET) {
  * calls for each tile data TileFactory.create().
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileFactoryCreate) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
     auto mockTileFactory = std::make_shared<MockTileFactory>();
     auto mockTile = std::make_shared<MockTile>();
 
@@ -120,7 +122,8 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileFactoryCreate) {
  * calls for each tile data Tile.initialise() with the expected JSON.
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
     auto mockTileFactory = std::make_shared<MockTileFactory>();
     auto mockTile = std::make_shared<MockTile>();
 
@@ -167,7 +170,8 @@ TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileInitialise) {
  * calls for each tile data Tile.download() with the given cacheDir.
  */
 TEST_P(KesDltValidResponsesFixture, GetTilesCallsTileDownload) {
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
     auto mockTileFactory = std::make_shared<MockTileFactory>();
     auto mockTile = std::make_shared<MockTile>();
 
@@ -207,7 +211,8 @@ TEST_F(
     KesDltResponsesFixture,
     GetTilesThrowsBrokenContractsExceptionWhenMissingTilesField) {
     // NOLINT
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
 
     const std::string cacheDir = "/tmp/kes-dlt-cli/test";
     KESDLTC::internal::OnlineLoader onlineLoader(cacheDir, mockHttpClient);
@@ -231,7 +236,8 @@ TEST_F(
     KesDltResponsesFixture,
     GetTilesThrowsBrokenContractsExceptionWhenTileInitialiseFails) {
     // NOLINT
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
     auto mockTileFactory = std::make_shared<MockTileFactory>();
     auto mockTile = std::make_shared<MockTile>();
 
@@ -266,7 +272,8 @@ TEST_F(
     KesDltResponsesFixture,
     GetTilesThrowsDownloadErrorWhenTileDownloadFails) {
     // NOLINT
-    auto mockHttpClient = std::make_shared<MockHTTPClient>();
+    auto mockHttpClient =
+        std::make_shared<Mercury::HTTP::test::MockHTTPClient>();
     auto mockTileFactory = std::make_shared<MockTileFactory>();
     auto mockTile = std::make_shared<MockTile>();
 
@@ -292,7 +299,7 @@ TEST_F(
     ON_CALL(*mockTile, download)
         .WillByDefault(::testing::Return(false));
 
-    ASSERT_THROW(onlineLoader.getTiles(), DownloadError);
+    ASSERT_THROW(onlineLoader.getTiles(), Mercury::HTTP::DownloadError);
 }
 
 }  // namespace test
