@@ -17,8 +17,8 @@
 #include <list>
 #include <memory>
 
+#include "kes_dashboard_live_tiles_client/internal/ITileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
-#include "kes_dashboard_live_tiles_client/ITileCache.h"
 
 
 namespace KESDLTC {

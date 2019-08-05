@@ -19,8 +19,8 @@
 #include <memory>
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/Exceptions.h"
-#include "kes_dashboard_live_tiles_client/OnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
 
 #include "mercury/_http/exceptions.h"
 #include "mercury/_http/http_client_interface.h"

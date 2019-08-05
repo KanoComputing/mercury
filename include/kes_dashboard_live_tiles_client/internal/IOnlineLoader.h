@@ -12,7 +12,7 @@
 #define INCLUDE_KES_DASHBOARD_LIVE_TILES_CLIENT_IONLINELOADER_H_
 
 
-#include "kes_dashboard_live_tiles_client/ITileLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 
 
 namespace KESDLTC {

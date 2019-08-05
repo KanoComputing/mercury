@@ -14,9 +14,9 @@
 #include <list>
 #include <memory>
 
+#include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
-#include "kes_dashboard_live_tiles_client/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/TileFactory.h"
 
 

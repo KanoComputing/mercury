@@ -14,8 +14,8 @@
 
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/IDownloadable.h"
-#include "kes_dashboard_live_tiles_client/ISerialisable.h"
+#include "kes_dashboard_live_tiles_client/internal/IDownloadable.h"
+#include "kes_dashboard_live_tiles_client/internal/ISerialisable.h"
 
 
 namespace KESDLTC {
