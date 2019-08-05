@@ -16,7 +16,7 @@
 #include <memory>
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/IOnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/IOnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
 #include "kes_dashboard_live_tiles_client/TileFactory.h"

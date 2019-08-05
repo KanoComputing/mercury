@@ -17,7 +17,7 @@
 #include <list>
 #include <memory>
 
-#include "kes_dashboard_live_tiles_client/IOnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/IOnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 
 

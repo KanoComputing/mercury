@@ -14,10 +14,10 @@
 #include <memory>
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
-#include "kes_dashboard_live_tiles_client/OnlineLoader.h"
-#include "kes_dashboard_live_tiles_client/TileCache.h"
 #include "kes_dashboard_live_tiles_client/TileManager.h"
 #include "mercury/utils/Time.h"
 

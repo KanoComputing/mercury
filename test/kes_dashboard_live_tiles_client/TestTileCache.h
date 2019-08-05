@@ -17,8 +17,8 @@
 
 #include <memory>
 
-#include "kes_dashboard_live_tiles_client/Exceptions.h"
-#include "kes_dashboard_live_tiles_client/TileCache.h"
+#include "kes_dashboard_live_tiles_client/internal/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 
 #include "test/fixtures/kes_dlt_cli/TileCacheFixture.h"
 #include "test/matchers/JsonMatchers.h"

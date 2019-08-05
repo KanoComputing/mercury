@@ -17,7 +17,7 @@
 
 #include <memory>
 
-#include "kes_dashboard_live_tiles_client/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
 
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"

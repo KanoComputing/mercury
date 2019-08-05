@@ -15,10 +15,10 @@
 #include <memory>
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/internal/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
-#include "kes_dashboard_live_tiles_client/TileCache.h"
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/Time.h"
 
