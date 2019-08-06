@@ -36,11 +36,11 @@ gtest_discover_tests(mercury_gtests)
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
 set(COVERAGE_LCOV_EXCLUDES
-    '*/build/*' '*/test/*' '*/.conan/*' '*v1/*'
+    '*/build/*' '*/test/*' '*/.conan/*' '*v1/*' '/usr/include/*'
 )
 SETUP_TARGET_FOR_COVERAGE_LCOV(
     NAME coverage
-    EXECUTABLE ctest -j ${n_cores}
+    EXECUTABLE ctest -j ${n_cores} --no-compress-output -T test
     ENVIRONMENT LSAN_OPTIONS=verbosity=1:log_threads=1
     DEPENDENCIES
     mercury_obj
