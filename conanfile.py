@@ -28,6 +28,7 @@ class MercuryConan(ConanFile):
         "parson/0.1.0@bincrafters/stable",
         "Poco/1.9.2@pocoproject/stable",
         "yaml-cpp/0.6.2@bincrafters/stable",
+        "OpenSSL/1.1.1d@conan/stable"
     )
     generators = "cmake"
 
