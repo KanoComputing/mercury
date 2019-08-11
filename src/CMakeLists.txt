@@ -12,6 +12,12 @@ add_library(mercury_obj OBJECT
     kes_dashboard_live_tiles_client/TileCache.cpp
     kes_dashboard_live_tiles_client/TileFactory.cpp
     kes_dashboard_live_tiles_client/TileManager.cpp
+    kes_moma_picks_client/DefaultPaintingLoader.cpp
+    kes_moma_picks_client/OnlineLoader.cpp
+    kes_moma_picks_client/Painting.cpp
+    kes_moma_picks_client/PaintingCache.cpp
+    kes_moma_picks_client/PaintingFactory.cpp
+    kes_moma_picks_client/PaintingManager.cpp
     kw/APIConfig.cpp
     kw/kw.cpp
     theme/theme.cpp

@@ -1,3 +1,4 @@
 build/Release/lib/libmercury.a /usr/lib
 include/mercury /usr/include
 include/kes_dashboard_live_tiles_client /usr/include
+include/kes_moma_picks_client /usr/include
