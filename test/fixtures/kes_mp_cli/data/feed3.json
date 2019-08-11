@@ -1,0 +1,94 @@
+{
+    "paintings": [
+        {
+            "id": "01508155954225510468",
+            "title": "Aguamenti",
+            "username": "alexnklein2",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01508155954225510468/cover.png",
+            "openUrl": "https: //world.kano.me/creation/aguamenti",
+            "fallbackUrl": "https: //world.kano.me/creation/aguamenti"
+        },
+        {
+            "id": "01508156874296423493",
+            "title": "Aguamenti",
+            "username": "IndianaPunk",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01508156874296423493/cover.png",
+            "openUrl": "https: //world.kano.me/creation/aguamenti-1",
+            "fallbackUrl": "https: //world.kano.me/creation/aguamenti-1"
+        },
+        {
+            "id": "01567315872974902219",
+            "title": "Carve the pumpkin",
+            "username": "OliverPhelps",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01567315872974902219/cover.png",
+            "openUrl": "https: //world.kano.me/creation/carve-the-pumpkin",
+            "fallbackUrl": "https: //world.kano.me/creation/carve-the-pumpkin"
+        },
+        {
+            "id": "01510262517136384264",
+            "title": "Midnight Snack for Ratty",
+            "username": "TyrantLizardRex",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01510262517136384264/cover.png",
+            "openUrl": "https: //world.kano.me/creation/midnight-snack-for-ratty",
+            "fallbackUrl": "https: //world.kano.me/creation/midnight-snack-for-ratty"
+        },
+        {
+            "id": "01508125513678345272",
+            "title": "Purple Haze",
+            "username": "aaronhinchion",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01508125513678345272/cover.png",
+            "openUrl": "https: //world.kano.me/creation/purple-haze",
+            "fallbackUrl": "https: //world.kano.me/creation/purple-haze"
+        },
+        {
+            "id": "01509653606620490965",
+            "title": "Vibrant Vapour",
+            "username": "FoxBear",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01509653606620490965/cover.png",
+            "openUrl": "https: //world.kano.me/creation/vibrant-vapour",
+            "fallbackUrl": "https: //world.kano.me/creation/vibrant-vapour"
+        },
+        {
+            "id": "01725258580367536533",
+            "title": "Jazz",
+            "username": "J.J.W",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725258580367536533/cover.png",
+            "openUrl": "https: //world.kano.me/creation/jazz",
+            "fallbackUrl": "https: //world.kano.me/creation/jazz"
+        },
+        {
+            "id": "01725249951434305940",
+            "title": "Jasmine w",
+            "username": "J.J.W",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725249951434305940/cover.png",
+            "openUrl": "https: //world.kano.me/creation/jasmine-w",
+            "fallbackUrl": "https: //world.kano.me/creation/jasmine-w"
+        },
+        {
+            "id": "01725246008931152275",
+            "title": "Jasmine",
+            "username": "J.J.W",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725246008931152275/cover.png",
+            "openUrl": "https: //world.kano.me/creation/jasmine_86303",
+            "fallbackUrl": "https: //world.kano.me/creation/jasmine_86303"
+        },
+        {
+            "id": "01725244347449897361",
+            "title": "Gg",
+            "username": "J.J.W",
+            "dateCreated": "2019-08-12",
+            "cover": "https: //s3-us-west-1.amazonaws.com/share.world.kano.me/01725244347449897361/cover.png",
+            "openUrl": "https: //world.kano.me/creation/gg_86302",
+            "fallbackUrl": "https: //world.kano.me/creation/gg_86302"
+        }
+    ]
+}

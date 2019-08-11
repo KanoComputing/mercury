@@ -1,0 +1,104 @@
+{
+    "paintings": [
+        {
+            "id": "01509646158811655379",
+            "title": "Halloween Pumpkins",
+            "username": "FoxBear",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01509646158811655379/cover.png",
+            "coverPath": "01509646158811655379/cover.png",
+            "openUrl": "https://world.kano.me/creation/halloween-pumpkins",
+            "fallbackUrl": "https://world.kano.me/creation/halloween-pumpkins"
+        },
+        {
+            "id": "01567330252407969755",
+            "title": "Rainbow Fireworks",
+            "username": "JamesPhelps",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01567330252407969755/cover.png",
+            "coverPath": "01567330252407969755/cover.png",
+            "openUrl": "https://world.kano.me/creation/rainbow-fireworks_1395",
+            "fallbackUrl": "https://world.kano.me/creation/rainbow-fireworks_1395"
+        },
+        {
+            "id": "01638455600532709598",
+            "title": "Death Eater Defeater",
+            "username": "TyrantLizardRex",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01638455600532709598/cover.png",
+            "coverPath": "01638455600532709598/cover.png",
+            "openUrl": "https://world.kano.me/creation/never-ending-death-eaters",
+            "fallbackUrl": "https://world.kano.me/creation/never-ending-death-eaters"
+        },
+        {
+            "id": "01567521674293678113",
+            "title": "Treasure⚜️⚜️⚜️⚜️⚜️⚜️",
+            "username": "OliverPhelps",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01567521674293678113/cover.png",
+            "coverPath": "01567521674293678113/cover.png",
+            "openUrl": "https://world.kano.me/creation/lumos-remix",
+            "fallbackUrl": "https://world.kano.me/creation/lumos-remix"
+        },
+        {
+            "id": "01510262517136384264",
+            "title": "Midnight Snack for Ratty",
+            "username": "TyrantLizardRex",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01510262517136384264/cover.png",
+            "coverPath": "01510262517136384264/cover.png",
+            "openUrl": "https://world.kano.me/creation/midnight-snack-for-ratty",
+            "fallbackUrl": "https://world.kano.me/creation/midnight-snack-for-ratty"
+        },
+        {
+            "id": "01508142310473362495",
+            "title": "Noisy Mandrakes",
+            "username": "FoxBear",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01508142310473362495/cover.png",
+            "coverPath": "01508142310473362495/cover.png",
+            "openUrl": "https://world.kano.me/creation/noisy-mandrakes",
+            "fallbackUrl": "https://world.kano.me/creation/noisy-mandrakes"
+        },
+        {
+            "id": "01723118778789295937",
+            "title": "Hoot",
+            "username": "asgtimothydog",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723118778789295937/cover.png",
+            "coverPath": "01723118778789295937/cover.png",
+            "openUrl": "https://world.kano.me/creation/hoot_85644",
+            "fallbackUrl": "https://world.kano.me/creation/hoot_85644"
+        },
+        {
+            "id": "01723098892713157439",
+            "title": "Just vomit beans, please ",
+            "username": "lunalu",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723098892713157439/cover.png",
+            "coverPath": "01723098892713157439/cover.png",
+            "openUrl": "https://world.kano.me/creation/just-vomit-beans-please",
+            "fallbackUrl": "https://world.kano.me/creation/just-vomit-beans-please"
+        },
+        {
+            "id": "01723092448592880446",
+            "title": "Run away from bludgers ",
+            "username": "lunalu",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723092448592880446/cover.png",
+            "coverPath": "01723092448592880446/cover.png",
+            "openUrl": "https://world.kano.me/creation/run-away-from-bludgers",
+            "fallbackUrl": "https://world.kano.me/creation/run-away-from-bludgers"
+        },
+        {
+            "id": "01723087041639750461",
+            "title": "Changing puffs to random colours x 10",
+            "username": "7TECS_ABELA2019",
+            "dateCreated": "2019-08-12",
+            "cover": "https://s3-us-west-1.amazonaws.com/share.world.kano.me/01723087041639750461/cover.png",
+            "coverPath": "01723087041639750461/cover.png",
+            "openUrl": "https://world.kano.me/creation/changing-puffs-to-random-colours-x-10",
+            "fallbackUrl": "https://world.kano.me/creation/changing-puffs-to-random-colours-x-10"
+        }
+    ]
+}

@@ -18,6 +18,13 @@
 #include "kes_dashboard_live_tiles_client/TestTileCache.h"
 #include "kes_dashboard_live_tiles_client/TestTileManager.h"
 
+// #include "kes_moma_picks_client/LiveTestPaintingManager.h"
+#include "kes_moma_picks_client/TestDefaultPaintingLoader.h"
+#include "kes_moma_picks_client/TestOnlineLoader.h"
+#include "kes_moma_picks_client/TestPainting.h"
+#include "kes_moma_picks_client/TestPaintingCache.h"
+#include "kes_moma_picks_client/TestPaintingManager.h"
+
 #include "kw/apiconfig.h"
 #include "kw/kw_apis.h"
 #include "kw/kw_persistence.h"

@@ -15,6 +15,9 @@
 #include <string>
 
 #include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/IOnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileCache.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
