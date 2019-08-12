@@ -31,9 +31,9 @@ class PaintingManager : public IPaintingManager {
  public:  // Constructors & destructors.
     PaintingManager(
         const std::string& cacheDir = "",
-        const std::shared_ptr<internal::IOnlineLoader> onlineLoader = nullptr,
-        const std::shared_ptr<internal::IPaintingCache> paintingCache = nullptr,  // NOLINT
-        const std::shared_ptr<internal::IPaintingLoader> defaultPaintingLoader = nullptr);  // NOLINT
+        const std::shared_ptr<KESMPC::internal::IOnlineLoader> onlineLoader = nullptr,  // NOLINT
+        const std::shared_ptr<KESMPC::internal::IPaintingCache> paintingCache = nullptr,  // NOLINT
+        const std::shared_ptr<KESMPC::internal::IPaintingLoader> defaultPaintingLoader = nullptr);  // NOLINT
     ~PaintingManager();
 
  public:  // IPaintingManager Methods.
@@ -44,9 +44,9 @@ class PaintingManager : public IPaintingManager {
 
  private:  // Members.
     std::string cacheDir;
-    std::shared_ptr<internal::IOnlineLoader> onlineLoader;
-    std::shared_ptr<internal::IPaintingCache> paintingCache;
-    std::shared_ptr<internal::IPaintingLoader> defaultPaintingLoader;
+    std::shared_ptr<KESMPC::internal::IOnlineLoader> onlineLoader;
+    std::shared_ptr<KESMPC::internal::IPaintingCache> paintingCache;
+    std::shared_ptr<KESMPC::internal::IPaintingLoader> defaultPaintingLoader;
 
  private:  // Constants.
     const std::string CACHE_DIRNAME = ".kes-mp-cli";

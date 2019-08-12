@@ -31,9 +31,9 @@ class TileManager : public ITileManager {
  public:  // Constructors & destructors.
     TileManager(
         const std::string& cacheDir = "",
-        const std::shared_ptr<internal::IOnlineLoader> onlineLoader = nullptr,
-        const std::shared_ptr<internal::ITileCache> tileCache = nullptr,
-        const std::shared_ptr<internal::ITileLoader> defaultTileLoader = nullptr);  // NOLINT
+        const std::shared_ptr<KESDLTC::internal::IOnlineLoader> onlineLoader = nullptr,  // NOLINT
+        const std::shared_ptr<KESDLTC::internal::ITileCache> tileCache = nullptr,  // NOLINT
+        const std::shared_ptr<KESDLTC::internal::ITileLoader> defaultTileLoader = nullptr);  // NOLINT
     ~TileManager();
 
  public:  // ITileManager Methods.
@@ -44,9 +44,9 @@ class TileManager : public ITileManager {
 
  private:  // Members.
     std::string cacheDir;
-    std::shared_ptr<internal::IOnlineLoader> onlineLoader;
-    std::shared_ptr<internal::ITileCache> tileCache;
-    std::shared_ptr<internal::ITileLoader> defaultTileLoader;
+    std::shared_ptr<KESDLTC::internal::IOnlineLoader> onlineLoader;
+    std::shared_ptr<KESDLTC::internal::ITileCache> tileCache;
+    std::shared_ptr<KESDLTC::internal::ITileLoader> defaultTileLoader;
 
  private:  // Constants.
     const std::string CACHE_DIRNAME = ".kes-dlt-cli";
