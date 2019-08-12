@@ -20,7 +20,9 @@
 
 namespace KESDLTC {
 
-class ITile : public internal::ISerialisable, public internal::IDownloadable {
+class ITile :
+    public KESDLTC::internal::ISerialisable,
+    public KESDLTC::internal::IDownloadable {
  public:  // Constructors & destructors.
     virtual ~ITile() {}
 

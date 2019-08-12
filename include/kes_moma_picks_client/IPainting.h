@@ -21,8 +21,8 @@
 namespace KESMPC {
 
 class IPainting:
-    public internal::ISerialisable,
-    public internal::IDownloadable {
+    public KESMPC::internal::ISerialisable,
+    public KESMPC::internal::IDownloadable {
  public:  // Constructors & destructors.
     virtual ~IPainting() {}
 
