@@ -98,9 +98,10 @@ list<shared_ptr<ITile>> TileManager::getTiles(bool cache) const {
         cerr << "TileManager: Caught unexpected error" << endl;
     }
 
-    // If everything else failed, return some defaults.
+    // If everything else failed, return some defaults and initialise the cache
     if (tiles.empty()) {
         tiles = this->defaultTileLoader->getTiles();
+        this->tileCache->update(tiles);
     }
 
     return tiles;
