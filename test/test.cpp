@@ -32,6 +32,9 @@
 
 #include "theme/theme.h"
 
+// Run thread tests through the address sanitizer
+#include "thread/TestKanoWorldRefresh.h"
+
 
 int main(int argc, char *argv[]) {
     ::testing::InitGoogleTest(&argc, argv);

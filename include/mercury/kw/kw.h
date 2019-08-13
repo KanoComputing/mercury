@@ -12,6 +12,7 @@
 #define INCLUDE_MERCURY_KW_KW_H_
 
 
+#include <atomic>
 #include <memory>
 #include <string>
 
@@ -126,7 +127,7 @@ class KanoWorld {
     shared_ptr<Mercury::HTTP::IHTTPClient> http_client;
     string token;
     string expiration_date;
-    bool is_verified_cache;
+    std::atomic<bool> is_verified_cache;
 };
 
 

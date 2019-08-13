@@ -14,13 +14,11 @@ target_link_libraries(mercury_gtests
 )
 
 target_include_directories(mercury_gtests PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/../..>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
 )
 
 target_link_options(mercury_gtests
-    PRIVATE -fsanitize=address,undefined
-            -fno-sanitize-recover=all
-            -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    PRIVATE -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
 if (UNIX AND NOT APPLE)
@@ -31,6 +29,28 @@ endif ()
 
 enable_testing()
 gtest_discover_tests(mercury_gtests)
+
+# Thread tests
+
+if (THREAD_SANITIZER_SUPPORTED)
+    add_executable(mercury_thread_tests
+        thread_tests.cpp
+    )
+
+    target_link_libraries(mercury_thread_tests
+        PUBLIC mercury_thread_static
+        PRIVATE CONAN_PKG::gtest
+    )
+
+    target_include_directories(mercury_thread_tests PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_options(mercury_thread_tests
+        PRIVATE -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    )
+endif()
 
 # Coverage
 include(CodeCoverage)

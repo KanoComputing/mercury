@@ -1,5 +1,6 @@
 BUILD_DIR := build
 RELEASE :=
+CMAKE_EXTRA_OPTIONS :=
 CONAN_PROFILE=conan-platforms/conan-profile-$(shell uname -s)-$(shell uname -m).info
 
 .PHONY: build lint clean test docs
@@ -11,7 +12,7 @@ _build:
 	-conan remote add dev-server http://dev.kano.me:9300 || conan remote update dev-server http://dev.kano.me:9300
 	-cd build/$(RELEASE) && conan install -r dev-server --build=missing --profile=../../${CONAN_PROFILE} ../..
 	cd build/$(RELEASE) && conan install --build=missing --profile=../../${CONAN_PROFILE} ../..
-	cd build/$(RELEASE) && cmake -DCMAKE_BUILD_TYPE=$(RELEASE) ../..
+	cd build/$(RELEASE) && cmake -DCMAKE_BUILD_TYPE=$(RELEASE) $(CMAKE_EXTRA_OPTIONS) ../..
 	cd build/$(RELEASE) && make VERBOSE=1
 
 build-debug: RELEASE=Debug
@@ -27,6 +28,10 @@ clean:
 
 test-library: build-debug
 	cd build/Debug && CTEST_OUTPUT_ON_FAILURE=1 make coverage
+
+test-threads: CMAKE_EXTRA_OPTIONS += -DTHREAD_SANITIZER_SUPPORTED=ON
+test-threads: build-debug
+	./build/Debug/bin/mercury_thread_tests
 
 test-python: build-release test-python2
 	-cp -v build/Release/lib/_mercury_python3.so test/python3/_mercury.so
