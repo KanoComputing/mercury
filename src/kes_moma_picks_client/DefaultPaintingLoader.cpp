@@ -48,7 +48,7 @@ list<shared_ptr<IPainting>> DefaultPaintingLoader::getPaintings() {
         "09 July 2019",
         "https://world.kano.me/creation/sparkle-rainbow",
         "https://world.kano.me/creation/sparkle-rainbow",
-        "/usr/share/kes-dashboad-live-tiles-cli/images/5cd5835432dd0f15550e5086.png"));  // NOLINT
+        "/usr/share/kesdltc/images/5cd5835432dd0f15550e5086.png"));
 
     paintings.push_back(this->paintingFactory->create(
         "5c9ce4fc62a4bf0ff1700b77",
@@ -58,7 +58,7 @@ list<shared_ptr<IPainting>> DefaultPaintingLoader::getPaintings() {
         "09 July 2019",
         "https://world.kano.me/creation/paints_5",
         "https://world.kano.me/creation/paints_5",
-        "/usr/share/kes-dashboad-live-tiles-cli/images/5c9ce4fc62a4bf0ff1700b77.gif"));  // NOLINT
+        "/usr/share/kesdltc/images/5c9ce4fc62a4bf0ff1700b77.gif"));
 
     paintings.push_back(this->paintingFactory->create(
         "5c507ffdd8f37a1015b52eac",
@@ -68,7 +68,7 @@ list<shared_ptr<IPainting>> DefaultPaintingLoader::getPaintings() {
         "09 July 2019",
         "https://world.kano.me/creation/neon-space-raiders",
         "https://world.kano.me/creation/neon-space-raiders",
-        "/usr/share/kes-dashboad-live-tiles-cli/images/5c507ffdd8f37a1015b52eac.png"));  // NOLINT
+        "/usr/share/kesdltc/images/5c507ffdd8f37a1015b52eac.png"));
 
     paintings.push_back(this->paintingFactory->create(
         "5d0103cdebe30b0fe7096c1f",
@@ -78,7 +78,7 @@ list<shared_ptr<IPainting>> DefaultPaintingLoader::getPaintings() {
         "09 July 2019",
         "https://world.kano.me/creation/fractal-tree_47",
         "https://world.kano.me/creation/fractal-tree_47",
-        "/usr/share/kes-dashboad-live-tiles-cli/images/5d0103cdebe30b0fe7096c1f.png"));  // NOLINT
+        "/usr/share/kesdltc/images/5d0103cdebe30b0fe7096c1f.png"));
 
     return paintings;
 }
