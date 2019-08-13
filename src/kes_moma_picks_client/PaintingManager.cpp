@@ -99,9 +99,10 @@ list<shared_ptr<IPainting>> PaintingManager::getPaintings(bool cache) const {
         cerr << "PaintingManager: Caught unexpected error" << endl;
     }
 
-    // If everything else failed, return some defaults.
+    // If everything else failed, return some defaults and initialise the cache
     if (paintings.empty()) {
         paintings = this->defaultPaintingLoader->getPaintings();
+        this->paintingCache->update(paintings);
     }
 
     return paintings;
