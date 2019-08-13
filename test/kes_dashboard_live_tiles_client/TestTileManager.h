@@ -33,7 +33,7 @@ namespace KESDLTC {
 namespace test {
 
 /**
- * Check that TileManager.getCache(false) calls and returns
+ * Check that TileManager.getTiles(false) calls and returns
  * OnlineLoader.getTiles() when TileManager.isCooldown() is false.
  */
 TEST(TestTileManager, GetTilesCacheFalseNoCooldownRetrievesWithOnlineLoader) {
@@ -60,7 +60,7 @@ TEST(TestTileManager, GetTilesCacheFalseNoCooldownRetrievesWithOnlineLoader) {
 }
 
 /**
- * Check that TileManager.getCache(false) does not call OnlineLoader.getTiles()
+ * Check that TileManager.getTiles(false) does not call OnlineLoader.getTiles()
  * when TileManager.isCooldown() is true.
  */
 TEST(TestTileManager, GetTilesCacheFalseWithCooldownDoesNotSpamOnlineLoader) {
@@ -94,8 +94,9 @@ TEST(TestTileManager, GetTilesCacheFalseWithCooldownDoesNotSpamOnlineLoader) {
 }
 
 /**
- * Check that TileManager.getCache(false) returns OnlineLoader.getTiles()
- * and calls TileCache.update(result) when TileManager.isCooldown() is false.
+ * Check that TileManager.getTiles(false) returns OnlineLoader.getTiles()
+ * and calls TileCache.update(result) when TileManager.isCooldown() is false
+ * and result is not empty.
  */
 TEST(
     TestTileManager,
@@ -127,12 +128,13 @@ TEST(
 }
 
 /**
- * Check that TileManager.getCache(false) does not call TileCache.update()
+ * Check that TileManager.getTiles(false) does not call TileCache.update()
  * when TileManager.isCooldown() is false and OnlineLoader.getTiles() result
- * is empty.
+ * is empty and TileCache.getTiles() is not empty.
  */
-TEST(TestTileManager,
-     GetTilesCacheFalseNoCooldownDoesNotUpdateCacheWhenThereAreNoResults) {
+TEST(
+    TestTileManager,
+    GetTilesCacheFalseNoCooldownDoesNotUpdateCacheWhenThereAreNoResults) {
     // NOLINT
     auto mockOnlineLoader = std::make_shared<MockOnlineLoader>();
     auto mockTileCache = std::make_shared<MockTileCache>();
@@ -145,6 +147,9 @@ TEST(TestTileManager,
     KESDLTC::TileManager tileManager(
         "", mockOnlineLoader, mockTileCache, mockDefaultTileLoader);
 
+    ON_CALL(*mockTileCache, getTiles)
+        .WillByDefault(::testing::Return(tiles));
+
     EXPECT_CALL(*mockOnlineLoader, getTiles)
         .Times(1);
 
@@ -155,7 +160,7 @@ TEST(TestTileManager,
 }
 
 /**
- * Check that TileManager.getCache(false) returns TileCache.getTiles() when
+ * Check that TileManager.getTiles(false) returns TileCache.getTiles() when
  * TileManager.isCooldown() is false and OnlineLoader.getTiles() result
  * is empty.
  */
@@ -189,7 +194,7 @@ TEST(
 }
 
 /**
- * Check that TileManager.getCache(false) returns TileCache.getTiles() when
+ * Check that TileManager.getTiles(false) returns TileCache.getTiles() when
  * TileManager.isCooldown() is true.
  */
 TEST(TestTileManager, GetTilesCacheFalseWithCooldonwRetrievesFromTileCache) {
@@ -228,7 +233,7 @@ TEST(TestTileManager, GetTilesCacheFalseWithCooldonwRetrievesFromTileCache) {
 }
 
 /**
- * Check that TileManager.getCache(true) returns TileCache.getTiles().
+ * Check that TileManager.getTiles(true) returns TileCache.getTiles().
  */
 TEST(TestTileManager, GetTilesCacheTrueRetrievesFromTileCache) {
     auto mockOnlineLoader = std::make_shared<MockOnlineLoader>();
@@ -254,8 +259,8 @@ TEST(TestTileManager, GetTilesCacheTrueRetrievesFromTileCache) {
 }
 
 /**
- * Check that TileManager.getCache(true) returns DefaultTileLoader.getTiles()
- * when TileCache.getTiles() result is empty.
+ * Check that TileManager.getTiles(true) returns DefaultTileLoader.getTiles()
+ * when TileCache.getTiles() result is empty and calls TileCache.update().
  */
 TEST(TestTileManager, GetTilesCacheTrueRetrievesDefaultTilesWhenCacheIsEmpty) {
     auto mockOnlineLoader = std::make_shared<MockOnlineLoader>();
@@ -276,6 +281,9 @@ TEST(TestTileManager, GetTilesCacheTrueRetrievesDefaultTilesWhenCacheIsEmpty) {
         .Times(1);
 
     EXPECT_CALL(*mockDefaultTileLoader, getTiles)
+        .Times(1);
+
+    EXPECT_CALL(*mockTileCache, update(tiles))
         .Times(1);
 
     result = tileManager.getTiles(true);

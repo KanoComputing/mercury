@@ -43,7 +43,7 @@ TEST(TestDefaultPaintingLoader, GetPaintingsCallsPaintingFactoryCreate) {
         .WillByDefault(::testing::Return(mockPainting));
 
     EXPECT_CALL(*mockPaintingFactory, create_impl)
-        .Times(4);
+        .Times(6);
 
     defaultPaintingLoader.getPaintings();
 }
