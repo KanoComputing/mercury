@@ -33,7 +33,7 @@ namespace KESMPC {
 namespace test {
 
 /**
- * Check that PaintingManager.getCache(false) calls and returns
+ * Check that PaintingManager.getPaintings(false) calls and returns
  * OnlineLoader.getPaintings() when PaintingManager.isCooldown() is false.
  */
 TEST(
@@ -64,7 +64,7 @@ TEST(
 }
 
 /**
- * Check that PaintingManager.getCache(false) does not call
+ * Check that PaintingManager.getPaintings(false) does not call
  * OnlineLoader.getPaintings() when PaintingManager.isCooldown() is true.
  */
 TEST(
@@ -102,9 +102,9 @@ TEST(
 }
 
 /**
- * Check that PaintingManager.getCache(false) returns
+ * Check that PaintingManager.getPaintings(false) returns
  * OnlineLoader.getPaintings() and calls PaintingCache.update(result)
- * when PaintingManager.isCooldown() is false.
+ * when PaintingManager.isCooldown() is false and result is not empty.
  */
 TEST(
     TestPaintingManager,
@@ -137,13 +137,14 @@ TEST(
 }
 
 /**
- * Check that PaintingManager.getCache(false) does not call
+ * Check that PaintingManager.getPaintings(false) does not call
  * PaintingCache.update() when PaintingManager.isCooldown() is false and
  * OnlineLoader.getPaintings() result
  * is empty.
  */
-TEST(TestPaintingManager,
-     GetPaintingsCacheFalseNoCooldownDoesNotUpdateCacheWhenThereAreNoResults) {
+TEST(
+    TestPaintingManager,
+    GetPaintingsCacheFalseNoCooldownDoesNotUpdateCacheWhenThereAreNoResults) {
     // NOLINT
     auto mockOnlineLoader = std::make_shared<MockOnlineLoader>();
     auto mockPaintingCache = std::make_shared<MockPaintingCache>();
@@ -157,6 +158,9 @@ TEST(TestPaintingManager,
     KESMPC::PaintingManager paintingManager(
         "", mockOnlineLoader, mockPaintingCache, mockDefaultPaintingLoader);
 
+    ON_CALL(*mockPaintingCache, getPaintings)
+        .WillByDefault(::testing::Return(paintings));
+
     EXPECT_CALL(*mockOnlineLoader, getPaintings)
         .Times(1);
 
@@ -167,7 +171,7 @@ TEST(TestPaintingManager,
 }
 
 /**
- * Check that PaintingManager.getCache(false) returns
+ * Check that PaintingManager.getPaintings(false) returns
  * PaintingCache.getPaintings() when PaintingManager.isCooldown() is false and
  * OnlineLoader.getPaintings() result is empty.
  */
@@ -202,7 +206,7 @@ TEST(
 }
 
 /**
- * Check that PaintingManager.getCache(false) returns
+ * Check that PaintingManager.getPaintings(false) returns
  * PaintingCache.getPaintings() when PaintingManager.isCooldown() is true.
  */
 TEST(
@@ -245,7 +249,7 @@ TEST(
 }
 
 /**
- * Check that PaintingManager.getCache(true) returns
+ * Check that PaintingManager.getPaintings(true) returns
  * PaintingCache.getPaintings().
  */
 TEST(TestPaintingManager, GetPaintingsCacheTrueRetrievesFromPaintingCache) {
@@ -273,9 +277,9 @@ TEST(TestPaintingManager, GetPaintingsCacheTrueRetrievesFromPaintingCache) {
 }
 
 /**
- * Check that PaintingManager.getCache(true) returns
+ * Check that PaintingManager.getPaintings(true) returns
  * DefaultPaintingLoader.getPaintings() when PaintingCache.getPaintings()
- * result is empty.
+ * result is empty and calls PaintingCache.update().
  */
 TEST(
     TestPaintingManager,
@@ -300,6 +304,9 @@ TEST(
         .Times(1);
 
     EXPECT_CALL(*mockDefaultPaintingLoader, getPaintings)
+        .Times(1);
+
+    EXPECT_CALL(*mockPaintingCache, update(paintings))
         .Times(1);
 
     result = paintingManager.getPaintings(true);
