@@ -4,7 +4,7 @@ project(mercury VERSION 0.1 LANGUAGES CXX)
 
 find_package(OpenSSL)
 
-add_library(mercury_obj OBJECT
+set(mercury_src
     http/http_client.cpp
     kes_dashboard_live_tiles_client/DefaultTileLoader.cpp
     kes_dashboard_live_tiles_client/OnlineLoader.cpp
@@ -18,6 +18,10 @@ add_library(mercury_obj OBJECT
     utils/Filesystem.cpp
     utils/String.cpp
     utils/Time.cpp
+)
+
+add_library(mercury_obj OBJECT
+    ${mercury_src}
 )
 target_include_directories(mercury_obj PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
@@ -66,17 +70,76 @@ target_link_libraries(mercury_static
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     target_compile_options(mercury_obj
-        PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all
+        PUBLIC -fsanitize=address,undefined
+               -fno-omit-frame-pointer
+               -fno-sanitize-recover=all
     )
     target_link_options(mercury_shared
-        PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all
+        PUBLIC -fsanitize=address,undefined
+               -fno-omit-frame-pointer
+               -fno-sanitize-recover=all
     )
     target_link_options(mercury_static
-        PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all
+        PUBLIC -fsanitize=address,undefined
+               -fno-omit-frame-pointer
+               -fno-sanitize-recover=all
     )
 
+    # FIXME: Actually calculate whether the sanitizer is supported rather than
+    #        relying on a static variable. This could be done with something
+    #        like:
+    #
+    #            include(CheckCXXCompilerFlag)
+    #            check_cxx_compiler_flag('-fsanitize=thread'
+    #                                    THREAD_SANITIZER_SUPPORTED)
+    #
+    #        but was unable to get this to work properly
+    #
+    option(THREAD_SANITIZER_SUPPORTED
+           "Whether the thread sanitizer is supported"
+           OFF)
+
+    if (THREAD_SANITIZER_SUPPORTED)
+        add_library(mercury_thread_obj OBJECT
+            ${mercury_src}
+        )
+        target_include_directories(mercury_thread_obj PUBLIC
+            $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+            $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+        )
+        set_property(TARGET mercury_thread_obj PROPERTY POSITION_INDEPENDENT_CODE ON)
+        target_compile_options(mercury_thread_obj
+            PUBLIC -fsanitize=thread,undefined
+                -fno-omit-frame-pointer
+                -fno-sanitize-recover=all
+        )
+
+        add_library(mercury_thread_static STATIC
+            $<TARGET_OBJECTS:mercury_thread_obj>
+        )
+        set_target_properties(mercury_thread_static
+            PROPERTIES OUTPUT_NAME mercury_thread
+        )
+        target_link_options(mercury_thread_static
+            PUBLIC -fsanitize=thread,undefined
+                -fno-omit-frame-pointer
+                -fno-sanitize-recover=all
+        )
+        target_include_directories(mercury_thread_static PUBLIC
+            $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+            $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>
+            $<INSTALL_INTERFACE:include>
+        )
+        target_link_libraries(mercury_thread_static
+            PUBLIC CONAN_PKG::parson
+                CONAN_PKG::Poco
+                CONAN_PKG::yaml-cpp
+                ${OPENSSL_LIBRARIES}
+        )
+    endif()
+
     # Add flags for coverage
-    # TODO: Only do this if we are building the debug version
     include(CodeCoverage)
     APPEND_COVERAGE_COMPILER_FLAGS()
 endif (CMAKE_BUILD_TYPE MATCHES Debug)
