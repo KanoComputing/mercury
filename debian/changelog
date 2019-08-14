@@ -1,3 +1,10 @@
+mercury (4.3.1-0) unstable; urgency=low
+
+  * Added kes-moma-picks-client
+  * Multithreaded fixes for KanoWorld client
+
+ -- Team Kano <dev@kano.me>  Wed, 14 Aug 2019 12:25:00 +0100
+
 mercury (4.3.0-0) unstable; urgency=low
 
   * Mercury initial version
