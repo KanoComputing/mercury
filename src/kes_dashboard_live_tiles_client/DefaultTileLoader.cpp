@@ -60,7 +60,7 @@ list<shared_ptr<ITile>> DefaultTileLoader::getTiles() {
         "make-apps",
         "https://world.kano.me/creation/paints_5",
         "https://world.kano.me/creation/paints_5",
-        "/usr/share/kesdltc/images/5c9ce4fc62a4bf0ff1700b77.gif"));
+        "/usr/share/kesdltc/images/5c9ce4fc62a4bf0ff1700b77.png"));
 
     tiles.push_back(this->tileFactory->create(
         "5c507ffdd8f37a1015b52eac",
