@@ -12,8 +12,7 @@ class MercuryConan(ConanFile):
         "shared": [True, False],
     }
     default_options = {
-        "shared": False,
-        "OpenSSL:no_threads": not tools.os_info.is_macos
+        "shared": False
     }
     exports_sources = [
         "CMakeLists.txt",
