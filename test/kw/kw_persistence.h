@@ -48,7 +48,7 @@ TEST(kw, LoadCachedData)
     EXPECT_NE(stat(kw.data_filename.c_str(), &st), -1);
     EXPECT_EQ(kw.load_data(), true);
     EXPECT_GT(kw.get_token().length(), 0);
-    EXPECT_GT(kw.get_expiration_date().length(), 0);
+    EXPECT_GT(kw.get_expiration_date().count(), 0);
 }
 
 

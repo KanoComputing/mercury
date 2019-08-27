@@ -26,7 +26,7 @@ TEST(kw, LoginGetCorrectData)
 
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
     EXPECT_GT(kw.get_token().length(), 0);
-    EXPECT_GT(kw.get_expiration_date().length(), 0);
+    EXPECT_GT(kw.get_expiration_date().count(), 0);
 }
 
 TEST(kw, LoginGetNoData)
@@ -35,7 +35,7 @@ TEST(kw, LoginGetNoData)
 
     EXPECT_EQ(kw.login("nonexisting", "badpassword", true), false);
     EXPECT_EQ(kw.get_token().length(), 0);
-    EXPECT_EQ(kw.get_expiration_date().length(), 0);
+    EXPECT_EQ(kw.get_expiration_date().count(), 0);
 }
 
 #endif  // TEST_KW_KW_SERVER_DATA_H_

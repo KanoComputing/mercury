@@ -16,6 +16,7 @@
 #include <parson.h>
 
 #include <atomic>
+#include <chrono>  // NOLINT
 #include <memory>
 #include <string>
 
@@ -130,7 +131,7 @@ class KanoWorld {
     /**
      * \brief Extract the authentication token
      */
-    std::string get_expiration_date() const;
+    std::chrono::milliseconds get_expiration_date() const;
 
     /**
      * \brief Set the authentication token
@@ -138,7 +139,17 @@ class KanoWorld {
      * \param expiration   Value to set the expiration to.
      * \param save         Whether to save changes to disk
      */
-    void set_expiration_date(const std::string& duration, const bool save = true);  // NOLINT
+    void set_expiration_duration(
+        const std::chrono::seconds& duration, const bool save = true);
+
+    /**
+     * \brief Set the authentication token
+     *
+     * \param expiration   Value to set the expiration to.
+     * \param save         Whether to save changes to disk
+     */
+    void set_expiration_date(
+        const std::chrono::milliseconds& timestamp, const bool save = true);
 
     // TODO: private
     bool load_data();
@@ -157,8 +168,9 @@ class KanoWorld {
      *
      * \returns True if login was successful, false otherwise
      */
-    bool login(const std::string& user, const std::string& password,
-               const bool verbose = false);
+    bool login(
+        const std::string& username, const std::string& password,
+        const bool verbose = false);
 
     // TODO: remove
     std::string whoami() const;
@@ -176,6 +188,11 @@ class KanoWorld {
     bool is_account_verified_api() const;
 
     /**
+     * \brief Check if the cached login token has expired.
+     */
+    bool is_token_expired() const;
+
+    /**
      * \brief Extracts the token from an API response.
      */
     std::string parse_token(const std::shared_ptr<JSON_Value>& res) const;
@@ -183,7 +200,7 @@ class KanoWorld {
     /**
      * \brief Extracts the expiration duration from an API response.
      */
-    std::string parse_expiration_date(
+    std::chrono::seconds parse_expiration_duration(
         const std::shared_ptr<JSON_Value>& res) const;
 
     /**
@@ -200,7 +217,7 @@ class KanoWorld {
     std::shared_ptr<Mercury::HTTP::IHTTPClient> http_client;
     std::string username;
     std::string token;
-    std::string expiration_date;
+    std::chrono::milliseconds expiration_date;
     std::atomic<bool> is_verified_cache;
 };
 

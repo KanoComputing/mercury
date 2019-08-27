@@ -25,6 +25,8 @@ build: build-release
 
 clean:
 	-rm -rf build
+	-rm -rf docs/build
+	-rm -rf test/test_package/build
 
 test-library: build-debug
 	cd build/Debug && CTEST_OUTPUT_ON_FAILURE=1 make coverage
