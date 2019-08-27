@@ -14,7 +14,6 @@
 #include <unistd.h>
 
 #include <chrono>  // NOLINT
-#include <ctime>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -37,6 +36,7 @@ using Mercury::KanoWorld::KanoWorld;
 using std::chrono::duration_cast;
 using std::chrono::milliseconds;
 using std::chrono::seconds;
+using std::chrono::system_clock;
 using std::cout;
 using std::endl;
 using std::exception;
@@ -51,7 +51,7 @@ KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
         data_filename(string(getenv("HOME")) + "/.mercury_kw.json"),
         token(""),
         api_url(init_api_url(url)),
-        expiration_date(""),
+        expiration_date(0),
         is_verified_cache(false) {
     load_data();
 }
@@ -105,16 +105,16 @@ bool KanoWorld::login(const string& user, const string& password,
     }
 
     this->set_token(this->parse_token(res), false);
-    this->set_expiration_date(this->parse_expiration_date(res), false);
+    this->set_expiration_duration(this->parse_expiration_duration(res), false);
     this->save_data();
 
     if (verbose) {
         shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        cout << "--- login SERVER RESPONSE: " << resp_str << endl;
-        cout << "--- Token: " << get_token() << endl;
-        cout << "--- Expiration date: " << get_expiration_date() << endl;
+        cout << "login SERVER RESPONSE: " << resp_str << endl;
+        cout << "Token: " << get_token() << endl;
+        cout << "Expiration date: " << get_expiration_date().count() << endl;
     }
 
     return true;
@@ -135,7 +135,7 @@ bool KanoWorld::logout(const bool verbose) {
     }
 
     this->set_token("", false);
-    this->set_expiration_date("", false);
+    this->set_expiration_date(milliseconds(0), false);
     this->set_account_verified(false, false);
     this->save_data();
 
@@ -177,33 +177,30 @@ bool KanoWorld::refresh_token(const string& token, const bool verbose) {
         if (verbose) {
             cout << err.what() << endl;
         }
-
         return false;
     } catch (const SessionInitError& err) {
         if (verbose) {
             cout << err.what() << endl;
         }
-
         return false;
     } catch (const exception& err) {
         if (verbose) {
             cout << "Unkown error: " << err.what() << endl;
         }
-
         return false;
     }
 
     this->set_token(this->parse_token(res), false);
-    this->set_expiration_date(this->parse_expiration_date(res), false);
+    this->set_expiration_duration(this->parse_expiration_duration(res), false);
     this->save_data();
 
     if (verbose) {
         shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        cout << "--- refresh_token SERVER RESPONSE: " << resp_str << endl;
-        cout << "--- Token: " << get_token() << endl;
-        cout << "--- Expiration date: " << get_expiration_date() << endl;
+        cout << "refresh_token SERVER RESPONSE: " << resp_str << endl;
+        cout << "Token: " << get_token() << endl;
+        cout << "Expiration date: " << get_expiration_date().count() << endl;
     }
 
     return true;
@@ -236,37 +233,14 @@ string KanoWorld::get_refresh_header(const string& token) {
 
 
 bool KanoWorld::is_logged_in(const bool verbose) {
-    std::time_t now = std::time(nullptr);
+    return !this->is_token_expired();
+}
 
-    if (!load_data()) {
-        return false;
-    }
 
-    std::time_t duration = atol(this->get_expiration_date().c_str());
-
-    if (!duration) {
-        return false;
-    }
-
-    double seconds = difftime(now, duration);
-
-    if (verbose) {
-        char now_str[26];
-        ctime_r(static_cast<const time_t*>(&now), now_str);
-
-        char duration_str[26];
-        ctime_r(static_cast<const time_t*>(&duration), duration_str);
-
-        cout << "--- Am_I_Logged_In() requested - Time: " << now << " - "
-             << now_str << endl;
-
-        cout << "--- Token expires: " << duration << " - "
-             << duration_str << endl;
-        cout << "--- Difference in seconds: " << seconds << endl;
-        cout << "--- Token valid? " << (seconds < 0 ? "Yes" : "No") << endl;
-    }
-
-    return seconds < 0;
+bool KanoWorld::is_token_expired() const {
+    return
+        duration_cast<milliseconds>(system_clock::now().time_since_epoch()) >
+        this->get_expiration_date();
 }
 
 
@@ -288,7 +262,7 @@ string KanoWorld::parse_token(const shared_ptr<JSON_Value>& res) const {
         return "";
     }
 
-    const JSON_Object* data = json_value_get_object(res.get());
+    const JSON_Object* const data = json_value_get_object(res.get());
 
     if (!json_object_dothas_value_of_type(data, "data.token", JSONString)) {
         return "";
@@ -301,31 +275,23 @@ string KanoWorld::parse_token(const shared_ptr<JSON_Value>& res) const {
 /**
  * \brief Returns the token expiration date from the server response
  *
- * \returns A string with the Unix timestamp representing the token expiration
- *          date
- *
+ * \returns A timestamp in milliseconds when the token will expire.
  */
-string KanoWorld::parse_expiration_date(const shared_ptr<JSON_Value>& res) const {  // NOLINT
+seconds KanoWorld::parse_expiration_duration(
+    const shared_ptr<JSON_Value>& res) const {
+
     if (!res) {
-        return "";
+        return seconds(0);
     }
 
-    const JSON_Object* data = json_value_get_object(res.get());
+    const JSON_Object* const data = json_value_get_object(res.get());
 
     if (!json_object_dothas_value_of_type(data, "data.duration", JSONString)) {
-        return "";
+        return seconds(0);
     }
 
-    // For some reason, the Unix time returned by the server is divide by
-    // 1000 so we convert it back into a Unix time here. See:
-    // https://github.com/KanoComputing/kes-world-api/blob/develop/src/controllers/accounts.js#L35
-    int conversion = 1000;
-    string translate = json_object_dotget_string(data, "data.duration");
-
-    uint64_t converted_time = stol(translate);
-    converted_time *= conversion;
-
-    return std::to_string(converted_time);
+    string duration_str = json_object_dotget_string(data, "data.duration");
+    return seconds(std::stoll(duration_str));
 }
 
 
@@ -343,15 +309,32 @@ void KanoWorld::set_token(const string& token_val, const bool save) {
 }
 
 
-string KanoWorld::get_expiration_date() const {
+milliseconds KanoWorld::get_expiration_date() const {
     return this->expiration_date;
 }
+
 
 /**
  * \warning Currently does no validation on the date, just blindly sets it.
  */
-void KanoWorld::set_expiration_date(const string& expiration, const bool save) {
-    this->expiration_date = expiration;
+void KanoWorld::set_expiration_duration(
+    const seconds& duration, const bool save) {
+
+    milliseconds timestamp =
+        duration_cast<milliseconds>(system_clock::now().time_since_epoch()) +
+        duration_cast<milliseconds>(duration);
+
+    this->set_expiration_date(timestamp, save);
+}
+
+
+/**
+ * \warning Currently does no validation on the date, just blindly sets it.
+ */
+void KanoWorld::set_expiration_date(
+    const milliseconds& timestamp, const bool save) {
+
+    this->expiration_date = timestamp;
 
     if (save) {
         this->save_data();
@@ -375,26 +358,25 @@ bool KanoWorld::load_data() {
         return false;
     }
 
-    const JSON_Object * const data = json_value_get_object(user_data.get());
+    const JSON_Object* const data = json_value_get_object(user_data.get());
 
     if (json_object_has_value_of_type(data, "username", JSONString)) {
         this->set_username(json_object_get_string(data, "username"), false);
     }
-
     if (json_object_has_value_of_type(data, "token", JSONString)) {
         this->set_token(json_object_get_string(data, "token"), false);
     }
-
-    if (json_object_has_value_of_type(data, "duration", JSONString)) {
-        this->set_expiration_date(
-            json_object_get_string(data, "duration"), false);
+    if (json_object_has_value_of_type(data, "duration", JSONNumber)) {
+        milliseconds timestamp(static_cast<int64_t>(
+            json_object_get_number(data, "duration")));
+        this->set_expiration_date(timestamp, false);
     }
-
     if (json_object_has_value_of_type(data, "is_verified", JSONBoolean)) {
         this->set_account_verified(
             json_object_get_boolean(data, "is_verified"), false);
     }
 
+    this->save_data();
     return true;
 }
 
@@ -416,12 +398,12 @@ bool KanoWorld::save_data() {
         return false;
     }
 
-    JSON_Object *data = json_value_get_object(user_data.get());
+    JSON_Object* data = json_value_get_object(user_data.get());
 
     json_object_set_string(data, "username", this->get_username().c_str());
     json_object_set_string(data, "token", this->get_token().c_str());
-    json_object_set_string(data, "duration",
-                           this->get_expiration_date().c_str());
+    json_object_set_number(
+        data, "duration", this->get_expiration_date().count());
     json_object_set_boolean(data, "is_verified", this->get_account_verified());
 
     JSON_Status rc = json_serialize_to_file_pretty(
@@ -482,7 +464,7 @@ bool KanoWorld::is_account_verified_api() const {
         return false;
     }
 
-    const JSON_Object *data = json_value_get_object(response.get());
+    const JSON_Object* const data = json_value_get_object(response.get());
 
     if (!json_object_dothas_value_of_type(
             data, "data.user.isVerified", JSONBoolean)) {
