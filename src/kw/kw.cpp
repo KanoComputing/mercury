@@ -8,13 +8,12 @@
  */
 
 
-#include "mercury/kw/kw.h"
-
 #include <parson.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <chrono>  // NOLINT
 #include <ctime>
 #include <iostream>
 #include <map>
@@ -23,13 +22,21 @@
 #include <utility>
 
 #include "mercury/http/http_client_interface.h"
+#include "mercury/kw/APIConfig.h"
+#include "mercury/kw/kw.h"
+
+#include "mercury/utils/Time.h"
 
 using Mercury::HTTP::IHTTPClient;
 using Mercury::HTTP::HTTPRequestFailedError;
 using Mercury::HTTP::SessionInitError;
 
+using Mercury::KanoWorld::APIConfig;
 using Mercury::KanoWorld::KanoWorld;
 
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+using std::chrono::seconds;
 using std::cout;
 using std::endl;
 using std::exception;
@@ -41,7 +48,7 @@ using std::string;
 
 KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
         http_client(client),
-        data_filename(string(getenv("HOME")) + "/" + ".mercury_kw.json"),
+        data_filename(string(getenv("HOME")) + "/.mercury_kw.json"),
         token(""),
         api_url(init_api_url(url)),
         expiration_date(""),
@@ -116,26 +123,16 @@ bool KanoWorld::login(const string& username, const string& password,
         shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        cout << ">>> login SERVER RESPONSE: " << resp_str << endl;
-        cout << ">>> Token: " << get_token() << endl;
-        cout << ">>> Expiration date: " << get_expiration_date() << endl;
+        cout << "--- login SERVER RESPONSE: " << resp_str << endl;
+        cout << "--- Token: " << get_token() << endl;
+        cout << "--- Expiration date: " << get_expiration_date() << endl;
     }
 
     return true;
 }
 
 
-/**
- * \brief Logs out the current user
- *
- * The cache file is removed so that the login details are discarded
- *
- * \param verbose     Be more descriptive on the transaction details
- *
- * \returns True if logout was successful
- */
-bool KanoWorld::logout(const bool verbose)
-{
+bool KanoWorld::logout(const bool verbose) {
     struct stat cache;
     int rc = stat(this->data_filename.c_str(), &cache);
 
@@ -145,7 +142,7 @@ bool KanoWorld::logout(const bool verbose)
 
     if (verbose) {
         cout << "logout - removing cache file success? "
-                  << (rc == -1 ? "No" : "Yes") << endl;
+             << (rc == -1 ? "No" : "Yes") << endl;
     }
 
     this->set_token("", false);
@@ -157,18 +154,7 @@ bool KanoWorld::logout(const bool verbose)
 }
 
 
-/**
- * \brief Calls the refresh_token endpoint to request a new token
- *
- * On success, the token is saved locally for future reference
- *
- * \param token       The previously stored token
- * \param verbose     Be more descriptive on the transaction details
- *
- * \returns True if a new token was returned from the server.
- */
-bool KanoWorld::refresh_token(const string& token, const bool verbose)
-{
+bool KanoWorld::refresh_token(const string& token, const bool verbose) {
     if (!token.length()) {
         return false;
     }
@@ -209,9 +195,9 @@ bool KanoWorld::refresh_token(const string& token, const bool verbose)
         shared_ptr<char> resp_str(
             json_serialize_to_string(res.get()),
             json_free_serialized_string);
-        cout << ">>> refresh_token SERVER RESPONSE: " << resp_str << endl;
-        cout << ">>> Token: " << get_token() << endl;
-        cout << ">>> Expiration date: " << get_expiration_date() << endl;
+        cout << "--- refresh_token SERVER RESPONSE: " << resp_str << endl;
+        cout << "--- Token: " << get_token() << endl;
+        cout << "--- Expiration date: " << get_expiration_date() << endl;
     }
 
     return true;
@@ -221,14 +207,11 @@ bool KanoWorld::refresh_token(const string& token, const bool verbose)
 /**
  * \brief Returns the hostname used to contact the Kano World API
  *
- * On success, the token is saved locally for future reference
- *
  * \param config_filename   Json filename that stores the API details
  *
  * \returns A string with the URL to the server
  */
-string KanoWorld::get_hostname(string config_filename)
-{
+string KanoWorld::get_hostname(const string& config_filename) {
     // TODO: read from json configuration file
     return (string(""));
 }
@@ -241,24 +224,12 @@ string KanoWorld::get_hostname(string config_filename)
  *
  * \returns A string with the HTTP header
  */
-string KanoWorld::get_refresh_header(const string& token)
-{
+string KanoWorld::get_refresh_header(const string& token) {
     return (string("Authorization: Bearer " + token));
 }
 
 
-/**
- * \brief Returns wether the user is currently logged in
- *
- * A local token timestamp comparison is performed, to decide wether it has
- * expired
- *
- * \param verbose    Be more descriptive on the actions performed
- *
- * \returns True if the current user is logged in.
- */
-bool KanoWorld::is_logged_in(const bool verbose)
-{
+bool KanoWorld::is_logged_in(const bool verbose) {
     std::time_t now = std::time(nullptr);
 
     if (!load_data()) {
@@ -280,13 +251,13 @@ bool KanoWorld::is_logged_in(const bool verbose)
         char duration_str[26];
         ctime_r(static_cast<const time_t*>(&duration), duration_str);
 
-        cout << ">>> Am_I_Logged_In() requested - Time: " << now << " - "
+        cout << "--- Am_I_Logged_In() requested - Time: " << now << " - "
              << now_str << endl;
 
-        cout << ">>> Token expires: " << duration << " - "
+        cout << "--- Token expires: " << duration << " - "
              << duration_str << endl;
-        cout << ">>> Difference in seconds: " << seconds << endl;
-        cout << ">>> Token valid? " << (seconds < 0 ? "Yes" : "No") << endl;
+        cout << "--- Difference in seconds: " << seconds << endl;
+        cout << "--- Token valid? " << (seconds < 0 ? "Yes" : "No") << endl;
     }
 
     return seconds < 0;
@@ -294,10 +265,9 @@ bool KanoWorld::is_logged_in(const bool verbose)
 
 
 /**
- *   Not implemented yet
+ * \warning Not implemented yet.
  */
-string KanoWorld::whoami() const
-{
+string KanoWorld::whoami() const {
     return "";
 }
 
@@ -307,12 +277,12 @@ string KanoWorld::whoami() const
  *
  * \returns A string with the complete JWT token
  */
-string KanoWorld::parse_token(const shared_ptr<JSON_Value> res) const {
+string KanoWorld::parse_token(const shared_ptr<JSON_Value>& res) const {
     if (!res) {
         return "";
     }
 
-    const JSON_Object *data = json_value_get_object(res.get());
+    const JSON_Object* data = json_value_get_object(res.get());
 
     if (!json_object_dothas_value_of_type(data, "data.token", JSONString)) {
         return "";
@@ -329,13 +299,12 @@ string KanoWorld::parse_token(const shared_ptr<JSON_Value> res) const {
  *          date
  *
  */
-string KanoWorld::parse_expiration_date(
-        const shared_ptr<JSON_Value> res) const {
+string KanoWorld::parse_expiration_date(const shared_ptr<JSON_Value>& res) const {  // NOLINT
     if (!res) {
         return "";
     }
 
-    const JSON_Object *data = json_value_get_object(res.get());
+    const JSON_Object* data = json_value_get_object(res.get());
 
     if (!json_object_dothas_value_of_type(data, "data.duration", JSONString)) {
         return "";
@@ -373,7 +342,7 @@ string KanoWorld::get_expiration_date() const {
 }
 
 /**
- * \warning Currently does no validation on the date, just blindly sets it
+ * \warning Currently does no validation on the date, just blindly sets it.
  */
 void KanoWorld::set_expiration_date(const string& expiration, const bool save) {
     this->expiration_date = expiration;
@@ -391,8 +360,7 @@ void KanoWorld::set_expiration_date(const string& expiration, const bool save) {
  *
  * \returns true if the data was successfully loaded.
  */
-bool KanoWorld::load_data()
-{
+bool KanoWorld::load_data() {
     shared_ptr<JSON_Value> user_data(
         json_parse_file(this->data_filename.c_str()),
         json_value_free);
@@ -421,8 +389,7 @@ bool KanoWorld::load_data()
  *
  * \returns true if the data was successfully saved.
  */
-bool KanoWorld::save_data()
-{
+bool KanoWorld::save_data() {
     shared_ptr<JSON_Value> user_data(
         json_value_init_object(),
         json_value_free);
