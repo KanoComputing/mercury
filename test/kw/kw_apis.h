@@ -40,7 +40,7 @@ using testing::Eq;
 TEST(kw, DefaultConstructor) {
     KanoWorld kw;
 
-    EXPECT_EQ(kw.api_url, "https://worldapi.kano.me");
+    EXPECT_EQ(kw.api_url, "https://worldapi.kes.kano.me");
 }
 
 

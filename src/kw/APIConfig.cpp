@@ -68,5 +68,5 @@ string APIConfig::get_api_url() const {
         return url;
     }
 
-    return "https://worldapi.kano.me";
+    return "https://worldapi.kes.kano.me";
 }
