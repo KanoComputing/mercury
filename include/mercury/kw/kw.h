@@ -66,6 +66,19 @@ class KanoWorld {
     bool is_logged_in(const bool verbose = false);
 
     /**
+     * \brief Extract the Kano World username
+     */
+    std::string get_username() const;
+
+    /**
+     * \brief Set the Kano World username
+     *
+     * \param user        Value to set the token to.
+     * \param save        Whether to save changes to disk
+     */
+    void set_username(const std::string& user, const bool save = true);
+
+    /**
      * \brief Extract the authentication token
      */
     std::string get_token() const;
@@ -130,8 +143,21 @@ class KanoWorld {
     // TODO: private
     bool load_data();
 
-    // TODO: remove; this happens through webpages we can update live
-    bool login(const std::string& username, const std::string& password,
+    /**
+     * \brief Calls the login endpoint the username and password credentials.
+     *
+     * TODO: remove; this happens through webpages we can update live
+     * \warning This will be removed in the future
+     *
+     * This is a login to the Kano World Services API
+     *
+     * \param user        The username to log in as
+     * \param password    The password to the user account
+     * \param verbose     Be more descriptive on the transaction details
+     *
+     * \returns True if login was successful, false otherwise
+     */
+    bool login(const std::string& user, const std::string& password,
                const bool verbose = false);
 
     // TODO: remove
@@ -172,6 +198,7 @@ class KanoWorld {
 
  private:
     std::shared_ptr<Mercury::HTTP::IHTTPClient> http_client;
+    std::string username;
     std::string token;
     std::string expiration_date;
     std::atomic<bool> is_verified_cache;
