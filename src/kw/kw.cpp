@@ -57,24 +57,13 @@ KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
 }
 
 
-/**
- * \brief Calls the login endpoint the username and password credentials.
- *
- * This is a login to the Kano World Services API
- *
- * \param username    The first parameter passed to the function
- * \param password    The second parameter passed to the function
- * \param verbose     Be more descriptive on the transaction details
- *
- * \returns True if login was successful, false otherwise.e
- */
-bool KanoWorld::login(const string& username, const string& password,
+bool KanoWorld::login(const string& user, const string& password,
                       const bool verbose) {
-    if (!username.length() || !password.length()) {
+    if (!user.length() || !password.length()) {
         return false;
     }
 
-    const string body = "{\n\"username\": \"" + username +
+    const string body = "{\n\"username\": \"" + user +
         "\", \n\"password\": \"" + password + "\"\n}";
 
     shared_ptr<JSON_Value> res;
@@ -151,6 +140,23 @@ bool KanoWorld::logout(const bool verbose) {
     this->save_data();
 
     return rc != -1;
+}
+
+
+std::string KanoWorld::get_username() const {
+    return this->username;
+}
+
+
+/**
+ * \warning Currently does no validation on the username, just blindly sets it.
+ */
+void KanoWorld::set_username(const std::string& user, const bool save) {
+    this->username = user;
+
+    if (save) {
+        this->save_data();
+    }
 }
 
 
@@ -371,11 +377,23 @@ bool KanoWorld::load_data() {
 
     const JSON_Object * const data = json_value_get_object(user_data.get());
 
-    this->set_token(json_object_get_string(data, "token"), false);
-    this->set_expiration_date(json_object_get_string(data, "duration"), false);
-    this->set_account_verified(
-        json_object_get_boolean(data, "is_verified"), false);
-    this->save_data();
+    if (json_object_has_value_of_type(data, "username", JSONString)) {
+        this->set_username(json_object_get_string(data, "username"), false);
+    }
+
+    if (json_object_has_value_of_type(data, "token", JSONString)) {
+        this->set_token(json_object_get_string(data, "token"), false);
+    }
+
+    if (json_object_has_value_of_type(data, "duration", JSONString)) {
+        this->set_expiration_date(
+            json_object_get_string(data, "duration"), false);
+    }
+
+    if (json_object_has_value_of_type(data, "is_verified", JSONBoolean)) {
+        this->set_account_verified(
+            json_object_get_boolean(data, "is_verified"), false);
+    }
 
     return true;
 }
@@ -400,6 +418,7 @@ bool KanoWorld::save_data() {
 
     JSON_Object *data = json_value_get_object(user_data.get());
 
+    json_object_set_string(data, "username", this->get_username().c_str());
     json_object_set_string(data, "token", this->get_token().c_str());
     json_object_set_string(data, "duration",
                            this->get_expiration_date().c_str());

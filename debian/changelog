@@ -1,6 +1,7 @@
 mercury (4.3.2-0) unstable; urgency=low
 
   * Updated default Tiles supplied by KESDLTC
+  * Add ability to get and set the Kano World username
 
  -- Team Kano <dev@kano.me>  Min, 19 Aug 2019 17:25:00 +0100
 
