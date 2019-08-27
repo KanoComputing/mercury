@@ -80,7 +80,7 @@ TEST_F(APIConfigFixture, NoArgsConfig)
 {
     APIConfig config;
 
-    EXPECT_EQ(config.get_api_url(), "https://worldapi.kano.me");
+    EXPECT_EQ(config.get_api_url(), "https://worldapi.kes.kano.me");
 }
 
 

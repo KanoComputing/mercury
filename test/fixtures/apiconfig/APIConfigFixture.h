@@ -12,6 +12,7 @@
 #define TEST_FIXTURES_APICONFIG_APICONFIGFIXTURE_H_
 
 #include <gtest/gtest.h>
+#include <string>
 
 using ::testing::Test;
 
@@ -26,7 +27,7 @@ class APIConfigFixture : public Test {
 
 
 std::string APIConfigFixture::CONFIG_DIR =  // NOLINT
-    string(CMAKE_PROJ_BASE_DIR) + "/test/fixtures/apiconfig/data";
+    std::string(CMAKE_PROJ_BASE_DIR) + "/test/fixtures/apiconfig/data";
 std::string APIConfigFixture::BASE_CONFIG =  // NOLINT
     APIConfigFixture::CONFIG_DIR + "/base.yaml";
 std::string APIConfigFixture::OVERRIDE_CONFIG =  // NOLINT
