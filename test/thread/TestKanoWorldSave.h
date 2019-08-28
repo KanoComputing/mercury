@@ -48,7 +48,7 @@ TEST_F(KWSaveThread, ReadAndWriteDataFromThreads) {
 
     for (int i = 0; i < thread_count; i++) {
         std::thread write_thr([&]() {
-            random_delay(500);
+            random_delay(2000);
             this->save_data();
         });
         threads.push_back(std::move(write_thr));
@@ -56,13 +56,13 @@ TEST_F(KWSaveThread, ReadAndWriteDataFromThreads) {
 
     for (int i = 0; i < thread_count; i++) {
         std::thread read_thr([&]() {
-            random_delay(500);
+            random_delay(2000);
             this->load_data();
         });
         threads.push_back(std::move(read_thr));
     }
 
-    for (std::thread &thr : threads) {
+    for (const auto& thr : threads) {
         thr.join();
     }
 }
