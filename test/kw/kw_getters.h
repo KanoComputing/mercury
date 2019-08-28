@@ -14,25 +14,14 @@
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
-#include <mercury/kw/kw.h>
-
-#include <limits>
-#include <random>
 #include <string>
+
+#include "mercury/kw/kw.h"
+#include "test/fixtures/randomisation.h"
 
 
 using Mercury::KanoWorld::KanoWorld;
 using testing::Eq;
-
-
-
-int get_random_number(int max = std::numeric_limits<int>::max()) {
-    static std::random_device rd;
-    std::default_random_engine generator(rd());
-    std::uniform_int_distribution<int> distribution(0, max);
-
-    return distribution(generator);
-}
 
 
 TEST(kw, SetUsernameWithSave)

@@ -4,7 +4,7 @@
  * \copyright Copyright (C) 2019 Kano Computing Ltd.
  *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
  *
- *  Kano World class methods implemntation
+ * Kano World class methods implementation
  */
 
 
@@ -17,6 +17,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <mutex>  // NOLINT
 #include <string>
 #include <utility>
 
@@ -350,6 +351,8 @@ void KanoWorld::set_expiration_date(
  * \returns true if the data was successfully loaded.
  */
 bool KanoWorld::load_data() {
+    std::lock_guard<std::mutex> lock(this->save_mutex);
+
     shared_ptr<JSON_Value> user_data(
         json_parse_file(this->data_filename.c_str()),
         json_value_free);
@@ -376,7 +379,6 @@ bool KanoWorld::load_data() {
             json_object_get_boolean(data, "is_verified"), false);
     }
 
-    this->save_data();
     return true;
 }
 
@@ -390,6 +392,8 @@ bool KanoWorld::load_data() {
  * \returns true if the data was successfully saved.
  */
 bool KanoWorld::save_data() {
+    std::lock_guard<std::mutex> lock(this->save_mutex);
+
     shared_ptr<JSON_Value> user_data(
         json_value_init_object(),
         json_value_free);

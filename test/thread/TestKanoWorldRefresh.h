@@ -24,19 +24,10 @@
 #include <vector>
 
 #include "mercury/kw/kw.h"
+#include "test/fixtures/randomisation.h"
 
 
 using testing::Eq;
-
-
-void random_delay(int max_time) {
-    static std::random_device rd;
-    std::default_random_engine generator(rd());
-    std::uniform_int_distribution<int> distribution(0, max_time);
-
-    int delay = distribution(generator);
-    std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-}
 
 
 TEST(KWRefreshThread, RefreshVerified) {

@@ -5,7 +5,7 @@
  *            License: http://www.gnu.org/licenses/gpl-2.0.txt GNU GPL v2
  *
  * \brief     Provides common functions to interact with Kano World Services
-              network APIs
+ *            network APIs
  *
  */
 
@@ -18,6 +18,7 @@
 #include <atomic>
 #include <chrono>  // NOLINT
 #include <memory>
+#include <mutex>  // NOLINT
 #include <string>
 
 #include "mercury/http/http_client.h"
@@ -181,6 +182,12 @@ class KanoWorld {
     const std::string data_filename;
     const std::string api_url;
 
+ protected:
+    /**
+     * \brief
+     */
+    bool save_data();
+
  private:
     /**
      * \brief Perform the API call to determine if the account is verified.
@@ -204,11 +211,6 @@ class KanoWorld {
         const std::shared_ptr<JSON_Value>& res) const;
 
     /**
-     * \brief
-     */
-    bool save_data();
-
-    /**
      * \brief Helper for initialising the api_url member variable
      */
     std::string init_api_url(const std::string& url) const;
@@ -219,6 +221,7 @@ class KanoWorld {
     std::string token;
     std::chrono::milliseconds expiration_date;
     std::atomic<bool> is_verified_cache;
+    std::mutex save_mutex;
 };
 
 };  // namespace KanoWorld

@@ -35,6 +35,7 @@
 
 // Run thread tests through the address sanitizer
 #include "thread/TestKanoWorldRefresh.h"
+#include "thread/TestKanoWorldSave.h"
 
 
 int main(int argc, char *argv[]) {
