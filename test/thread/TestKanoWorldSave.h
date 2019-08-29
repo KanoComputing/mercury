@@ -62,7 +62,7 @@ TEST_F(KWSaveThread, ReadAndWriteDataFromThreads) {
         threads.push_back(std::move(read_thr));
     }
 
-    for (const auto& thr : threads) {
+    for (auto& thr : threads) {
         thr.join();
     }
 }
