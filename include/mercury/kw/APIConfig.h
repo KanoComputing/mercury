@@ -39,8 +39,7 @@ class APIConfig {
     /**
      * \brief Get the API URL
      *
-     * \returns the configured API URL or https://worldapi.kano.me if one isn't
-     *          found
+     * \returns the configured API URL or the default if one isn't found
      */
     std::string get_api_url() const;
 

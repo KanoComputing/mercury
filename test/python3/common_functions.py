@@ -9,6 +9,7 @@ import os
 # Dump all HTTP traffic for failing tests
 HTTP_VERBOSE = True
 
+# TODO: Change this to https://worldapi-dev.kes.kano.me when it's usable.
 API_URL = 'https://worldapi-dev.kano.me'
 
 # Set a valid token on this file to do a real test on a Kano Kit

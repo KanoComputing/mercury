@@ -4,6 +4,7 @@
 #
 
 
+# TODO: Change this to https://worldapi-dev.kes.kano.me when it's usable.
 API_URL = 'https://worldapi-dev.kano.me'
 
 

@@ -19,6 +19,7 @@
 #include <string>
 
 
+// TODO: Change this to https://worldapi-dev.kes.kano.me when it's usable.
 #define _API_URL "https://worldapi-dev.kano.me"
 
 
