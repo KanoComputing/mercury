@@ -54,8 +54,8 @@ class OnlineLoader : public IOnlineLoader {
     double getQueryCooldown() const override;
 
  public:  // Constants.
-    // static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kano.me/";
-    static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kessandbox.co.uk/";  // NOLINT
+    static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kano.me/";
+    // static constexpr const char* KES_DLT_URL = "https://dlt.os.kes.kessandbox.co.uk/";  // NOLINT
 
  private:  // Members.
     const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
