@@ -1,15 +1,17 @@
 {
     "data": {
         "user": {
-            "id": "01375358073836680585",
-            "username": "testuser",
+            "id": "01753536256467870280",
+            "username": "FineMelon",
             "roles": [],
-            "created": "2018-04-13T14:58:21.757522",
-            "modified": "2018-04-13T14:58:21.757522",
-            "isVerified": false,
+            "attributes": {
+                "consent": false
+            },
+            "created": "2019-09-02T10:03:31.335872",
+            "modified": "2019-09-02T10:03:31.335872",
             "bio": null
         },
-        "aBurl": "https://s3-us-west-1.amazonaws.com/avatar.world.kano.me"
+        "aBurl": "https://avatar.worldapi.kes.kano.me"
     },
     "type": "success"
 }

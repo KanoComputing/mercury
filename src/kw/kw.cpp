@@ -471,11 +471,13 @@ bool KanoWorld::is_account_verified_api() const {
     const JSON_Object* const data = json_value_get_object(response.get());
 
     if (!json_object_dothas_value_of_type(
-            data, "data.user.isVerified", JSONBoolean)) {
+            data, "data.user.attributes.consent", JSONBoolean)) {
         return false;
     }
 
-    int verified = json_object_dotget_boolean(data, "data.user.isVerified");
+    int verified = json_object_dotget_boolean(
+        data, "data.user.attributes.consent"
+    );
 
     if (verified == -1) {
         return false;
