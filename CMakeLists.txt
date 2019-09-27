@@ -5,7 +5,7 @@
 # Minimum CMake version required to build the software
 cmake_minimum_required(VERSION 3.7.2 FATAL_ERROR)
 
-set (CMAKE_VERBOSE_MAKEFILE on)
+set(CMAKE_VERBOSE_MAKEFILE on)
 
 project(Mercury VERSION 0.1)
 
@@ -16,7 +16,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(UseBackportedModules)
 
 # Global settings
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 # Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
