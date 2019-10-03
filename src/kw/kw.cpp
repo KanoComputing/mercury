@@ -476,8 +476,7 @@ bool KanoWorld::is_account_verified_api() const {
     }
 
     int verified = json_object_dotget_boolean(
-        data, "data.user.attributes.consent"
-    );
+        data, "data.user.attributes.consent");
 
     if (verified == -1) {
         return false;
