@@ -14,7 +14,6 @@
 #include <memory>
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/IOnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/ITileCache.h"
 #include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
@@ -22,6 +21,7 @@
 #include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/TileManager.h"
+#include "mercury/utils/IEnvironment.h"
 #include "mercury/utils/Time.h"
 
 using std::cerr;
@@ -32,7 +32,6 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
-using KESDLTC::internal::DefaultTileLoader;
 using KESDLTC::internal::IOnlineLoader;
 using KESDLTC::internal::ITileCache;
 using KESDLTC::internal::ITileLoader;
@@ -40,26 +39,26 @@ using KESDLTC::internal::OnlineLoader;
 using KESDLTC::internal::TileCache;
 using KESDLTC::ITile;
 using KESDLTC::TileManager;
+using Mercury::Utils::IEnvironment;
 
 
 TileManager::TileManager(
     const string& cacheDir,
     const shared_ptr<IOnlineLoader> onlineLoader,
     const shared_ptr<ITileCache> tileCache,
-    const shared_ptr<ITileLoader> defaultTileLoader):
+    const shared_ptr<ITileLoader> defaultTileLoader,
+    const shared_ptr<IEnvironment> env):
     cacheDir(cacheDir),
     onlineLoader(onlineLoader),
     tileCache(tileCache),
     defaultTileLoader(defaultTileLoader) {
     // NOLINT
     if (this->cacheDir == "")
-        this->cacheDir = string(getenv("HOME")) + "/" + this->CACHE_DIRNAME;
+        this->cacheDir = env->get("HOME") + "/" + this->CACHE_DIRNAME;
     if (this->onlineLoader == nullptr)
         this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
     if (this->tileCache == nullptr)
         this->tileCache = make_shared<TileCache>(this->cacheDir);
-    if (this->defaultTileLoader == nullptr)
-        this->defaultTileLoader = make_shared<DefaultTileLoader>();
 }
 
 

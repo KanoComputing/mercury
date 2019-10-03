@@ -9,7 +9,6 @@
 
 
 #include <parson.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -24,15 +23,8 @@
 #include "mercury/http/http_client_interface.h"
 #include "mercury/kw/APIConfig.h"
 #include "mercury/kw/kw.h"
-
+#include "mercury/utils/IEnvironment.h"
 #include "mercury/utils/Time.h"
-
-using Mercury::HTTP::IHTTPClient;
-using Mercury::HTTP::HTTPRequestFailedError;
-using Mercury::HTTP::SessionInitError;
-
-using Mercury::KanoWorld::APIConfig;
-using Mercury::KanoWorld::KanoWorld;
 
 using std::chrono::duration_cast;
 using std::chrono::milliseconds;
@@ -46,10 +38,22 @@ using std::make_pair;
 using std::shared_ptr;
 using std::string;
 
+using Mercury::HTTP::IHTTPClient;
+using Mercury::HTTP::HTTPRequestFailedError;
+using Mercury::HTTP::SessionInitError;
 
-KanoWorld::KanoWorld(const string& url, shared_ptr<IHTTPClient> client) :
+using Mercury::KanoWorld::APIConfig;
+using Mercury::KanoWorld::KanoWorld;
+
+using Mercury::Utils::IEnvironment;
+
+
+KanoWorld::KanoWorld(
+    const string& url,
+    const shared_ptr<IHTTPClient> client,
+    const shared_ptr<IEnvironment> env):
         http_client(client),
-        data_filename(string(getenv("HOME")) + "/.mercury_kw.json"),
+        data_filename(env->get("HOME") + "/.mercury_kw.json"),
         token(""),
         api_url(init_api_url(url)),
         expiration_date(0),

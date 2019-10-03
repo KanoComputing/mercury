@@ -30,7 +30,7 @@ namespace test {
 class MockEnvironment : public Mercury::Utils::IEnvironment {
  public:  // IEnvironment Methods.
     MOCK_CONST_METHOD1(
-        getenv,
+        get,
         std::string(const std::string& variable));
 };
 

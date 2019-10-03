@@ -39,7 +39,7 @@ TEST(TestEnvironment, GetEnvReturnsEmptyStringForNonExistentVariables) {
     bool variableNotSet = std::getenv(variable.c_str()) == nullptr;
     ASSERT_TRUE(variableNotSet);
 
-    std::string returnedValue = env.getenv(variable);
+    std::string returnedValue = env.get(variable);
 
     EXPECT_STREQ(returnedValue.c_str(), "");
 }
@@ -64,7 +64,7 @@ INSTANTIATE_TEST_CASE_P(
 TEST_P(EnvironmentFixture, ParamGetEnvReturnsExpectedValue) {
     Mercury::Utils::Environment env;
 
-    std::string returnedValue = env.getenv(this->variable);
+    std::string returnedValue = env.get(this->variable);
 
     EXPECT_STREQ(returnedValue.c_str(), this->value.c_str());
 }

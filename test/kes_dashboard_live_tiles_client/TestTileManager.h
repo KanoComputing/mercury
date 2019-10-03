@@ -27,10 +27,27 @@
 #include "test/mocks/kes_dlt_cli/MockOnlineLoader.h"
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileCache.h"
+#include "test/mocks/MockEnvironment.h"
 
 
 namespace KESDLTC {
 namespace test {
+
+/**
+ * Check that TileManager constructor calls Environment.get("HOME").
+ */
+TEST(TestTileManager, ConstructorCallsEnvironmentGetEnvWithHome) {
+    auto mockEnvironment = std::make_shared<Mercury::Utils::test::MockEnvironment>();  // NOLINT
+
+    ON_CALL(*mockEnvironment, get)
+        .WillByDefault(::testing::Return(""));
+
+    EXPECT_CALL(*mockEnvironment, get("HOME"))
+        .Times(1);
+
+    KESDLTC::TileManager tileManager(
+        "", nullptr, nullptr, nullptr, mockEnvironment);
+}
 
 /**
  * Check that TileManager.getTiles(false) calls and returns
