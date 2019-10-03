@@ -27,7 +27,7 @@ class IEnvironment {
     virtual ~IEnvironment() {}
 
  public:  // Methods.
-    virtual std::string getenv(const std::string& variable) const = 0;
+    virtual std::string get(const std::string& variable) const = 0;
 };
 
 }  // namespace Utils

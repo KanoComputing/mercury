@@ -11,38 +11,55 @@
 #ifndef TEST_KW_KW_APIS_H_
 #define TEST_KW_KW_APIS_H_
 
+
 #include <gmock/gmock.h>
-#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
-#include <mercury/http/exceptions.h>
-#include <mercury/http/http_client.h>
-#include <mercury/kw/kw.h>
 #include <parson.h>
-#include <test/fixtures/kw_api.h>
-#include <test/fixtures/kw_utils_mixin.h>
-#include <test/fixtures/parental_consent.h>
-#include <test/mocks/mock_http_client.h>
 
 #include <iostream>
 #include <map>
 #include <memory>
 #include <string>
 
+#include "mercury/http/exceptions.h"
+#include "mercury/http/http_client.h"
+#include "mercury/kw/kw.h"
 
-using Mercury::KanoWorld::KanoWorld;
-using testing::Eq;
+#include "test/fixtures/kw_api.h"
+#include "test/fixtures/kw_utils_mixin.h"
+#include "test/fixtures/parental_consent.h"
+#include "test/mocks/mock_http_client.h"
+#include "test/mocks/MockEnvironment.h"
 
+
+namespace Mercury {
+namespace KanoWorld {
+namespace test {
 
 /**
  * Ensure that the API url is correctly set when no argument is passed to the
  * constructor
  */
 TEST(kw, DefaultConstructor) {
-    KanoWorld kw;
+    Mercury::KanoWorld::KanoWorld kw;
 
     EXPECT_EQ(kw.api_url, "https://worldapi.kes.kano.me");
 }
 
+/**
+ * Check that KanoWorld constructor calls Environment.getenv("HOME").
+ */
+TEST(kw, ConstructorCallsEnvironmentGetEnvWithHome) {
+    auto mockEnvironment = std::make_shared<Mercury::Utils::test::MockEnvironment>();  // NOLINT
+
+    ON_CALL(*mockEnvironment, get)
+        .WillByDefault(::testing::Return(""));
+
+    EXPECT_CALL(*mockEnvironment, get("HOME"))
+        .Times(1);
+
+    Mercury::KanoWorld::KanoWorld kw("", nullptr, mockEnvironment);
+}
 
 /**
  * Ensure that the API url is correctly set when an argument is passed to the
@@ -50,28 +67,27 @@ TEST(kw, DefaultConstructor) {
  */
 TEST(kw, URLConstructor) {
     std::string url = "sometesturl";
-    KanoWorld kw(url);
+    Mercury::KanoWorld::KanoWorld kw(url);
 
     EXPECT_EQ(kw.api_url, url);
 }
 
-
 TEST(kw, RenewTokenMalformed)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.refresh_token("1234567890", true), false);
 }
 
 TEST(kw, RenewTokenEmpty)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.refresh_token("", true), false);
 }
 
 TEST(kw, RenewTokenCorrect)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
-    string token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." \
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
+    std::string token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." \
         "eyJleHAiOjE2MTk5MjMxNjIuMDE2LCJ1c2VyIjp7ImlkIjoiMDE3" \
         "MTA3Njg0NzQ4MTg5OTE0NzciLCJyb2xlcyI6W119fQ." \
         "Dhm3_2wDUyA5Tf3IANGfB8Y6DH2Nxzgl84fPSiURdJ8";
@@ -81,66 +97,66 @@ TEST(kw, RenewTokenCorrect)
 
 TEST(kw, LoginCorrect)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
 }
 
 TEST(kw, LoginCorrectAndLogout)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
     EXPECT_EQ(kw.logout(true), true);
 }
 
 TEST(kw, LoginInvalidCredentials)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("nonexisting", "nopassword", true), false);
 }
 
 
 TEST(kw, LoginEmptyUsername)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("", "nopassword", true), false);
 }
 
 TEST(kw, LoginEmptyPassword)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("yetanotherfakeuser", "", true), false);
 }
 
 TEST(kw, LoginEmptyCredentials)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.login("", "", true), false);
 }
 
 TEST(kw, RefreshHeaders)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
-    string header = kw.get_refresh_header("12345");
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
+    std::string header = kw.get_refresh_header("12345");
     EXPECT_EQ(header, "Authorization: Bearer 12345");
 }
 
 TEST(kw, GetHostname)
 {
     // TODO: API not implemented yet
-    KanoWorld kw(KanoWorldAPI::URL);
-    string hostname = kw.get_hostname("data/config_sample1.conf");
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
+    std::string hostname = kw.get_hostname("data/config_sample1.conf");
     EXPECT_EQ(hostname, "");
 }
 
 TEST(kw, IsLoggedIn)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.is_logged_in(false), false);
 }
 
 TEST(kw, Whoami)
 {
-    KanoWorld kw(KanoWorldAPI::URL);
+    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
     EXPECT_EQ(kw.whoami(), "");
 }
 
@@ -314,5 +330,9 @@ TEST_F(ParentalConsentCache, TestVerificationMixCache) {
     EXPECT_EQ(kw.refresh_account_verified(false), false);
 }
 
+
+}  // namespace test
+}  // namespace KanoWorld
+}  // namespace Mercury
 
 #endif  // TEST_KW_KW_APIS_H_

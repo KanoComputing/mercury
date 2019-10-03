@@ -11,14 +11,14 @@
 
 #include <gtest/gtest.h>
 
-// #include "kes_dashboard_live_tiles_client/LiveTestTileManager.h"
+//  --- Run all unit tests ---
+
 #include "kes_dashboard_live_tiles_client/TestDefaultTileLoader.h"
 #include "kes_dashboard_live_tiles_client/TestOnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/TestTile.h"
 #include "kes_dashboard_live_tiles_client/TestTileCache.h"
 #include "kes_dashboard_live_tiles_client/TestTileManager.h"
 
-// #include "kes_moma_picks_client/LiveTestPaintingManager.h"
 #include "kes_moma_picks_client/TestDefaultPaintingLoader.h"
 #include "kes_moma_picks_client/TestOnlineLoader.h"
 #include "kes_moma_picks_client/TestPainting.h"
@@ -33,7 +33,15 @@
 
 #include "theme/theme.h"
 
-// Run thread tests through the address sanitizer
+#include "unit/utils/TestEnvironment.h"
+
+// --- Run integration tests ---
+
+// #include "kes_dashboard_live_tiles_client/LiveTestTileManager.h"
+// #include "kes_moma_picks_client/LiveTestPaintingManager.h"
+
+// --- Run thread tests through the address sanitizer ---
+
 #include "thread/TestKanoWorldRefresh.h"
 #include "thread/TestKanoWorldSave.h"
 

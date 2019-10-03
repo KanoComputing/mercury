@@ -9,6 +9,7 @@
  *
  */
 
+
 #ifndef INCLUDE_MERCURY_KW_KW_H_
 #define INCLUDE_MERCURY_KW_KW_H_
 
@@ -23,6 +24,8 @@
 
 #include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
+#include "mercury/utils/Environment.h"
+#include "mercury/utils/IEnvironment.h"
 
 
 namespace Mercury {
@@ -41,8 +44,10 @@ class KanoWorld {
      */
     KanoWorld(
         const std::string& url = "",
-        std::shared_ptr<Mercury::HTTP::IHTTPClient> client =
-            std::make_shared<Mercury::HTTP::HTTPClient>());
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient> client =
+            std::make_shared<Mercury::HTTP::HTTPClient>(),
+        const std::shared_ptr<Mercury::Utils::IEnvironment> env =
+            std::make_shared<Mercury::Utils::Environment>());
 
     /**
      * \brief Logs out the current user
@@ -224,7 +229,9 @@ class KanoWorld {
     std::mutex save_mutex;
 };
 
+
 };  // namespace KanoWorld
 };  // namespace Mercury
+
 
 #endif  // INCLUDE_MERCURY_KW_KW_H_

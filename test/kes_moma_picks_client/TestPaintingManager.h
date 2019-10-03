@@ -27,10 +27,27 @@
 #include "test/mocks/kes_mp_cli/MockOnlineLoader.h"
 #include "test/mocks/kes_mp_cli/MockPainting.h"
 #include "test/mocks/kes_mp_cli/MockPaintingCache.h"
+#include "test/mocks/MockEnvironment.h"
 
 
 namespace KESMPC {
 namespace test {
+
+/**
+ * Check that PaintingManager constructor calls Environment.getenv("HOME").
+ */
+TEST(TestPaintingManager, ConstructorCallsEnvironmentGetEnvWithHome) {
+    auto mockEnvironment = std::make_shared<Mercury::Utils::test::MockEnvironment>();  // NOLINT
+
+    ON_CALL(*mockEnvironment, get)
+        .WillByDefault(::testing::Return(""));
+
+    EXPECT_CALL(*mockEnvironment, get("HOME"))
+        .Times(1);
+
+    KESMPC::PaintingManager paintingManager(
+        "", nullptr, nullptr, nullptr, mockEnvironment);
+}
 
 /**
  * Check that PaintingManager.getPaintings(false) calls and returns

@@ -22,7 +22,8 @@ namespace Utils {
 
 /**
  * \class Environment
- * \brief Interface for an Environment utility class.
+ * \brief Utility class which wraps standard C functions for environment
+          manipulation.
  */
 class Environment : public IEnvironment {
  public:  // Constructors & destructors.
@@ -30,7 +31,7 @@ class Environment : public IEnvironment {
     ~Environment();
 
  public:  // Methods.
-    std::string getenv(const std::string& variable) const override;
+    std::string get(const std::string& variable) const override;
 };
 
 }  // namespace Utils

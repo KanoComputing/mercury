@@ -12,17 +12,18 @@
 #define INCLUDE_KES_MOMA_PICKS_CLIENT_PAINTINGMANAGER_H_
 
 
-#include <stdlib.h>
-
 #include <list>
 #include <memory>
 #include <string>
 
+#include "kes_moma_picks_client/internal/DefaultPaintingLoader.h"
 #include "kes_moma_picks_client/internal/IOnlineLoader.h"
 #include "kes_moma_picks_client/internal/IPaintingCache.h"
 #include "kes_moma_picks_client/internal/IPaintingLoader.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingManager.h"
+#include "mercury/utils/Environment.h"
+#include "mercury/utils/IEnvironment.h"
 
 
 namespace KESMPC {
@@ -33,7 +34,10 @@ class PaintingManager : public IPaintingManager {
         const std::string& cacheDir = "",
         const std::shared_ptr<KESMPC::internal::IOnlineLoader> onlineLoader = nullptr,  // NOLINT
         const std::shared_ptr<KESMPC::internal::IPaintingCache> paintingCache = nullptr,  // NOLINT
-        const std::shared_ptr<KESMPC::internal::IPaintingLoader> defaultPaintingLoader = nullptr);  // NOLINT
+        const std::shared_ptr<KESMPC::internal::IPaintingLoader> defaultPaintingLoader =  // NOLINT
+            std::make_shared<KESMPC::internal::DefaultPaintingLoader>(),
+        const std::shared_ptr<Mercury::Utils::IEnvironment> env =
+            std::make_shared<Mercury::Utils::Environment>());
     ~PaintingManager();
 
  public:  // IPaintingManager Methods.

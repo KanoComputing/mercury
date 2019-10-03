@@ -29,7 +29,7 @@ Environment::~Environment() {
 }
 
 
-std::string Environment::getenv(const std::string& variable) const {
+std::string Environment::get(const std::string& variable) const {
     const char* value = std::getenv(variable.c_str());
     if (value == nullptr) {
         return string("");
