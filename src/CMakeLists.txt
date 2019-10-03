@@ -21,6 +21,7 @@ set(mercury_src
     kw/APIConfig.cpp
     kw/kw.cpp
     theme/theme.cpp
+    utils/Environment.cpp
     utils/Filesystem.cpp
     utils/String.cpp
     utils/Time.cpp
