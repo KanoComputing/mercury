@@ -16,15 +16,32 @@
 #include <stdlib.h>
 
 #include <cstdlib>
+#include <memory>
 #include <string>
 
 #include "mercury/utils/Environment.h"
+#include "mercury/utils/IEnvironment.h"
 #include "test/fixtures/EnvironmentFixture.h"
 
 
 namespace Mercury {
 namespace Utils {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of its interface.
+ */
+TEST(TestEnvironment, CanUseClassThroughInterfacePointer) {
+    std::shared_ptr<Mercury::Utils::IEnvironment> sharedEnvironment =
+        std::make_shared<Mercury::Utils::Environment>();
+
+    std::unique_ptr<Mercury::Utils::IEnvironment> uniqueEnvironment =
+        std::make_unique<Mercury::Utils::Environment>();
+
+    EXPECT_TRUE(sharedEnvironment != nullptr);
+    EXPECT_TRUE(uniqueEnvironment != nullptr);
+}
 
 
 /**

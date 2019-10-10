@@ -14,6 +14,7 @@
 #include <memory>
 #include <string>
 
+#include "kes_moma_picks_client/internal/DefaultPaintingLoader.h"
 #include "kes_moma_picks_client/internal/IOnlineLoader.h"
 #include "kes_moma_picks_client/internal/IPaintingCache.h"
 #include "kes_moma_picks_client/internal/IPaintingLoader.h"
@@ -21,6 +22,7 @@
 #include "kes_moma_picks_client/internal/PaintingCache.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/PaintingManager.h"
+#include "mercury/utils/Environment.h"
 #include "mercury/utils/IEnvironment.h"
 #include "mercury/utils/Time.h"
 
@@ -32,6 +34,7 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
+using KESMPC::internal::DefaultPaintingLoader;
 using KESMPC::internal::IOnlineLoader;
 using KESMPC::internal::IPaintingCache;
 using KESMPC::internal::IPaintingLoader;
@@ -40,6 +43,7 @@ using KESMPC::internal::PaintingCache;
 using KESMPC::IPainting;
 using KESMPC::PaintingManager;
 using Mercury::Utils::IEnvironment;
+using Mercury::Utils::Environment;
 
 
 PaintingManager::PaintingManager(
@@ -47,18 +51,22 @@ PaintingManager::PaintingManager(
     const shared_ptr<IOnlineLoader> onlineLoader,
     const shared_ptr<IPaintingCache> paintingCache,
     const shared_ptr<IPaintingLoader> defaultPaintingLoader,
-    const shared_ptr<IEnvironment> env):
+    shared_ptr<IEnvironment> env):
     cacheDir(cacheDir),
     onlineLoader(onlineLoader),
     paintingCache(paintingCache),
     defaultPaintingLoader(defaultPaintingLoader) {
     // NOLINT
+    if (env == nullptr)
+        env = make_shared<Environment>();
     if (this->cacheDir == "")
         this->cacheDir = env->get("HOME") + "/" + this->CACHE_DIRNAME;
     if (this->onlineLoader == nullptr)
         this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
     if (this->paintingCache == nullptr)
         this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
+    if (this->defaultPaintingLoader == nullptr)
+        this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
 }
 
 

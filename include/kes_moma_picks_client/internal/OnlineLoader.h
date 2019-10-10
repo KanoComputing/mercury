@@ -34,7 +34,7 @@ constexpr double ONE_HOUR_MS = 1000 * 60 * 60;  // in milliseconds
 
 class OnlineLoader : public IOnlineLoader {
  public:  // Constructors & destructors.
-    OnlineLoader(
+    explicit OnlineLoader(
         const std::string& cacheDir,
         const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
             std::make_shared<Mercury::HTTP::HTTPClient>(),
