@@ -19,6 +19,7 @@
 #include <memory>
 
 #include "kes_moma_picks_client/IPainting.h"
+#include "kes_moma_picks_client/IPaintingManager.h"
 #include "kes_moma_picks_client/PaintingManager.h"
 
 #include "mercury/utils/Time.h"
@@ -32,6 +33,21 @@
 
 namespace KESMPC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of its interface.
+ */
+TEST(TestPaintingManager, CanUseClassThroughInterfacePointer) {
+    std::shared_ptr<KESMPC::IPaintingManager> sharedPaintingManager =
+        std::make_shared<KESMPC::PaintingManager>();
+
+    std::unique_ptr<KESMPC::IPaintingManager> uniquePaintingManager =
+        std::make_unique<KESMPC::PaintingManager>();
+
+    EXPECT_TRUE(sharedPaintingManager != nullptr);
+    EXPECT_TRUE(uniquePaintingManager != nullptr);
+}
 
 /**
  * Check that PaintingManager constructor calls Environment.getenv("HOME").

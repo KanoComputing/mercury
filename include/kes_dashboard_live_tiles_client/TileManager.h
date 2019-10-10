@@ -16,13 +16,11 @@
 #include <memory>
 #include <string>
 
-#include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/IOnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/ITileCache.h"
 #include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileManager.h"
-#include "mercury/utils/Environment.h"
 #include "mercury/utils/IEnvironment.h"
 
 
@@ -34,10 +32,8 @@ class TileManager : public ITileManager {
         const std::string& cacheDir = "",
         const std::shared_ptr<KESDLTC::internal::IOnlineLoader> onlineLoader = nullptr,  // NOLINT
         const std::shared_ptr<KESDLTC::internal::ITileCache> tileCache = nullptr,  // NOLINT
-        const std::shared_ptr<KESDLTC::internal::ITileLoader> defaultTileLoader =  // NOLINT
-            std::make_shared<KESDLTC::internal::DefaultTileLoader>(),
-        const std::shared_ptr<Mercury::Utils::IEnvironment> env =
-            std::make_shared<Mercury::Utils::Environment>());  // NOLINT
+        const std::shared_ptr<KESDLTC::internal::ITileLoader> defaultTileLoader = nullptr,  // NOLINT
+        std::shared_ptr<Mercury::Utils::IEnvironment> env = nullptr);
     ~TileManager();
 
  public:  // ITileManager Methods.

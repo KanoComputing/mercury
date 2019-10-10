@@ -33,6 +33,22 @@
 namespace KESDLTC {
 namespace test {
 
+
+/**
+ * Check that users of the class can use it through a pointer of its interface.
+ */
+TEST(TestTileManager, CanUseClassThroughInterfacePointer) {
+    std::shared_ptr<KESDLTC::ITileManager> sharedTileManager =
+        std::make_shared<KESDLTC::TileManager>();
+
+    std::unique_ptr<KESDLTC::ITileManager> uniqueTileManager =
+        std::make_unique<KESDLTC::TileManager>();
+
+    EXPECT_TRUE(sharedTileManager != nullptr);
+    EXPECT_TRUE(uniqueTileManager != nullptr);
+}
+
+
 /**
  * Check that TileManager constructor calls Environment.get("HOME").
  */
