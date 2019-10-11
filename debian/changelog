@@ -3,6 +3,7 @@ mercury (4.3.3-0) unstable; urgency=low
   * Compiling project with C++14 standard
   * Fixed issue with KanoWorld, KESDLT, KESMP clients when ran
     under sudo
+  * Added a timeout capability to HTTP class
 
  -- Team Kano <dev@kano.me>  Fri, 3 Oct 2019 14:25:00 +0100
 
