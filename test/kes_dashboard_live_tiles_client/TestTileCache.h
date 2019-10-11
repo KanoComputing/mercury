@@ -18,9 +18,12 @@
 #include <memory>
 
 #include "kes_dashboard_live_tiles_client/internal/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileCache.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 
 #include "test/fixtures/kes_dlt_cli/TileCacheFixture.h"
+#include "test/helpers/TemplateTests.h"
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"
@@ -28,6 +31,25 @@
 
 namespace KESDLTC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ITileCache interface.
+ */
+TEST(TestTileCache, IsAnITileCache) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::internal::TileCache, KESDLTC::internal::ITileCache>("");
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ITileLoader interface.
+ */
+TEST(TestTileCache, IsAnITileLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::internal::TileCache, KESDLTC::internal::ITileLoader>("");
+}
 
 /**
  * Check that for a given cache data TileCache.getTiles() calls
@@ -183,7 +205,9 @@ TEST_F(TileCacheFixture, IsCacheEmptyWithFullCache) {
 // TODO: Test TileCache.update()
 // TODO: Test TileCache.getLastUpdated()
 
+
 }  // namespace test
 }  // namespace KESDLTC
+
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_TESTTILECACHE_H_

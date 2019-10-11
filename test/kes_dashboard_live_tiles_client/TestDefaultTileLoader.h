@@ -18,13 +18,26 @@
 #include <memory>
 
 #include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 
+#include "test/helpers/TemplateTests.h"
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"
 
 
 namespace KESDLTC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ITileLoader interface.
+ */
+TEST(TestDefaultTileLoader, IsAnITileLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::internal::DefaultTileLoader,
+        KESDLTC::internal::ITileLoader>();
+}
 
 /**
  * Check that DefaultTileLoader.getTiles() calls TileFactory.create() for each
@@ -46,7 +59,9 @@ TEST(TestDefaultTileLoader, GetTilesCallsTileFactoryCreate) {
     defaultTileLoader.getTiles();
 }
 
+
 }  // namespace test
 }  // namespace KESDLTC
+
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_TESTDEFAULTTILELOADER_H_

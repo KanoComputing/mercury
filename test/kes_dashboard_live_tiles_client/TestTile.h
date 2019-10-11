@@ -20,16 +20,48 @@
 #include <memory>
 #include <string>
 
+#include "kes_dashboard_live_tiles_client/internal/IDownloadable.h"
+#include "kes_dashboard_live_tiles_client/internal/ISerialisable.h"
+#include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/Tile.h"
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 #include "test/fixtures/kes_dlt_cli/TileCacheFixture.h"
+#include "test/helpers/TemplateTests.h"
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/mock_http_client.h"
 
 
 namespace KESDLTC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ITile interface.
+ */
+TEST(TestTile, IsAnITile) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::Tile, KESDLTC::ITile>();
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IDownloadable interface.
+ */
+TEST(TestTile, IsAnIDownloadable) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::Tile, KESDLTC::internal::IDownloadable>();
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ISerialisable interface.
+ */
+TEST(TestTile, IsAnISerialisable) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::Tile, KESDLTC::internal::ISerialisable>();
+}
 
 /**
  * Chech that Tile() constructor sets all members.
@@ -347,7 +379,9 @@ TEST_F(TileCacheFixture, DownloadFailsWhenDLFails) {
     EXPECT_FALSE(tile.download(this->cacheDir));
 }
 
+
 }  // namespace test
 }  // namespace KESDLTC
+
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_TESTTILE_H_

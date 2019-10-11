@@ -24,6 +24,7 @@
 
 #include "mercury/utils/Time.h"
 
+#include "test/helpers/TemplateTests.h"
 #include "test/mocks/kes_mp_cli/MockDefaultPaintingLoader.h"
 #include "test/mocks/kes_mp_cli/MockOnlineLoader.h"
 #include "test/mocks/kes_mp_cli/MockPainting.h"
@@ -36,17 +37,12 @@ namespace test {
 
 
 /**
- * Check that users of the class can use it through a pointer of its interface.
+ * Check that users of the class can use it through a pointer of the
+ * IPaintingManager interface.
  */
-TEST(TestPaintingManager, CanUseClassThroughInterfacePointer) {
-    std::shared_ptr<KESMPC::IPaintingManager> sharedPaintingManager =
-        std::make_shared<KESMPC::PaintingManager>();
-
-    std::unique_ptr<KESMPC::IPaintingManager> uniquePaintingManager =
-        std::make_unique<KESMPC::PaintingManager>();
-
-    EXPECT_TRUE(sharedPaintingManager != nullptr);
-    EXPECT_TRUE(uniquePaintingManager != nullptr);
+TEST(TestPaintingManager, IsAnIPaintingManager) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::PaintingManager, KESMPC::IPaintingManager>();
 }
 
 /**
