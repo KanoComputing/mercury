@@ -193,6 +193,9 @@ TEST_P(ParentalConsentAPI, TestAccountVerification)
 }
 
 
+/* TODO: Implement tests for HTTP class with a timeout */
+
+
 /**
  * KanoWorld::refresh_account_verified() should return false when the
  * HTTPClient throws an exception (for example, when there is a server error)

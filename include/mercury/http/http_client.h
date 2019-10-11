@@ -21,9 +21,10 @@
 
 #include "mercury/http/http_client_interface.h"
 
-
 namespace Mercury {
 namespace HTTP {
+
+#define DEFAULT_HTTP_CLIENT_TIMEOUT    15 // seconds
 
 /**
  * \class HTTPClient
@@ -32,6 +33,7 @@ namespace HTTP {
 class HTTPClient : public IHTTPClient {
  public:
     HTTPClient();
+    HTTPClient(int timeout_secs);
     std::shared_ptr<JSON_Value> POST(
         const std::string& url,
         const std::string& body,
@@ -49,6 +51,9 @@ class HTTPClient : public IHTTPClient {
     bool DL(
         const std::string& url,
         const std::string& path) override;
+
+    void set_http_client_timeout(int seconds);
+    int get_http_client_timeout();
 
  protected:
     /**
@@ -69,6 +74,8 @@ class HTTPClient : public IHTTPClient {
         const std::map<std::string, std::string>& headers =
             std::map<std::string, std::string>(),
         const std::string& body = "");
+
+    int http_client_timeout;
 };
 
 }  // namespace HTTP

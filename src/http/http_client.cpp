@@ -48,9 +48,12 @@ using Poco::Net::SSLManager;
 using Mercury::HTTP::HTTPClient;
 
 
-HTTPClient::HTTPClient() {
+HTTPClient::HTTPClient(int timeout_secs = DEFAULT_HTTP_CLIENT_TIMEOUT) {
     HTTPSessionInstantiator::registerInstantiator();
     HTTPSSessionInstantiator::registerInstantiator();
+
+    // set a default timeout, can be overriden after class instantiation
+    set_http_client_timeout(timeout_secs);
 
     // Prepare for SSLManager
     Poco::SharedPtr<AcceptCertificateHandler> cert =
@@ -59,6 +62,18 @@ HTTPClient::HTTPClient() {
         Context::CLIENT_USE, "", "", "", Context::VERIFY_NONE, 9, false,
         "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
     SSLManager::instance().initializeClient(0, cert, context);
+}
+
+
+void HTTPClient::set_http_client_timeout(int seconds)
+{
+    http_client_timeout = seconds;
+}
+
+
+int HTTPClient::get_http_client_timeout()
+{
+    return http_client_timeout;
 }
 
 
@@ -88,6 +103,8 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
     for (auto header : headers) {
         request.set(header.first, header.second);
     }
+
+    session->setTimeout(Poco::Timespan(this->get_http_client_timeout(), 0));
 
     std::ostream& os = session->sendRequest(request);
 
