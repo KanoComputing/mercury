@@ -20,16 +20,48 @@
 #include <memory>
 #include <string>
 
+#include "kes_moma_picks_client/internal/IDownloadable.h"
+#include "kes_moma_picks_client/internal/ISerialisable.h"
+#include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/Painting.h"
 
 #include "test/fixtures/kes_mp_cli/KesMpResponsesFixture.h"
 #include "test/fixtures/kes_mp_cli/PaintingCacheFixture.h"
+#include "test/helpers/TemplateTests.h"
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/mock_http_client.h"
 
 
 namespace KESMPC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IPainting interface.
+ */
+TEST(TestPainting, IsAnIPainting) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::Painting, KESMPC::IPainting>();
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ISerialisable interface.
+ */
+TEST(TestPainting, IsAnISerialisable) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::Painting, KESMPC::internal::ISerialisable>();
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IDownloadable interface.
+ */
+TEST(TestPainting, IsAnIDownloadable) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::Painting, KESMPC::internal::IDownloadable>();
+}
 
 /**
  * Chech that Painting() constructor sets all members.
@@ -339,7 +371,9 @@ TEST_F(PaintingCacheFixture, DownloadFailsWhenDLFails) {
     EXPECT_FALSE(painting.download(this->cacheDir));
 }
 
+
 }  // namespace test
 }  // namespace KESMPC
+
 
 #endif  // TEST_KES_MOMA_PICKS_CLIENT_TESTPAINTING_H_

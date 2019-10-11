@@ -20,6 +20,8 @@
 #include <string>
 
 #include "kes_moma_picks_client/internal/Exceptions.h"
+#include "kes_moma_picks_client/internal/IOnlineLoader.h"
+#include "kes_moma_picks_client/internal/IPaintingLoader.h"
 #include "kes_moma_picks_client/internal/OnlineLoader.h"
 
 #include "mercury/http/exceptions.h"
@@ -27,6 +29,7 @@
 
 #include "test/fixtures/kes_mp_cli/KesMpResponsesFixture.h"
 #include "test/fixtures/kes_mp_cli/KesMpValidResponsesFixture.h"
+#include "test/helpers/TemplateTests.h"
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/kes_mp_cli/MockPainting.h"
 #include "test/mocks/kes_mp_cli/MockPaintingFactory.h"
@@ -35,6 +38,25 @@
 
 namespace KESMPC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IOnlineLoader interface.
+ */
+TEST(TestOnlineLoader, IsAnIOnlineLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::internal::OnlineLoader, KESMPC::internal::IOnlineLoader>("");
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IPaintingLoader interface.
+ */
+TEST(TestOnlineLoader, IsAnIPaintingLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::internal::OnlineLoader, KESMPC::internal::IPaintingLoader>("");
+}
 
 INSTANTIATE_TEST_CASE_P(
     Parameterised,
@@ -309,7 +331,9 @@ TEST_F(
     ASSERT_THROW(onlineLoader.getPaintings(), Mercury::HTTP::DownloadError);
 }
 
+
 }  // namespace test
 }  // namespace KESMPC
+
 
 #endif  // TEST_KES_MOMA_PICKS_CLIENT_TESTONLINELOADER_H_

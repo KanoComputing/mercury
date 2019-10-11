@@ -18,9 +18,12 @@
 #include <memory>
 
 #include "kes_moma_picks_client/internal/Exceptions.h"
+#include "kes_moma_picks_client/internal/IPaintingCache.h"
+#include "kes_moma_picks_client/internal/IPaintingLoader.h"
 #include "kes_moma_picks_client/internal/PaintingCache.h"
 
 #include "test/fixtures/kes_mp_cli/PaintingCacheFixture.h"
+#include "test/helpers/TemplateTests.h"
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/kes_mp_cli/MockPainting.h"
 #include "test/mocks/kes_mp_cli/MockPaintingFactory.h"
@@ -28,6 +31,25 @@
 
 namespace KESMPC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IPaintingCache interface.
+ */
+TEST(TestPaintingCache, IsAnIPaintingCache) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::internal::PaintingCache, KESMPC::internal::IPaintingCache>("");
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IPaintingLoader interface.
+ */
+TEST(TestPaintingCache, IsAnIPaintingLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESMPC::internal::PaintingCache, KESMPC::internal::IPaintingLoader>("");
+}
 
 /**
  * Check that for a given cache data PaintingCache.getPaintings() calls
@@ -189,7 +211,9 @@ TEST_F(PaintingCacheFixture, IsCacheEmptyWithFullCache) {
 // TODO: Test PaintingCache.update()
 // TODO: Test PaintingCache.getLastUpdated()
 
+
 }  // namespace test
 }  // namespace KESMPC
+
 
 #endif  // TEST_KES_MOMA_PICKS_CLIENT_TESTPAINTINGCACHE_H_

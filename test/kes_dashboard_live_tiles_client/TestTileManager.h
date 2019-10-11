@@ -19,10 +19,12 @@
 #include <memory>
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
+#include "kes_dashboard_live_tiles_client/ITileManager.h"
 #include "kes_dashboard_live_tiles_client/TileManager.h"
 
 #include "mercury/utils/Time.h"
 
+#include "test/helpers/TemplateTests.h"
 #include "test/mocks/kes_dlt_cli/MockDefaultTileLoader.h"
 #include "test/mocks/kes_dlt_cli/MockOnlineLoader.h"
 #include "test/mocks/kes_dlt_cli/MockTile.h"
@@ -35,17 +37,12 @@ namespace test {
 
 
 /**
- * Check that users of the class can use it through a pointer of its interface.
+ * Check that users of the class can use it through a pointer of the
+ * ITileManager interface.
  */
-TEST(TestTileManager, CanUseClassThroughInterfacePointer) {
-    std::shared_ptr<KESDLTC::ITileManager> sharedTileManager =
-        std::make_shared<KESDLTC::TileManager>();
-
-    std::unique_ptr<KESDLTC::ITileManager> uniqueTileManager =
-        std::make_unique<KESDLTC::TileManager>();
-
-    EXPECT_TRUE(sharedTileManager != nullptr);
-    EXPECT_TRUE(uniqueTileManager != nullptr);
+TEST(TestTileManager, IsAnITileManager) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::TileManager, KESDLTC::ITileManager>();
 }
 
 

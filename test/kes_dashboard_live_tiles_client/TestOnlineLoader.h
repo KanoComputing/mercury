@@ -20,6 +20,8 @@
 #include <string>
 
 #include "kes_dashboard_live_tiles_client/internal/Exceptions.h"
+#include "kes_dashboard_live_tiles_client/internal/IOnlineLoader.h"
+#include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
 
 #include "mercury/http/exceptions.h"
@@ -27,6 +29,7 @@
 
 #include "test/fixtures/kes_dlt_cli/KesDltResponsesFixture.h"
 #include "test/fixtures/kes_dlt_cli/KesDltValidResponsesFixture.h"
+#include "test/helpers/TemplateTests.h"
 #include "test/matchers/JsonMatchers.h"
 #include "test/mocks/kes_dlt_cli/MockTile.h"
 #include "test/mocks/kes_dlt_cli/MockTileFactory.h"
@@ -35,6 +38,25 @@
 
 namespace KESDLTC {
 namespace test {
+
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * IOnlineLoader interface.
+ */
+TEST(TestOnlineLoader, IsAnIOnlineLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::internal::OnlineLoader, KESDLTC::internal::IOnlineLoader>("");
+}
+
+/**
+ * Check that users of the class can use it through a pointer of the
+ * ITileLoader interface.
+ */
+TEST(TestOnlineLoader, IsAnITileLoader) {
+    Mercury::test::testBaseIsAnInterface<
+        KESDLTC::internal::OnlineLoader, KESDLTC::internal::ITileLoader>("");
+}
 
 INSTANTIATE_TEST_CASE_P(
     Parameterised,
@@ -302,7 +324,9 @@ TEST_F(
     ASSERT_THROW(onlineLoader.getTiles(), Mercury::HTTP::DownloadError);
 }
 
+
 }  // namespace test
 }  // namespace KESDLTC
+
 
 #endif  // TEST_KES_DASHBOARD_LIVE_TILES_CLIENT_TESTONLINELOADER_H_
