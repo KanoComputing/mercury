@@ -26,10 +26,6 @@ namespace Utils {
           manipulation.
  */
 class Environment : public IEnvironment {
- public:  // Constructors & destructors.
-    Environment();
-    ~Environment();
-
  public:  // Methods.
     std::string get(const std::string& variable) const override;
 };

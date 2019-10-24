@@ -22,9 +22,7 @@
 #include <mutex>  // NOLINT
 #include <string>
 
-#include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
-#include "mercury/utils/Environment.h"
 #include "mercury/utils/IEnvironment.h"
 
 
@@ -42,12 +40,10 @@ class KanoWorld {
      *
      * \param client    (Optional) The HTTP client to use for requests
      */
-    KanoWorld(
+    explicit KanoWorld(
         const std::string& url = "",
-        const std::shared_ptr<Mercury::HTTP::IHTTPClient> client =
-            std::make_shared<Mercury::HTTP::HTTPClient>(),
-        const std::shared_ptr<Mercury::Utils::IEnvironment> env =
-            std::make_shared<Mercury::Utils::Environment>());
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& client = nullptr,
+        const std::shared_ptr<Mercury::Utils::IEnvironment>& env = nullptr);
 
     /**
      * \brief Logs out the current user
@@ -184,7 +180,7 @@ class KanoWorld {
     std::string get_refresh_header(const std::string& token);
 
  public:
-    const std::string data_filename;
+    std::string data_filename;
     const std::string api_url;
 
  protected:

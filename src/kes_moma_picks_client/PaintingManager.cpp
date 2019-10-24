@@ -48,30 +48,24 @@ using Mercury::Utils::Environment;
 
 PaintingManager::PaintingManager(
     const string& cacheDir,
-    const shared_ptr<IOnlineLoader> onlineLoader,
-    const shared_ptr<IPaintingCache> paintingCache,
-    const shared_ptr<IPaintingLoader> defaultPaintingLoader,
-    shared_ptr<IEnvironment> env):
-    cacheDir(cacheDir),
-    onlineLoader(onlineLoader),
-    paintingCache(paintingCache),
-    defaultPaintingLoader(defaultPaintingLoader) {
-    // NOLINT
-    if (env == nullptr)
-        env = make_shared<Environment>();
+    const shared_ptr<IOnlineLoader>& onlineLoader,
+    const shared_ptr<IPaintingCache>& paintingCache,
+    const shared_ptr<IPaintingLoader>& defaultPaintingLoader,
+    const shared_ptr<IEnvironment>& env):
+        cacheDir(cacheDir),
+        onlineLoader(onlineLoader),
+        paintingCache(paintingCache),
+        defaultPaintingLoader(defaultPaintingLoader) {
+    //
+    auto environ = (env == nullptr) ? make_shared<Environment>() : env;
     if (this->cacheDir == "")
-        this->cacheDir = env->get("HOME") + "/" + this->CACHE_DIRNAME;
+        this->cacheDir = environ->get("HOME") + "/" + this->CACHE_DIRNAME;
     if (this->onlineLoader == nullptr)
         this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
     if (this->paintingCache == nullptr)
         this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
     if (this->defaultPaintingLoader == nullptr)
         this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
-}
-
-
-PaintingManager::~PaintingManager() {
-    // Empty destructor.
 }
 
 

@@ -16,6 +16,7 @@
 #include <string>
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
+#include "mercury/http/http_client_interface.h"
 
 
 namespace KESDLTC {
@@ -35,7 +36,9 @@ class ITileFactory {
         const std::string& app,
         const std::string& openUrl,
         const std::string& fallbackUrl,
-        const std::string& coverPath = "") const = 0;
+        const std::string& coverPath = "",
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient =
+            nullptr) const = 0;
 };
 
 }  // namespace KESDLTC

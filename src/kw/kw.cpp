@@ -20,9 +20,11 @@
 #include <string>
 #include <utility>
 
+#include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
 #include "mercury/kw/APIConfig.h"
 #include "mercury/kw/kw.h"
+#include "mercury/utils/Environment.h"
 #include "mercury/utils/IEnvironment.h"
 #include "mercury/utils/Time.h"
 
@@ -35,29 +37,37 @@ using std::endl;
 using std::exception;
 using std::map;
 using std::make_pair;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 using Mercury::HTTP::IHTTPClient;
+using Mercury::HTTP::HTTPClient;
 using Mercury::HTTP::HTTPRequestFailedError;
 using Mercury::HTTP::SessionInitError;
-
 using Mercury::KanoWorld::APIConfig;
 using Mercury::KanoWorld::KanoWorld;
-
+using Mercury::Utils::Environment;
 using Mercury::Utils::IEnvironment;
 
 
 KanoWorld::KanoWorld(
     const string& url,
-    const shared_ptr<IHTTPClient> client,
-    const shared_ptr<IEnvironment> env):
+    const shared_ptr<IHTTPClient>& client,
+    const shared_ptr<IEnvironment>& env):
         http_client(client),
-        data_filename(env->get("HOME") + "/.mercury_kw.json"),
+        data_filename(""),
         token(""),
         api_url(init_api_url(url)),
         expiration_date(0),
         is_verified_cache(false) {
+    //
+    if (this->http_client == nullptr)
+        this->http_client = make_shared<HTTPClient>();
+
+    auto environ = (env == nullptr) ? make_shared<Environment>() : env;
+    this->data_filename = environ->get("HOME") + "/.mercury_kw.json";
+
     load_data();
 }
 

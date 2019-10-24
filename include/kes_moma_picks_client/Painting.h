@@ -19,7 +19,6 @@
 
 #include "kes_moma_picks_client/IPainting.h"
 
-#include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
 
 
@@ -28,8 +27,7 @@ namespace KESMPC {
 class Painting : public IPainting {
  public:  // Constructors & destructors.
     explicit Painting(
-        const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
-            std::make_shared<Mercury::HTTP::HTTPClient>());
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr);  // NOLINT
 
     Painting(
         const std::string& id,
@@ -40,10 +38,7 @@ class Painting : public IPainting {
         const std::string& openUrl,
         const std::string& fallbackUrl,
         const std::string& coverPath = "",
-        const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
-            std::make_shared<Mercury::HTTP::HTTPClient>());
-
-    ~Painting();
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr);  // NOLINT
 
  public:  // ISerialisable Methods.
     bool initialise(JSON_Value* serialisedData) override;
@@ -71,7 +66,7 @@ class Painting : public IPainting {
     std::string dateCreated;
     std::string openUrl;
     std::string fallbackUrl;
-    const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
+    std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
 };
 
 }  // namespace KESMPC

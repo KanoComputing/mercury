@@ -28,13 +28,12 @@ namespace KESDLTC {
 
 class TileManager : public ITileManager {
  public:  // Constructors & destructors.
-    TileManager(
+    explicit TileManager(
         const std::string& cacheDir = "",
-        const std::shared_ptr<KESDLTC::internal::IOnlineLoader> onlineLoader = nullptr,  // NOLINT
-        const std::shared_ptr<KESDLTC::internal::ITileCache> tileCache = nullptr,  // NOLINT
-        const std::shared_ptr<KESDLTC::internal::ITileLoader> defaultTileLoader = nullptr,  // NOLINT
-        std::shared_ptr<Mercury::Utils::IEnvironment> env = nullptr);
-    ~TileManager();
+        const std::shared_ptr<KESDLTC::internal::IOnlineLoader>& onlineLoader = nullptr,  // NOLINT
+        const std::shared_ptr<KESDLTC::internal::ITileCache>& tileCache = nullptr,  // NOLINT
+        const std::shared_ptr<KESDLTC::internal::ITileLoader>& defaultTileLoader = nullptr,  // NOLINT
+        const std::shared_ptr<Mercury::Utils::IEnvironment>& env = nullptr);
 
  public:  // ITileManager Methods.
     std::list<std::shared_ptr<ITile>> getTiles(bool cache = false) const override;  // NOLINT

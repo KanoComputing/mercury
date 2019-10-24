@@ -18,14 +18,12 @@
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
 
+#include "mercury/http/http_client_interface.h"
+
 
 namespace KESMPC {
 
 class PaintingFactory : public IPaintingFactory {
- public:  // Constructors & destructors.
-    PaintingFactory();
-    ~PaintingFactory();
-
  public:  // IPaintingFactory Methods.
     std::shared_ptr<IPainting> create() const override;
     std::shared_ptr<IPainting> create(
@@ -36,7 +34,9 @@ class PaintingFactory : public IPaintingFactory {
         const std::string& dateCreated,
         const std::string& openUrl,
         const std::string& fallbackUrl,
-        const std::string& coverPath = "") const override;
+        const std::string& coverPath = "",
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient =
+            nullptr) const override;
 };
 
 }  // namespace KESMPC

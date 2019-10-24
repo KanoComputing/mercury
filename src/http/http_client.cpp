@@ -113,7 +113,7 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
 
 std::shared_ptr<JSON_Value> HTTPClient::POST(
     const std::string& url,
-    const std::shared_ptr<JSON_Value> body,
+    const std::shared_ptr<JSON_Value>& body,
     const std::map<std::string, std::string>& headers) {
     std::shared_ptr<char> body_str(
         json_serialize_to_string(body.get()),

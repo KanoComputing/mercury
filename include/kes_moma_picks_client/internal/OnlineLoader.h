@@ -19,9 +19,6 @@
 #include "kes_moma_picks_client/internal/IOnlineLoader.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
-#include "kes_moma_picks_client/PaintingFactory.h"
-
-#include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
 
 
@@ -36,12 +33,8 @@ class OnlineLoader : public IOnlineLoader {
  public:  // Constructors & destructors.
     explicit OnlineLoader(
         const std::string& cacheDir,
-        const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient =
-            std::make_shared<Mercury::HTTP::HTTPClient>(),
-        const std::shared_ptr<IPaintingFactory> paintingFactory =
-            std::make_shared<PaintingFactory>());
-
-    ~OnlineLoader();
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr,  // NOLINT
+        const std::shared_ptr<IPaintingFactory>& paintingFactory = nullptr);
 
  public:  // IPaintingLoader Methods.
     /**
@@ -58,9 +51,9 @@ class OnlineLoader : public IOnlineLoader {
     // static constexpr const char* KES_MP_URL = "https://mp.os.kes.kessandbox.co.uk/";  // NOLINT
 
  private:  // Members.
-    const std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
-    const std::shared_ptr<IPaintingFactory> paintingFactory;
     const std::string cacheDir;
+    std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
+    std::shared_ptr<IPaintingFactory> paintingFactory;
 
  private:  // Constants.
     const double QUERY_COOLDOWN = ONE_HOUR_MS;

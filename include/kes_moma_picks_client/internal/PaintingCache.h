@@ -19,7 +19,6 @@
 #include "kes_moma_picks_client/internal/IPaintingCache.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
-#include "kes_moma_picks_client/PaintingFactory.h"
 
 
 namespace KESMPC {
@@ -29,9 +28,7 @@ class PaintingCache : public IPaintingCache {
  public:  // Constructors & destructors.
     explicit PaintingCache(
         const std::string& cacheDir,
-        const std::shared_ptr<IPaintingFactory> paintingFactory =
-            std::make_shared<PaintingFactory>());
-    ~PaintingCache();
+        const std::shared_ptr<IPaintingFactory>& paintingFactory = nullptr);
 
  public:  // IPaintingLoader Methods.
     std::list<std::shared_ptr<IPainting>> getPaintings() override;
@@ -50,9 +47,9 @@ class PaintingCache : public IPaintingCache {
     std::string cachePath;
     std::shared_ptr<JSON_Value> cacheDataRoot;
     JSON_Object* cacheData;
+    std::shared_ptr<IPaintingFactory> paintingFactory;
 
  private:  // Constants.
-    const std::shared_ptr<IPaintingFactory> paintingFactory;
     const std::string CACHE_FILE = "cache.json";
 };
 

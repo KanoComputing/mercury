@@ -19,35 +19,39 @@
 #include "kes_dashboard_live_tiles_client/internal/OnlineLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "kes_dashboard_live_tiles_client/TileFactory.h"
+#include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
 
 using std::cerr;
 using std::endl;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 using KESDLTC::internal::OnlineLoader;
 using KESDLTC::ITile;
 using KESDLTC::ITileFactory;
+using KESDLTC::TileFactory;
 
 using Mercury::HTTP::DownloadError;
 using Mercury::HTTP::IHTTPClient;
+using Mercury::HTTP::HTTPClient;
 
 
 OnlineLoader::OnlineLoader(
     const string& cacheDir,
-    const shared_ptr<IHTTPClient> httpClient,
-    const shared_ptr<ITileFactory> tileFactory):
-    cacheDir(cacheDir),
-    httpClient(httpClient),
-    tileFactory(tileFactory) {
-    // Empty constructor.
-}
-
-
-OnlineLoader::~OnlineLoader() {
-    // Empty destructor.
+    const shared_ptr<IHTTPClient>& httpClient,
+    const shared_ptr<ITileFactory>& tileFactory):
+        cacheDir(cacheDir),
+        httpClient(httpClient),
+        tileFactory(tileFactory) {
+    //
+    if (this->httpClient == nullptr)
+        this->httpClient = make_shared<HTTPClient>();
+    if (this->tileFactory == nullptr)
+        this->tileFactory = make_shared<TileFactory>();
 }
 
 

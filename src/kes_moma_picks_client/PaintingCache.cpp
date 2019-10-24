@@ -19,12 +19,14 @@
 #include "kes_moma_picks_client/internal/PaintingCache.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
+#include "kes_moma_picks_client/PaintingFactory.h"
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/Time.h"
 
 using std::cerr;
 using std::endl;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
@@ -32,23 +34,21 @@ using KESMPC::internal::CorruptedCacheException;
 using KESMPC::internal::PaintingCache;
 using KESMPC::IPainting;
 using KESMPC::IPaintingFactory;
+using KESMPC::PaintingFactory;
 
 
 PaintingCache::PaintingCache(
     const string& cacheDir,
-    const shared_ptr<IPaintingFactory> paintingFactory):
-    cacheDir(cacheDir),
-    paintingFactory(paintingFactory),
-    cacheDataRoot(nullptr),
-    cacheData(nullptr) {
+    const shared_ptr<IPaintingFactory>& paintingFactory):
+        cacheDir(cacheDir),
+        paintingFactory(paintingFactory),
+        cacheDataRoot(nullptr),
+        cacheData(nullptr) {
+    //
     this->cachePath = this->cacheDir + "/" + this->CACHE_FILE;
-
+    if (this->paintingFactory == nullptr)
+        this->paintingFactory = make_shared<PaintingFactory>();
     this->load();
-}
-
-
-PaintingCache::~PaintingCache() {
-    // Empty destructor.
 }
 
 

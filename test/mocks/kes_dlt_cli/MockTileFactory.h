@@ -18,6 +18,7 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "mercury/http/http_client_interface.h"
 
 
 namespace KESDLTC {
@@ -41,14 +42,16 @@ class MockTileFactory : public KESDLTC::ITileFactory {
         const std::string& app,
         const std::string& openUrl,
         const std::string& fallbackUrl,
-        const std::string& coverPath = "") const {
-        // NOLINT
+        const std::string& coverPath = "",
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient =
+            nullptr) const {
+        //
         return this->create_impl(
-            id, cover, title, description, username, app,
-            openUrl, fallbackUrl, coverPath);
+            id, cover, title, description, username, app, openUrl, fallbackUrl,
+            coverPath, httpClient);
     }
 
-    MOCK_CONST_METHOD9(
+    MOCK_CONST_METHOD10(
         create_impl,
         std::shared_ptr<ITile>(
             const std::string& id,
@@ -59,7 +62,8 @@ class MockTileFactory : public KESDLTC::ITileFactory {
             const std::string& app,
             const std::string& openUrl,
             const std::string& fallbackUrl,
-            const std::string& coverPath));
+            const std::string& coverPath,
+            const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient));
 };
 
 }  // namespace test

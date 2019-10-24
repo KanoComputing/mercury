@@ -17,6 +17,8 @@
 
 #include "kes_moma_picks_client/IPainting.h"
 
+#include "mercury/http/http_client_interface.h"
+
 
 namespace KESMPC {
 
@@ -34,7 +36,9 @@ class IPaintingFactory {
         const std::string& dateCreated,
         const std::string& openUrl,
         const std::string& fallbackUrl,
-        const std::string& coverPath = "") const = 0;
+        const std::string& coverPath = "",
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient =
+            nullptr) const = 0;
 };
 
 }  // namespace KESMPC
