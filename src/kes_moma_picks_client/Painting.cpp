@@ -19,39 +19,39 @@
 
 #include "kes_moma_picks_client/Painting.h"
 #include "mercury/http/http_client.h"
+#include "mercury/http/http_client_interface.h"
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/String.h"
 
 using std::cerr;
 using std::endl;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 using KESMPC::Painting;
 
+using Mercury::HTTP::HTTPClient;
 using Mercury::HTTP::IHTTPClient;
 
 
-Painting::Painting(const shared_ptr<IHTTPClient> httpClient):
+Painting::Painting(const shared_ptr<IHTTPClient>& httpClient):
     Painting("", "", "", "", "", "", "", "", httpClient) {
     // Empty constructor.
 }
 
 
-Painting::Painting(const string& id, const string& cover,
-        const string& title, const string& username,
-        const string& dateCreated, const string& openUrl,
-        const string& fallbackUrl, const string& coverPath,
-        const shared_ptr<IHTTPClient> httpClient):
-    id(id), cover(cover), title(title), username(username),
-    dateCreated(dateCreated), openUrl(openUrl), fallbackUrl(fallbackUrl),
-    coverPath(coverPath), httpClient(httpClient) {
-    // Empty constructor.
-}
-
-
-Painting::~Painting() {
-    // Empty destructor.
+Painting::Painting(
+    const string& id, const string& cover, const string& title,
+    const string& username, const string& dateCreated,
+    const string& openUrl, const string& fallbackUrl,
+    const string& coverPath, const shared_ptr<IHTTPClient>& httpClient):
+        id(id), cover(cover), title(title), username(username),
+        dateCreated(dateCreated), openUrl(openUrl), fallbackUrl(fallbackUrl),
+        coverPath(coverPath), httpClient(httpClient) {
+    //
+    if (this->httpClient == nullptr)
+        this->httpClient = make_shared<HTTPClient>();
 }
 
 

@@ -15,6 +15,8 @@
 #include "kes_moma_picks_client/Painting.h"
 #include "kes_moma_picks_client/PaintingFactory.h"
 
+#include "mercury/http/http_client_interface.h"
+
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
@@ -23,15 +25,7 @@ using KESMPC::IPainting;
 using KESMPC::Painting;
 using KESMPC::PaintingFactory;
 
-
-PaintingFactory::PaintingFactory() {
-    // Emptry constructor.
-}
-
-
-PaintingFactory::~PaintingFactory() {
-    // Empty destructor.
-}
+using Mercury::HTTP::IHTTPClient;
 
 
 shared_ptr<IPainting> PaintingFactory::create() const {
@@ -47,7 +41,8 @@ shared_ptr<IPainting> PaintingFactory::create(
         const string& dateCreated,
         const string& openUrl,
         const string& fallbackUrl,
-        const string& coverPath) const {
+        const string& coverPath,
+        const shared_ptr<IHTTPClient>& httpClient) const {
     return make_shared<Painting>(
         id,
         cover,
@@ -56,5 +51,6 @@ shared_ptr<IPainting> PaintingFactory::create(
         dateCreated,
         openUrl,
         fallbackUrl,
-        coverPath);
+        coverPath,
+        httpClient);
 }

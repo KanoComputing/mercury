@@ -42,6 +42,7 @@ using KESDLTC::internal::OnlineLoader;
 using KESDLTC::internal::TileCache;
 using KESDLTC::ITile;
 using KESDLTC::TileManager;
+
 using Mercury::Utils::IEnvironment;
 using Mercury::Utils::Environment;
 
@@ -49,30 +50,24 @@ using Mercury::Utils::Environment;
 
 TileManager::TileManager(
     const string& cacheDir,
-    const shared_ptr<IOnlineLoader> onlineLoader,
-    const shared_ptr<ITileCache> tileCache,
-    const shared_ptr<ITileLoader> defaultTileLoader,
-    shared_ptr<IEnvironment> env):
-    cacheDir(cacheDir),
-    onlineLoader(onlineLoader),
-    tileCache(tileCache),
-    defaultTileLoader(defaultTileLoader) {
-    // NOLINT
-    if (env == nullptr)
-        env = make_shared<Environment>();
+    const shared_ptr<IOnlineLoader>& onlineLoader,
+    const shared_ptr<ITileCache>& tileCache,
+    const shared_ptr<ITileLoader>& defaultTileLoader,
+    const shared_ptr<IEnvironment>& env):
+        cacheDir(cacheDir),
+        onlineLoader(onlineLoader),
+        tileCache(tileCache),
+        defaultTileLoader(defaultTileLoader) {
+    //
+    auto environ = (env == nullptr) ? make_shared<Environment>() : env;
     if (this->cacheDir == "")
-        this->cacheDir = env->get("HOME") + "/" + this->CACHE_DIRNAME;
+        this->cacheDir = environ->get("HOME") + "/" + this->CACHE_DIRNAME;
     if (this->onlineLoader == nullptr)
         this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
     if (this->tileCache == nullptr)
         this->tileCache = make_shared<TileCache>(this->cacheDir);
     if (this->defaultTileLoader == nullptr)
         this->defaultTileLoader = make_shared<DefaultTileLoader>();
-}
-
-
-TileManager::~TileManager() {
-    // Empty destructor.
 }
 
 

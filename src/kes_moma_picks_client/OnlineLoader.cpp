@@ -19,35 +19,39 @@
 #include "kes_moma_picks_client/internal/OnlineLoader.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
+#include "kes_moma_picks_client/PaintingFactory.h"
+#include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
 
 using std::cerr;
 using std::endl;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 using KESMPC::internal::OnlineLoader;
 using KESMPC::IPainting;
 using KESMPC::IPaintingFactory;
+using KESMPC::PaintingFactory;
 
 using Mercury::HTTP::DownloadError;
+using Mercury::HTTP::HTTPClient;
 using Mercury::HTTP::IHTTPClient;
 
 
 OnlineLoader::OnlineLoader(
     const string& cacheDir,
-    const shared_ptr<IHTTPClient> httpClient,
-    const shared_ptr<IPaintingFactory> paintingFactory):
-    cacheDir(cacheDir),
-    httpClient(httpClient),
-    paintingFactory(paintingFactory) {
-    // Empty constructor.
-}
-
-
-OnlineLoader::~OnlineLoader() {
-    // Empty destructor.
+    const shared_ptr<IHTTPClient>& httpClient,
+    const shared_ptr<IPaintingFactory>& paintingFactory):
+        cacheDir(cacheDir),
+        httpClient(httpClient),
+        paintingFactory(paintingFactory) {
+    //
+    if (this->httpClient == nullptr)
+        this->httpClient = make_shared<HTTPClient>();
+    if (this->paintingFactory == nullptr)
+        this->paintingFactory = make_shared<PaintingFactory>();
 }
 
 

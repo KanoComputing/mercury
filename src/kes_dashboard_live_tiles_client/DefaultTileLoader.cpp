@@ -16,24 +16,24 @@
 #include "kes_dashboard_live_tiles_client/internal/DefaultTileLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "kes_dashboard_live_tiles_client/TileFactory.h"
 
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 
 using KESDLTC::internal::DefaultTileLoader;
 using KESDLTC::ITile;
 using KESDLTC::ITileFactory;
+using KESDLTC::TileFactory;
 
 
 DefaultTileLoader::DefaultTileLoader(
-    const shared_ptr<ITileFactory> tileFactory):
-    tileFactory(tileFactory) {
-    // Empty constructor.
-}
-
-
-DefaultTileLoader::~DefaultTileLoader() {
-    // Empty destructor.
+    const shared_ptr<ITileFactory>& tileFactory):
+        tileFactory(tileFactory) {
+    //
+    if (this->tileFactory == nullptr)
+        this->tileFactory = make_shared<TileFactory>();
 }
 
 

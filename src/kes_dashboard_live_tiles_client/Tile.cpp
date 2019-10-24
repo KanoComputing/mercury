@@ -19,40 +19,40 @@
 
 #include "kes_dashboard_live_tiles_client/Tile.h"
 #include "mercury/http/http_client.h"
+#include "mercury/http/http_client_interface.h"
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/String.h"
 
 using std::cerr;
 using std::endl;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
 using KESDLTC::Tile;
 
 using Mercury::HTTP::IHTTPClient;
+using Mercury::HTTP::HTTPClient;
 
 
-Tile::Tile(const shared_ptr<IHTTPClient> httpClient):
+Tile::Tile(const shared_ptr<IHTTPClient>& httpClient):
     Tile("", "", "", "", "", "", "", "", "", httpClient) {
     // Empty constructor.
 }
 
 
-Tile::Tile(const string& id, const string& cover,
-           const string& title, const string& description,
-           const string& username, const string& app,
-           const string& openUrl, const string& fallbackUrl,
-           const string& coverPath, const shared_ptr<IHTTPClient> httpClient):
-    id(id), cover(cover), title(title),
-    description(description), username(username), app(app),
-    openUrl(openUrl), fallbackUrl(fallbackUrl), coverPath(coverPath),
-    httpClient(httpClient) {
-    // Empty constructor.
-}
-
-
-Tile::~Tile() {
-    // Empty destructor.
+Tile::Tile(
+    const string& id, const string& cover, const string& title,
+    const string& description, const string& username, const string& app,
+    const string& openUrl, const string& fallbackUrl, const string& coverPath,
+    const shared_ptr<IHTTPClient>& httpClient):
+        id(id), cover(cover), title(title),
+        description(description), username(username), app(app),
+        openUrl(openUrl), fallbackUrl(fallbackUrl), coverPath(coverPath),
+        httpClient(httpClient) {
+    //
+    if (this->httpClient == nullptr)
+        this->httpClient = make_shared<HTTPClient>();
 }
 
 

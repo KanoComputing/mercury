@@ -39,7 +39,7 @@ class HTTPClient : public IHTTPClient {
             std::map<std::string, std::string>()) override;
     std::shared_ptr<JSON_Value> POST(
         const std::string& url,
-        const std::shared_ptr<JSON_Value> body,
+        const std::shared_ptr<JSON_Value>& body,
         const std::map<std::string, std::string>& headers =
             std::map<std::string, std::string>()) override;
     std::shared_ptr<JSON_Value> GET(

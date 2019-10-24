@@ -11,13 +11,13 @@
 #ifndef INCLUDE_KES_MOMA_PICKS_CLIENT_INTERNAL_DEFAULTPAINTINGLOADER_H_
 #define INCLUDE_KES_MOMA_PICKS_CLIENT_INTERNAL_DEFAULTPAINTINGLOADER_H_
 
+
 #include <list>
 #include <memory>
 
 #include "kes_moma_picks_client/internal/IPaintingLoader.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
-#include "kes_moma_picks_client/PaintingFactory.h"
 
 
 namespace KESMPC {
@@ -25,16 +25,14 @@ namespace internal {
 
 class DefaultPaintingLoader : public IPaintingLoader {
  public:  // Constructors & destructors.
-    DefaultPaintingLoader(
-        const std::shared_ptr<IPaintingFactory> paintingFactory =
-            std::make_shared<PaintingFactory>());
-    ~DefaultPaintingLoader();
+    explicit DefaultPaintingLoader(
+        const std::shared_ptr<IPaintingFactory>& paintingFactory = nullptr);
 
  public:  // IPaintingLoader Methods.
     std::list<std::shared_ptr<IPainting>> getPaintings() override;
 
  private:  // Members.
-    const std::shared_ptr<IPaintingFactory> paintingFactory;
+    std::shared_ptr<IPaintingFactory> paintingFactory;
 };
 
 }  // namespace internal

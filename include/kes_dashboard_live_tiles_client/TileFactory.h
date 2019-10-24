@@ -17,15 +17,12 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "mercury/http/http_client_interface.h"
 
 
 namespace KESDLTC {
 
 class TileFactory : public ITileFactory {
- public:  // Constructors & destructors.
-    TileFactory();
-    ~TileFactory();
-
  public:  // ITileFactory Methods.
     std::shared_ptr<ITile> create() const override;
     std::shared_ptr<ITile> create(
@@ -37,7 +34,9 @@ class TileFactory : public ITileFactory {
         const std::string& app,
         const std::string& openUrl,
         const std::string& fallbackUrl,
-        const std::string& coverPath = "") const override;
+        const std::string& coverPath = "",
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient =
+            nullptr) const override;
 };
 
 }  // namespace KESDLTC

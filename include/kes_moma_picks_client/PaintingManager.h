@@ -28,13 +28,12 @@ namespace KESMPC {
 
 class PaintingManager : public IPaintingManager {
  public:  // Constructors & destructors.
-    PaintingManager(
+    explicit PaintingManager(
         const std::string& cacheDir = "",
-        const std::shared_ptr<KESMPC::internal::IOnlineLoader> onlineLoader = nullptr,  // NOLINT
-        const std::shared_ptr<KESMPC::internal::IPaintingCache> paintingCache = nullptr,  // NOLINT
-        const std::shared_ptr<KESMPC::internal::IPaintingLoader> defaultPaintingLoader = nullptr,  // NOLINT
-        const std::shared_ptr<Mercury::Utils::IEnvironment> env = nullptr);
-    ~PaintingManager();
+        const std::shared_ptr<KESMPC::internal::IOnlineLoader>& onlineLoader = nullptr,  // NOLINT
+        const std::shared_ptr<KESMPC::internal::IPaintingCache>& paintingCache = nullptr,  // NOLINT
+        const std::shared_ptr<KESMPC::internal::IPaintingLoader>& defaultPaintingLoader = nullptr,  // NOLINT
+        const std::shared_ptr<Mercury::Utils::IEnvironment>& env = nullptr);
 
  public:  // IPaintingManager Methods.
     std::list<std::shared_ptr<IPainting>> getPaintings(bool cache = false) const override;  // NOLINT

@@ -17,7 +17,6 @@
 #include "kes_dashboard_live_tiles_client/internal/ITileLoader.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
-#include "kes_dashboard_live_tiles_client/TileFactory.h"
 
 
 namespace KESDLTC {
@@ -25,16 +24,14 @@ namespace internal {
 
 class DefaultTileLoader : public ITileLoader {
  public:  // Constructors & destructors.
-    DefaultTileLoader(
-        const std::shared_ptr<ITileFactory> tileFactory =
-            std::make_shared<TileFactory>());
-    ~DefaultTileLoader();
+    explicit DefaultTileLoader(
+        const std::shared_ptr<ITileFactory>& tileFactory = nullptr);
 
  public:  // ITileLoader Methods.
     std::list<std::shared_ptr<ITile>> getTiles() override;
 
  private:  // Members.
-    const std::shared_ptr<ITileFactory> tileFactory;
+    std::shared_ptr<ITileFactory> tileFactory;
 };
 
 }  // namespace internal

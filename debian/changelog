@@ -3,8 +3,9 @@ mercury (4.3.3-0) unstable; urgency=low
   * Compiling project with C++14 standard
   * Fixed issue with KanoWorld, KESDLT, KESMP clients when ran
     under sudo
+  * Fixed potential memory corruption issues
 
- -- Team Kano <dev@kano.me>  Fri, 3 Oct 2019 14:25:00 +0100
+ -- Team Kano <dev@kano.me>  Thu, 24 Oct 2019 22:25:00 +0100
 
 mercury (4.3.2-0) unstable; urgency=low
 

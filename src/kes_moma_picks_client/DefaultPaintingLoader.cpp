@@ -16,24 +16,24 @@
 #include "kes_moma_picks_client/internal/DefaultPaintingLoader.h"
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
+#include "kes_moma_picks_client/PaintingFactory.h"
 
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 
 using KESMPC::internal::DefaultPaintingLoader;
 using KESMPC::IPainting;
 using KESMPC::IPaintingFactory;
+using KESMPC::PaintingFactory;
 
 
 DefaultPaintingLoader::DefaultPaintingLoader(
-    const shared_ptr<IPaintingFactory> paintingFactory):
-    paintingFactory(paintingFactory) {
-    // Empty constructor.
-}
-
-
-DefaultPaintingLoader::~DefaultPaintingLoader() {
-    // Empty destructor.
+    const shared_ptr<IPaintingFactory>& paintingFactory):
+        paintingFactory(paintingFactory) {
+    //
+    if (this->paintingFactory == nullptr)
+        this->paintingFactory = make_shared<PaintingFactory>();
 }
 
 

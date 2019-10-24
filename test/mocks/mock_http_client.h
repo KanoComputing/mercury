@@ -89,7 +89,7 @@ class MockHTTPClient : public Mercury::HTTP::IHTTPClient {
      */
     virtual std::shared_ptr<JSON_Value> POST(
         const std::string& url,
-        std::shared_ptr<JSON_Value> body,
+        const std::shared_ptr<JSON_Value>& body,
         const std::map<std::string, std::string>& headers =
             std::map<std::string, std::string>()) {
         return this->POST_impl(url, body, headers);
@@ -145,7 +145,7 @@ class MockHTTPClient : public Mercury::HTTP::IHTTPClient {
         POST_impl,
         std::shared_ptr<JSON_Value>(
             const std::string& url,
-            std::shared_ptr<JSON_Value> body,
+            const std::shared_ptr<JSON_Value>& body,
             const std::map<std::string, std::string>& headers));
     /**
      * \brief Internal mocked version of the GET to account for optional

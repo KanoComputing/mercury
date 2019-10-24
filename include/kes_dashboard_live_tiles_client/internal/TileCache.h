@@ -19,7 +19,6 @@
 #include "kes_dashboard_live_tiles_client/internal/ITileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
-#include "kes_dashboard_live_tiles_client/TileFactory.h"
 
 
 namespace KESDLTC {
@@ -29,9 +28,7 @@ class TileCache : public ITileCache {
  public:  // Constructors & destructors.
     explicit TileCache(
         const std::string& cacheDir,
-        const std::shared_ptr<ITileFactory> tileFactory =
-            std::make_shared<TileFactory>());
-    ~TileCache();
+        const std::shared_ptr<ITileFactory>& tileFactory = nullptr);
 
  public:  // ITileLoader Methods.
     std::list<std::shared_ptr<ITile>> getTiles() override;
@@ -50,9 +47,9 @@ class TileCache : public ITileCache {
     std::string cachePath;
     std::shared_ptr<JSON_Value> cacheDataRoot;
     JSON_Object* cacheData;
+    std::shared_ptr<ITileFactory> tileFactory;
 
  private:  // Constants.
-    const std::shared_ptr<ITileFactory> tileFactory;
     const std::string CACHE_FILE = "cache.json";
 };
 

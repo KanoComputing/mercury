@@ -19,12 +19,14 @@
 #include "kes_dashboard_live_tiles_client/internal/TileCache.h"
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
+#include "kes_dashboard_live_tiles_client/TileFactory.h"
 #include "mercury/utils/Filesystem.h"
 #include "mercury/utils/Time.h"
 
 using std::cerr;
 using std::endl;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
 
@@ -32,23 +34,22 @@ using KESDLTC::internal::CorruptedCacheException;
 using KESDLTC::internal::TileCache;
 using KESDLTC::ITile;
 using KESDLTC::ITileFactory;
+using KESDLTC::TileFactory;
 
 
 TileCache::TileCache(
     const string& cacheDir,
-    const shared_ptr<ITileFactory> tileFactory):
-    cacheDir(cacheDir),
-    tileFactory(tileFactory),
-    cacheDataRoot(nullptr),
-    cacheData(nullptr) {
+    const shared_ptr<ITileFactory>& tileFactory):
+        cacheDir(cacheDir),
+        tileFactory(tileFactory),
+        cacheDataRoot(nullptr),
+        cacheData(nullptr) {
+    //
     this->cachePath = this->cacheDir + "/" + this->CACHE_FILE;
+    if (this->tileFactory == nullptr)
+        this->tileFactory = make_shared<TileFactory>();
 
     this->load();
-}
-
-
-TileCache::~TileCache() {
-    // Empty destructor.
 }
 
 
@@ -62,7 +63,7 @@ void TileCache::load() {
 void TileCache::setCacheData() {
     if (this->cacheDataRoot != nullptr &&
         this->cacheDataRoot.get() != nullptr) {
-        // NOLINT
+        //
         this->cacheData = json_value_get_object(this->cacheDataRoot.get());
     } else {
         this->cacheData = nullptr;

@@ -9,7 +9,6 @@
 
 
 #include <cstdlib>
-
 #include <string>
 
 #include "mercury/utils/Environment.h"
@@ -17,16 +16,6 @@
 using std::string;
 
 using Mercury::Utils::Environment;
-
-
-Environment::Environment() {
-    // Empty constructor.
-}
-
-
-Environment::~Environment() {
-    // Empty destructor.
-}
 
 
 std::string Environment::get(const std::string& variable) const {

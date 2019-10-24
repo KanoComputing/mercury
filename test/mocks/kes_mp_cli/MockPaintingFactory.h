@@ -19,6 +19,8 @@
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
 
+#include "mercury/http/http_client_interface.h"
+
 
 namespace KESMPC {
 namespace test {
@@ -40,8 +42,10 @@ class MockPaintingFactory : public KESMPC::IPaintingFactory {
         const std::string& dateCreated,
         const std::string& openUrl,
         const std::string& fallbackUrl,
-        const std::string& coverPath = "") const {
-        // NOLINT
+        const std::string& coverPath = "",
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient =
+            nullptr) const {
+        //
         return this->create_impl(
             id,
             cover,
@@ -50,10 +54,11 @@ class MockPaintingFactory : public KESMPC::IPaintingFactory {
             dateCreated,
             openUrl,
             fallbackUrl,
-            coverPath);
+            coverPath,
+            httpClient);
     }
 
-    MOCK_CONST_METHOD8(
+    MOCK_CONST_METHOD9(
         create_impl,
         std::shared_ptr<IPainting>(
             const std::string& id,
@@ -63,10 +68,12 @@ class MockPaintingFactory : public KESMPC::IPaintingFactory {
             const std::string& dateCreated,
             const std::string& openUrl,
             const std::string& fallbackUrl,
-            const std::string& coverPath));
+            const std::string& coverPath,
+            const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient));
 };
 
 }  // namespace test
 }  // namespace KESMPC
+
 
 #endif  // TEST_MOCKS_KES_MP_CLI_MOCKPAINTINGFACTORY_H_
