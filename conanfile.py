@@ -26,7 +26,7 @@ class MercuryConan(ConanFile):
         "gtest/1.8.1@bincrafters/stable",
         "parson/0.1.0@bincrafters/stable",
         "Poco/1.9.2@pocoproject/stable",
-        "yaml-cpp/0.6.3/stable",
+        "yaml-cpp/0.6.3",
     )
     generators = "cmake"
 
