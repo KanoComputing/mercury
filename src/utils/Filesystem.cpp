@@ -23,6 +23,10 @@ using std::vector;
 
 
 bool create_directory(const string& path, mode_t mode) {
+
+#ifdef WIN32
+return true;
+#else
     bool successful = true;
     struct stat st;
 
@@ -33,13 +37,14 @@ bool create_directory(const string& path, mode_t mode) {
         if (mkdir(path.c_str(), mode) != 0 && errno != EEXIST) {
             successful = false;
         }
+
     // If path does exist, check if it is a valid directory.
     } else if (!S_ISDIR(st.st_mode)) {
         errno = ENOTDIR;
         successful = false;
     }
-
     return successful;
+#endif
 }
 
 
