@@ -10,7 +10,9 @@
 
 #include <parson.h>
 #include <sys/stat.h>
-#include <unistd.h>
+// #include <unistd.h>
+
+#include <io.h>
 
 #include <chrono>  // NOLINT
 #include <iostream>
@@ -52,6 +54,7 @@ using Mercury::Utils::IEnvironment;
 
 
 KanoWorld::KanoWorld(
+{
     const string& url,
     const shared_ptr<IHTTPClient>& client,
     const shared_ptr<IEnvironment>& env):
@@ -71,9 +74,8 @@ KanoWorld::KanoWorld(
     load_data();
 }
 
-
-bool KanoWorld::login(const string& user, const string& password,
-                      const bool verbose) {
+bool KanoWorld::login(const string& user, const string& password, const bool verbose)
+{
     if (!user.length() || !password.length()) {
         return false;
     }
@@ -135,13 +137,16 @@ bool KanoWorld::login(const string& user, const string& password,
     return true;
 }
 
-
 bool KanoWorld::logout(const bool verbose) {
     struct stat cache;
     int rc = stat(this->data_filename.c_str(), &cache);
 
     if (rc != -1) {
+#ifdef WIN32
+        int rc = _unlink(this->data_filename.c_str());
+#else
         int rc = unlink(this->data_filename.c_str());
+#endif
     }
 
     if (verbose) {

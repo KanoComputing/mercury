@@ -13,10 +13,14 @@
 
 
 #include <sys/stat.h>
-
 #include <string>
 
-using std::string;
+#ifdef WIN32
+ typedef int mode_t;
+ using namespace std;
+#else
+ using std::string;
+#endif
 
 
 /**
@@ -28,9 +32,16 @@ using std::string;
  *
  * returns     Whether the operation was successful or not.
  */
+
+#ifdef WIN32
+bool create_directory(
+    const string& path,
+    mode_t mode = 0
+#else
 bool create_directory(
     const string& path,
     mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH
+#endif
 );
 
 /**
@@ -44,7 +55,11 @@ bool create_directory(
  */
 bool create_directories(
     const string& path,
+#ifdef WIN32
+    mode_t mode = 0
+#else
     mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH
+#endif
 );
 
 

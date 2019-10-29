@@ -58,8 +58,11 @@ TileManager::TileManager(
         onlineLoader(onlineLoader),
         tileCache(tileCache),
         defaultTileLoader(defaultTileLoader) {
+
     //
+#ifndef WIN32
     auto environ = (env == nullptr) ? make_shared<Environment>() : env;
+
     if (this->cacheDir == "")
         this->cacheDir = environ->get("HOME") + "/" + this->CACHE_DIRNAME;
     if (this->onlineLoader == nullptr)
@@ -68,6 +71,7 @@ TileManager::TileManager(
         this->tileCache = make_shared<TileCache>(this->cacheDir);
     if (this->defaultTileLoader == nullptr)
         this->defaultTileLoader = make_shared<DefaultTileLoader>();
+#endif
 }
 
 

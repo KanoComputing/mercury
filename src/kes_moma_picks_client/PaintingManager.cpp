@@ -56,6 +56,8 @@ PaintingManager::PaintingManager(
         onlineLoader(onlineLoader),
         paintingCache(paintingCache),
         defaultPaintingLoader(defaultPaintingLoader) {
+
+#ifndef WIN32
     //
     auto environ = (env == nullptr) ? make_shared<Environment>() : env;
     if (this->cacheDir == "")
@@ -66,6 +68,7 @@ PaintingManager::PaintingManager(
         this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
     if (this->defaultPaintingLoader == nullptr)
         this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
+#endif
 }
 
 
