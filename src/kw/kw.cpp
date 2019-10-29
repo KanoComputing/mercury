@@ -54,7 +54,6 @@ using Mercury::Utils::IEnvironment;
 
 
 KanoWorld::KanoWorld(
-{
     const string& url,
     const shared_ptr<IHTTPClient>& client,
     const shared_ptr<IEnvironment>& env):
@@ -68,8 +67,12 @@ KanoWorld::KanoWorld(
     if (this->http_client == nullptr)
         this->http_client = make_shared<HTTPClient>();
 
+#ifndef WIN32
     auto environ = (env == nullptr) ? make_shared<Environment>() : env;
     this->data_filename = environ->get("HOME") + "/.mercury_kw.json";
+#else
+     this->data_filename = "Mercury";
+#endif
 
     load_data();
 }
