@@ -107,8 +107,6 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
         throw HTTPRequestFailedError(status_code, response.getReason());
     }
 
-    std::ostringstream data_stream;
-
 // For some reason Windows does not like the statement below
 #ifndef WIN32
     data_stream << std::string(rs.rdbuf());
