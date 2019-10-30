@@ -1,3 +1,14 @@
+::
+:: windows-build.bat
+::
+:: Prepare Mercury to be built from Microsoft Developer Studio.
+::
+:: This Windows batch file will register and download conan prebuilt packages,
+:: then call cmake to generate a release Solution file for Developer Studio.
+::
+:: See the Windows section on the README file for software requirements.
+::
+
 mkdir build
 mkdir build\release
 conan remote add dev-server http://dev.kano.me:9300
