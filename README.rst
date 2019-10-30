@@ -62,6 +62,22 @@ Linux
    pip3 install -r requirements-dev.txt
    apt-get install cmake doxygen lcov qt
 
+Windows
+-----
+
+You will need a Windows 10 system, along with the additional software components:
+
+- Cmake, version 3.15.4 or above: https://cmake.org/download
+- Conan software: https://conan.io/downloads.html
+- Git Client, command line version with shell: https://git-scm.com/download/win
+- WinRAR for uncompressing the Swig software: https://www.win-rar.com
+- Swig software for windows, zip file: http://www.swig.org/download.html
+- Developer Studio at least version 2019, with the following features:
+  - Python 2 and Python 3
+  - Windows SDK
+
+The recommended overall disk size for the Windows system is 70GB.
+
 
 Building and running
 ====================
@@ -76,6 +92,10 @@ Build
 `CMake <https://cmake.org/documentation/>`_ (3.10.0 minimum to allow us to use some of the newer goodies) is used to build both the project and the tests.
 
 If your linux system is based on Debian Stretch, you can use the `backports <https://backports.debian.org/Instructions/>`_ repositories to pull the latest CMake version. Alternatively, you can point your APT sources to Debian Buster.
+
+
+On Windows, open a Git Client Shell, clone this repository and then execute the batch file `windows-build.bat`.
+Once the batch file terminates, you should open the file `ALL_BUILD.vcxproj` from Developer Studio, and you will see several targets to build the Mercury components.
 
 
 Test
