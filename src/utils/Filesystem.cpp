@@ -23,9 +23,9 @@ using std::vector;
 
 
 bool create_directory(const string& path, mode_t mode) {
-
+// This function needs a reimplementation on Windows - sys/stat.h
 #ifdef WIN32
-return true;
+    return true;
 #else
     bool successful = true;
     struct stat st;
