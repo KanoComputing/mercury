@@ -15,11 +15,12 @@
 #include <sys/stat.h>
 #include <string>
 
+// Windows does not understand mode_t as it is on Unix - sys/stat.h
 #ifdef WIN32
- typedef int mode_t;
- using namespace std;
+    typedef int mode_t;
+    using namespace std;
 #else
- using std::string;
+    using std::string;
 #endif
 
 
@@ -33,16 +34,17 @@
  * returns     Whether the operation was successful or not.
  */
 
+// Workaround to using mode_t without preset S_* access mode flags
 #ifdef WIN32
 bool create_directory(
     const string& path,
-    mode_t mode = 0
+    mode_t mode = 0);
 #else
 bool create_directory(
     const string& path,
-    mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH
+    mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
-);
+
 
 /**
  * \brief Essentially mkdir -p on Linux.
@@ -55,6 +57,8 @@ bool create_directory(
  */
 bool create_directories(
     const string& path,
+
+// Avoid using unknown access flags on Windows
 #ifdef WIN32
     mode_t mode = 0
 #else

@@ -10,9 +10,11 @@
 
 #include <parson.h>
 #include <sys/stat.h>
-// #include <unistd.h>
 
-#include <io.h>
+// Windows does not support unistd.h
+#ifndef WIN32
+    #include <unistd.h>
+#endif
 
 #include <chrono>  // NOLINT
 #include <iostream>
@@ -67,6 +69,7 @@ KanoWorld::KanoWorld(
     if (this->http_client == nullptr)
         this->http_client = make_shared<HTTPClient>();
 
+// Windows does not understand, or is unable to deduct the auto variable below
 #ifndef WIN32
     auto environ = (env == nullptr) ? make_shared<Environment>() : env;
     this->data_filename = environ->get("HOME") + "/.mercury_kw.json";
@@ -77,7 +80,8 @@ KanoWorld::KanoWorld(
     load_data();
 }
 
-bool KanoWorld::login(const string& user, const string& password, const bool verbose)
+bool KanoWorld::login(const string& user, const string& password,
+		      const bool verbose)
 {
     if (!user.length() || !password.length()) {
         return false;
@@ -145,6 +149,8 @@ bool KanoWorld::logout(const bool verbose) {
     int rc = stat(this->data_filename.c_str(), &cache);
 
     if (rc != -1) {
+
+// the unlink function on Windows is called _unlink
 #ifdef WIN32
         int rc = _unlink(this->data_filename.c_str());
 #else

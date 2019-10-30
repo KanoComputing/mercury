@@ -28,7 +28,6 @@
 #include <Poco/URIStreamOpener.h>
 
 #include <iostream>
-#include <sstream>
 #include <map>
 #include <memory>
 #include <string>
@@ -53,6 +52,7 @@ HTTPClient::HTTPClient() {
     HTTPSessionInstantiator::registerInstantiator();
     HTTPSSessionInstantiator::registerInstantiator();
 
+// MSDEV compiler complains with no Context class found
 #ifndef WIN32
     // Prepare for SSLManager
     Poco::SharedPtr<AcceptCertificateHandler> cert =
@@ -107,8 +107,12 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
         throw HTTPRequestFailedError(status_code, response.getReason());
     }
 
-    std::ostringstream dup9ata_stream;
-    //data_stream << std::string(rs.rdbuf());
+    std::ostringstream data_stream;
+
+// For some reason Windows does not like the statement below
+#ifndef WIN32
+    data_stream << std::string(rs.rdbuf());
+#endif
 
     return std::shared_ptr<JSON_Value>(
         json_parse_string(data_stream.c_str()), json_value_free);
