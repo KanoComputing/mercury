@@ -13,31 +13,33 @@
 
 //  --- Run all unit tests ---
 
-#include "kes_dashboard_live_tiles_client/TestDefaultTileLoader.h"
-#include "kes_dashboard_live_tiles_client/TestOnlineLoader.h"
-#include "kes_dashboard_live_tiles_client/TestTile.h"
-#include "kes_dashboard_live_tiles_client/TestTileCache.h"
-#include "kes_dashboard_live_tiles_client/TestTileManager.h"
+#include "unit/kes_dashboard_live_tiles_client/TestDefaultTileLoader.h"
+#include "unit/kes_dashboard_live_tiles_client/TestOnlineLoader.h"
+#include "unit/kes_dashboard_live_tiles_client/TestTile.h"
+#include "unit/kes_dashboard_live_tiles_client/TestTileCache.h"
+#include "unit/kes_dashboard_live_tiles_client/TestTileManager.h"
 
-#include "kes_moma_picks_client/TestDefaultPaintingLoader.h"
-#include "kes_moma_picks_client/TestOnlineLoader.h"
-#include "kes_moma_picks_client/TestPainting.h"
-#include "kes_moma_picks_client/TestPaintingCache.h"
-#include "kes_moma_picks_client/TestPaintingManager.h"
+#include "unit/kes_moma_picks_client/TestDefaultPaintingLoader.h"
+#include "unit/kes_moma_picks_client/TestOnlineLoader.h"
+#include "unit/kes_moma_picks_client/TestPainting.h"
+#include "unit/kes_moma_picks_client/TestPaintingCache.h"
+#include "unit/kes_moma_picks_client/TestPaintingManager.h"
 
-#include "kw/apiconfig.h"
-#include "kw/kw_apis.h"
-#include "kw/kw_getters.h"
-#include "kw/kw_server_data.h"
+#include "unit/kw/apiconfig.h"
+#include "unit/kw/kw_apis.h"
+#include "unit/kw/kw_getters.h"
+#include "unit/kw/kw_server_data.h"
 
-#include "theme/theme.h"
+#include "unit/theme/theme.h"
 
 #include "unit/utils/TestEnvironment.h"
 
-// --- Run integration tests ---
+// --- Run live integration tests ---
 
 // #include "live/kes_dashboard_live_tiles_client/LiveTestTileManager.h"
 // #include "live/kes_moma_picks_client/LiveTestPaintingManager.h"
+
+// #include "live/kw/LiveTestKanoWorld.h"
 
 // --- Run thread tests through the address sanitizer ---
 

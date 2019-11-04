@@ -19,6 +19,8 @@
 
 #include "mercury/kw/kw.h"
 
+#include "test/fixtures/kw_api.h"
+
 
 namespace Mercury {
 namespace KanoWorld {
