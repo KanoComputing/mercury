@@ -60,17 +60,15 @@ TileManager::TileManager(
         defaultTileLoader(defaultTileLoader) {
 
 // Windows does not understand, or is unable to deduct the auto variable below
-#ifndef WIN32
-    auto environ = (env == nullptr) ? make_shared<Environment>() : env;
-    if (this->cacheDir == "")
-        this->cacheDir = environ->get("HOME") + "/" + this->CACHE_DIRNAME;
-    if (this->onlineLoader == nullptr)
-        this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
-    if (this->tileCache == nullptr)
-        this->tileCache = make_shared<TileCache>(this->cacheDir);
-    if (this->defaultTileLoader == nullptr)
-        this->defaultTileLoader = make_shared<DefaultTileLoader>();
-#endif
+auto environment = (env == nullptr) ? make_shared<Environment>() : env;
+if (this->cacheDir == "")
+    this->cacheDir = environment->get("HOME") + "/" + this->CACHE_DIRNAME;
+if (this->onlineLoader == nullptr)
+    this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
+if (this->tileCache == nullptr)
+    this->tileCache = make_shared<TileCache>(this->cacheDir);
+if (this->defaultTileLoader == nullptr)
+    this->defaultTileLoader = make_shared<DefaultTileLoader>();
 }
 
 
