@@ -58,17 +58,15 @@ PaintingManager::PaintingManager(
         defaultPaintingLoader(defaultPaintingLoader) {
 
 // Windows does not understand, or is unable to deduct the auto variable below
-#ifndef WIN32
-    auto environ = (env == nullptr) ? make_shared<Environment>() : env;
-    if (this->cacheDir == "")
-        this->cacheDir = environ->get("HOME") + "/" + this->CACHE_DIRNAME;
-    if (this->onlineLoader == nullptr)
-        this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
-    if (this->paintingCache == nullptr)
-        this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
-    if (this->defaultPaintingLoader == nullptr)
-        this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
-#endif
+auto environment = (env == nullptr) ? make_shared<Environment>() : env;
+if (this->cacheDir == "")
+    this->cacheDir = environment->get("HOME") + "/" + this->CACHE_DIRNAME;
+if (this->onlineLoader == nullptr)
+    this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
+if (this->paintingCache == nullptr)
+    this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
+if (this->defaultPaintingLoader == nullptr)
+    this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
 }
 
 
