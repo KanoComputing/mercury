@@ -69,10 +69,9 @@ KanoWorld::KanoWorld(
     if (this->http_client == nullptr)
         this->http_client = make_shared<HTTPClient>();
 
-// Windows does not understand, or is unable to deduct the auto variable below
-auto environment = (env == nullptr) ? make_shared<Environment>() : env;
-this->data_filename = environment->get("HOME") + "/.mercury_kw.json";
-load_data();
+	auto environment = (env == nullptr) ? make_shared<Environment>() : env;
+	this->data_filename = environment->get("HOME") + "/.mercury_kw.json";
+	load_data();
 }
 
 bool KanoWorld::login(const string& user, const string& password,
