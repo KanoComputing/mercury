@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef TEST_KW_KW_SERVER_DATA_H_
-#define TEST_KW_KW_SERVER_DATA_H_
+#ifndef TEST_UNIT_KW_KW_SERVER_DATA_H_
+#define TEST_UNIT_KW_KW_SERVER_DATA_H_
 
 
 #include <gtest/gtest.h>
@@ -34,4 +34,4 @@ TEST(kw, LoginGetNoData)
 }  // namespace KanoWorld
 }  // namespace Mercury
 
-#endif  // TEST_KW_KW_SERVER_DATA_H_
+#endif  // TEST_UNIT_KW_KW_SERVER_DATA_H_

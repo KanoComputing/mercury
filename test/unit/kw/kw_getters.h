@@ -9,8 +9,8 @@
  */
 
 
-#ifndef TEST_KW_KW_GETTERS_H_
-#define TEST_KW_KW_GETTERS_H_
+#ifndef TEST_UNIT_KW_KW_GETTERS_H_
+#define TEST_UNIT_KW_KW_GETTERS_H_
 
 
 #include <gtest/gtest.h>
@@ -49,4 +49,4 @@ TEST(kw, SetUsernameWithSave)
 }  // namespace KanoWorld
 }  // namespace Mercury
 
-#endif  // TEST_KW_KW_GETTERS_H_
+#endif  // TEST_UNIT_KW_KW_GETTERS_H_

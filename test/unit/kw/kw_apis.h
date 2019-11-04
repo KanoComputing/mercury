@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef TEST_KW_KW_APIS_H_
-#define TEST_KW_KW_APIS_H_
+#ifndef TEST_UNIT_KW_KW_APIS_H_
+#define TEST_UNIT_KW_KW_APIS_H_
 
 
 #include <gmock/gmock.h>
@@ -310,4 +310,4 @@ TEST_F(ParentalConsentCache, TestVerificationMixCache) {
 }  // namespace KanoWorld
 }  // namespace Mercury
 
-#endif  // TEST_KW_KW_APIS_H_
+#endif  // TEST_UNIT_KW_KW_APIS_H_
