@@ -37,8 +37,8 @@
 
 // --- Run integration tests ---
 
-// #include "kes_dashboard_live_tiles_client/LiveTestTileManager.h"
-// #include "kes_moma_picks_client/LiveTestPaintingManager.h"
+// #include "live/kes_dashboard_live_tiles_client/LiveTestTileManager.h"
+// #include "live/kes_moma_picks_client/LiveTestPaintingManager.h"
 
 // --- Run thread tests through the address sanitizer ---
 
