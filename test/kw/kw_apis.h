@@ -84,30 +84,6 @@ TEST(kw, RenewTokenEmpty)
     EXPECT_EQ(kw.refresh_token("", true), false);
 }
 
-TEST(kw, RenewTokenCorrect)
-{
-    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
-    std::string token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." \
-        "eyJleHAiOjE2MTk5MjMxNjIuMDE2LCJ1c2VyIjp7ImlkIjoiMDE3" \
-        "MTA3Njg0NzQ4MTg5OTE0NzciLCJyb2xlcyI6W119fQ." \
-        "Dhm3_2wDUyA5Tf3IANGfB8Y6DH2Nxzgl84fPSiURdJ8";
-
-    EXPECT_EQ(kw.refresh_token(token, true), true);
-}
-
-TEST(kw, LoginCorrect)
-{
-    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
-    EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
-}
-
-TEST(kw, LoginCorrectAndLogout)
-{
-    Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
-    EXPECT_EQ(kw.login("testing_user", "kano12345experience", true), true);
-    EXPECT_EQ(kw.logout(true), true);
-}
-
 TEST(kw, LoginInvalidCredentials)
 {
     Mercury::KanoWorld::KanoWorld kw(KanoWorldAPI::URL);
@@ -329,7 +305,6 @@ TEST_F(ParentalConsentCache, TestVerificationMixCache) {
     EXPECT_EQ(kw.refresh_account_verified(true), true);
     EXPECT_EQ(kw.refresh_account_verified(false), false);
 }
-
 
 }  // namespace test
 }  // namespace KanoWorld

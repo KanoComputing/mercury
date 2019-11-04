@@ -8,10 +8,11 @@
  *
  */
 
+
 #ifndef TEST_KW_KW_GETTERS_H_
 #define TEST_KW_KW_GETTERS_H_
 
-#include <gmock/gmock-matchers.h>
+
 #include <gtest/gtest.h>
 
 #include <string>
@@ -20,16 +21,16 @@
 #include "test/fixtures/randomisation.h"
 
 
-using Mercury::KanoWorld::KanoWorld;
-using testing::Eq;
-
+namespace Mercury {
+namespace KanoWorld {
+namespace test {
 
 TEST(kw, SetUsernameWithSave)
 {
     const std::string username = std::string("some-test-username-")
         + std::to_string(get_random_number());
 
-    KanoWorld kw1;
+    Mercury::KanoWorld::KanoWorld kw1;
 
     // Sanity check
     EXPECT_NE(kw1.get_username(), username);
@@ -40,9 +41,12 @@ TEST(kw, SetUsernameWithSave)
 
     // Refresh object
 
-    KanoWorld kw2;
+    Mercury::KanoWorld::KanoWorld kw2;
     EXPECT_EQ(kw2.get_username(), username);
 }
 
+}  // namespace test
+}  // namespace KanoWorld
+}  // namespace Mercury
 
 #endif  // TEST_KW_KW_GETTERS_H_
