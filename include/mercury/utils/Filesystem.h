@@ -15,10 +15,17 @@
 #include <sys/stat.h>
 #include <string>
 
-// Windows does not understand mode_t as it is on Unix - sys/stat.h
+// Windows does not understand about file ownership, etc - sys/stat.h
+// Redefine mode_t to int as we are not going to use it
+// And define enum types for compiler to digest correctly, not used anyways
 #ifdef WIN32
     typedef int mode_t;
     using namespace std;
+
+    enum modes {
+        S_IRWXU, S_IRWXG, S_IROTH, S_IXOTH, S_ISDIR
+    };
+
 #else
     using std::string;
 #endif
@@ -33,18 +40,9 @@
  *
  * returns     Whether the operation was successful or not.
  */
-
-// Workaround to using mode_t without preset S_* access mode flags
-#ifdef WIN32
-bool create_directory(
-    const string& path,
-    mode_t mode = 0);
-#else
 bool create_directory(
     const string& path,
     mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-#endif
-
 
 /**
  * \brief Essentially mkdir -p on Linux.
@@ -57,14 +55,6 @@ bool create_directory(
  */
 bool create_directories(
     const string& path,
-
-// Avoid using unknown access flags on Windows
-#ifdef WIN32
-    mode_t mode = 0
-#else
-    mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH
-#endif
-);
-
+    mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 #endif  // INCLUDE_MERCURY_UTILS_FILESYSTEM_H_
