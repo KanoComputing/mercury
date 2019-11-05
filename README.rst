@@ -53,7 +53,6 @@ OS X
    pip3 install -r requirements-dev.txt
    brew install cmake doxygen lcov qt
 
-
 Linux
 -----
 
@@ -82,8 +81,10 @@ The recommended overall disk size for the Windows system is 70GB.
 Building and running
 ====================
 
-Build
------
+Below are the steps to build the Mercury library on different OS platforms.
+
+On Linux
+--------
 
 .. code:: bash
 
@@ -93,10 +94,34 @@ Build
 
 If your linux system is based on Debian Stretch, you can use the `backports <https://backports.debian.org/Instructions/>`_ repositories to pull the latest CMake version. Alternatively, you can point your APT sources to Debian Buster.
 
+On prior Buster Debian distros, you can run this code snippet as root to pull a comfortable CMake version:
 
-On Windows, open a Git Client Shell, clone this repository and then execute the batch file `windows-build.bat`.
-Once the batch file terminates, you should open the file `ALL_BUILD.vcxproj` from Developer Studio, and you will see several targets to build the Mercury components.
+.. code:: bash
 
+   printf "deb http://deb.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/backports.list
+   curl -L http://ftp.debian.org/debian/dists/stretch-backports/Release.gpg | apt-key add -
+   apt-get update
+   apt-get install --allow-unauthenticated -y -t stretch-backports cmake
+
+On Linux
+--------
+Open a Git Client Shell, clone this repository and then execute the batch file `windows-build.bat`.
+Once the batch file terminates, you should see the file `ALL_BUILD.vcxproj` amongst other ones.
+
+You can either open this file inside Developer Studio, and follow the build targets interactively,
+or build it from the command line using `msdev`, by opening a PowerShell Developer Studio Command Prompt:
+
+.. code:: bash
+
+   cd build/release
+   msdev ALL_BUILD.vcxproj
+
+Which would build all of the available targets. You can be more precise in building specific targets which are available under the `src` subdirectory, for example:
+
+.. code:: bash
+
+   cd build/release
+   msdev src/mercury_static.vcxproj
 
 Test
 -----
@@ -117,7 +142,6 @@ Lint
 .. code:: bash
 
    make lint
-
 
 C++ linting is performed by the `CppLint <https://github.com/cpplint/cpplint>`_ tool. The configuration is in the ``CPPLINT.cfg`` file.
 
