@@ -114,14 +114,14 @@ or build it from the command line using `msdev`, by opening a PowerShell Develop
 .. code:: bash
 
    cd build/release
-   msdev ALL_BUILD.vcxproj
+   msdev.exe ALL_BUILD.vcxproj
 
 Which would build all of the available targets. You can be more precise in building specific targets which are available under the `src` subdirectory, for example:
 
 .. code:: bash
 
    cd build/release
-   msdev src/mercury_static.vcxproj
+   msdev.exe src/mercury_static.vcxproj
 
 Test
 -----
