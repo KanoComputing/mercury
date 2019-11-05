@@ -7,10 +7,14 @@
  * \brief     TODO
  */
 
-
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+
+#ifdef WIN32
+  #include <direct.h>
+  #include <windows.h>
+#endif
 
 #include <string>
 #include <vector>
@@ -23,10 +27,6 @@ using std::vector;
 
 
 bool create_directory(const string& path, mode_t mode) {
-// This function needs a reimplementation on Windows - sys/stat.h
-#ifdef WIN32
-    return true;
-#else
     bool successful = true;
     struct stat st;
 
@@ -34,17 +34,37 @@ bool create_directory(const string& path, mode_t mode) {
     if (stat(path.c_str(), &st) != 0) {
         // Directory does not exist, attempt to create.
         // EEXIST for race condition.
+
+// mkdir is a different function call on Windows POSIX interface
+#ifdef WIN32
+        if (_mkdir(path.c_str()) != 0 && errno != EEXIST) {
+            successful = false;
+        }
+#else
         if (mkdir(path.c_str(), mode) != 0 && errno != EEXIST) {
             successful = false;
         }
+#endif
 
-    // If path does exist, check if it is a valid directory.
-    } else if (!S_ISDIR(st.st_mode)) {
-        errno = ENOTDIR;
-        successful = false;
+// If path does exist, check if it is a valid directory.
+// On windows, S_ISDIR does not seem to exist, use a native Windows API
+#ifdef WIN32
+        else {
+            DWORD file_type = GetFileAttributesA(path.c_str());
+            if ((file_type != INVALID_FILE_ATTRIBUTES) || !(file_type & FILE_ATTRIBUTE_DIRECTORY)) {
+                // Either the pathname is not found, or it is not a directory
+                errno = ENOTDIR;
+                successful = false;
+            }
+        }
+#else
+        else if (!S_ISDIR(st.st_mode)) {
+            errno = ENOTDIR;
+            successful = false;
+        }
+#endif
     }
     return successful;
-#endif
 }
 
 
