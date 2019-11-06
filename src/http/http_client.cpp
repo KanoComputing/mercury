@@ -52,9 +52,16 @@ HTTPClient::HTTPClient() {
     HTTPSessionInstantiator::registerInstantiator();
     HTTPSSessionInstantiator::registerInstantiator();
 
-// MSDEV compiler complains with no Context class found
-#ifndef WIN32
-    // Prepare for SSLManager
+#ifdef WIN32
+    // Windows implementation for the Context class
+    // is different to that on Linux.
+    Poco::SharedPtr<AcceptCertificateHandler> cert =
+        new AcceptCertificateHandler(false);
+    const Poco::Net::Context::Ptr context = new Context(
+        Context::CLIENT_USE, "", Context::VERIFY_NONE,
+        Context::Options::OPT_DEFAULTS, "");
+    SSLManager::instance().initializeClient(0, cert, context);
+#else
     Poco::SharedPtr<AcceptCertificateHandler> cert =
         new AcceptCertificateHandler(false);
     const Poco::Net::Context::Ptr context = new Context(
