@@ -171,7 +171,7 @@ class KanoWorld {
      * \returns True if login was successful, false otherwise
      */
      bool login(const std::string& username, const std::string& password,
-		const bool verbose = false);
+                const bool verbose = false);
 
     // TODO: remove
     std::string whoami() const;

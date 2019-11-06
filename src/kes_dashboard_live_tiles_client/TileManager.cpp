@@ -58,15 +58,15 @@ TileManager::TileManager(
         onlineLoader(onlineLoader),
         tileCache(tileCache),
         defaultTileLoader(defaultTileLoader) {
-	auto environment = (env == nullptr) ? make_shared<Environment>() : env;
-	if (this->cacheDir == "")
-		this->cacheDir = environment->get("HOME") + "/" + this->CACHE_DIRNAME;
-	if (this->onlineLoader == nullptr)
-		this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
-	if (this->tileCache == nullptr)
-		this->tileCache = make_shared<TileCache>(this->cacheDir);
-	if (this->defaultTileLoader == nullptr)
-		this->defaultTileLoader = make_shared<DefaultTileLoader>();
+    auto environment = (env == nullptr) ? make_shared<Environment>() : env;
+    if (this->cacheDir == "")
+        this->cacheDir = environment->get("HOME") + "/" + this->CACHE_DIRNAME;
+    if (this->onlineLoader == nullptr)
+        this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
+    if (this->tileCache == nullptr)
+        this->tileCache = make_shared<TileCache>(this->cacheDir);
+    if (this->defaultTileLoader == nullptr)
+        this->defaultTileLoader = make_shared<DefaultTileLoader>();
 }
 
 
