@@ -51,7 +51,8 @@ bool create_directory(const string& path, mode_t mode) {
 #ifdef WIN32
         else {
             DWORD file_type = GetFileAttributesA(path.c_str());
-            if ((file_type != INVALID_FILE_ATTRIBUTES) || !(file_type & FILE_ATTRIBUTE_DIRECTORY)) {
+            if ((file_type != INVALID_FILE_ATTRIBUTES) ||
+                !(file_type & FILE_ATTRIBUTE_DIRECTORY)) {
                 // Either the pathname is not found, or it is not a directory
                 errno = ENOTDIR;
                 successful = false;

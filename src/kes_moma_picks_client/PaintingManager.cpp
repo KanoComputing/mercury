@@ -56,15 +56,15 @@ PaintingManager::PaintingManager(
         onlineLoader(onlineLoader),
         paintingCache(paintingCache),
         defaultPaintingLoader(defaultPaintingLoader) {
-	auto environment = (env == nullptr) ? make_shared<Environment>() : env;
-	if (this->cacheDir == "")
-	    this->cacheDir = environment->get("HOME") + "/" + this->CACHE_DIRNAME;
-	if (this->onlineLoader == nullptr)
-		this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
-	if (this->paintingCache == nullptr)
-		this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
-	if (this->defaultPaintingLoader == nullptr)
-		this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
+    auto environment = (env == nullptr) ? make_shared<Environment>() : env;
+    if (this->cacheDir == "")
+        this->cacheDir = environment->get("HOME") + "/" + this->CACHE_DIRNAME;
+    if (this->onlineLoader == nullptr)
+        this->onlineLoader = make_shared<OnlineLoader>(this->cacheDir);
+    if (this->paintingCache == nullptr)
+        this->paintingCache = make_shared<PaintingCache>(this->cacheDir);
+    if (this->defaultPaintingLoader == nullptr)
+        this->defaultPaintingLoader = make_shared<DefaultPaintingLoader>();
 }
 
 

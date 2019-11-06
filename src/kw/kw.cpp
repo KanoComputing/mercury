@@ -69,9 +69,9 @@ KanoWorld::KanoWorld(
     if (this->http_client == nullptr)
         this->http_client = make_shared<HTTPClient>();
 
-	auto environment = (env == nullptr) ? make_shared<Environment>() : env;
-	this->data_filename = environment->get("HOME") + "/.mercury_kw.json";
-	load_data();
+    auto environment = (env == nullptr) ? make_shared<Environment>() : env;
+    this->data_filename = environment->get("HOME") + "/.mercury_kw.json";
+    load_data();
 }
 
 bool KanoWorld::login(const string& user, const string& password,
@@ -143,7 +143,6 @@ bool KanoWorld::logout(const bool verbose) {
     int rc = stat(this->data_filename.c_str(), &cache);
 
     if (rc != -1) {
-
 // the unlink function on Windows is called _unlink
 #ifdef WIN32
         int rc = _unlink(this->data_filename.c_str());
