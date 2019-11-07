@@ -35,6 +35,9 @@ test-threads: CMAKE_EXTRA_OPTIONS += -DTHREAD_SANITIZER_SUPPORTED=ON
 test-threads: build-debug
 	./build/Debug/bin/mercury_thread_tests
 
+test-live: build-debug
+	./build/Debug/bin/mercury_live_tests
+
 test-python: build-release test-python2
 	-cp -v build/Release/lib/_mercury_python3.so test/python3/_mercury.so
 	-cp -v build/Release/lib/libmercury.dylib test/python3
