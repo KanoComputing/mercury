@@ -52,7 +52,28 @@ if (THREAD_SANITIZER_SUPPORTED)
     )
 endif()
 
+# Live tests
+
+add_executable(mercury_live_tests
+    live_tests.cpp
+)
+
+target_link_libraries(mercury_live_tests
+    PUBLIC mercury_static
+    PRIVATE CONAN_PKG::gtest
+)
+
+target_include_directories(mercury_live_tests PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_options(mercury_live_tests
+    PRIVATE -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+)
+
 # Coverage
+
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
 set(COVERAGE_LCOV_EXCLUDES
