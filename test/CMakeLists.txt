@@ -74,18 +74,21 @@ target_link_options(mercury_live_tests
 
 # Coverage
 
-include(CodeCoverage)
-APPEND_COVERAGE_COMPILER_FLAGS()
-set(COVERAGE_LCOV_EXCLUDES
-    '*/build/*' '*/test/*' '*/.conan/*' '*v1/*' '/usr/include/*'
-)
-SETUP_TARGET_FOR_COVERAGE_LCOV(
-    NAME coverage
-    EXECUTABLE ctest -j ${n_cores} --no-compress-output -T test
-    ENVIRONMENT LSAN_OPTIONS=verbosity=1:log_threads=1
-    DEPENDENCIES
-    mercury_obj
-    mercury_static
-    mercury_shared
-    mercury_gtests
-)
+# NOTE: not supported yet on Windows platforms
+if (NOT WIN32)
+    include(CodeCoverage)
+    APPEND_COVERAGE_COMPILER_FLAGS()
+    set(COVERAGE_LCOV_EXCLUDES
+        '*/build/*' '*/test/*' '*/.conan/*' '*v1/*' '/usr/include/*'
+    )
+    SETUP_TARGET_FOR_COVERAGE_LCOV(
+        NAME coverage
+        EXECUTABLE ctest -j ${n_cores} --no-compress-output -T test
+        ENVIRONMENT LSAN_OPTIONS=verbosity=1:log_threads=1
+        DEPENDENCIES
+        mercury_obj
+        mercury_static
+        mercury_shared
+        mercury_gtests
+    )
+endif()
