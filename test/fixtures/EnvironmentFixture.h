@@ -49,17 +49,23 @@ class EnvironmentFixture :
         bool variableNotSet = std::getenv(variable.c_str()) == nullptr;
         ASSERT_TRUE(variableNotSet);
 
+// TODO: translate setenv to windows counterparts
+#ifndef WIN32
         int rv = setenv(this->variable.c_str(), this->value.c_str(), 0);
         bool setSuccessfully = rv == 0;
         ASSERT_TRUE(setSuccessfully);
+#endif
     }
 
     virtual void TearDown() {
         this->initParams();
 
+// TODO: translate unsetenv to windows counterparts
+#ifndef WIN32
         int rv = unsetenv(this->variable.c_str());
         bool unsetSuccessfully = rv == 0;
         ASSERT_TRUE(unsetSuccessfully);
+#endif
     }
 
  private:
