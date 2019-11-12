@@ -149,8 +149,20 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
     # Add flags for coverage
     include(CodeCoverage)
     APPEND_COVERAGE_COMPILER_FLAGS()
+
 endif (CMAKE_BUILD_TYPE MATCHES Debug)
 
 
 # Add swig subdirectory
 add_subdirectory(swig)
+
+# Add a simple CPP client that communicates to KanoWorld
+add_executable(cpp_client "cpp_client/cpp_client.cpp")
+
+target_include_directories(cpp_client PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(cpp_client mercury_static)
