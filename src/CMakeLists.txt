@@ -180,6 +180,6 @@ target_include_directories(cpp_client PUBLIC
 # complaining about missing PocoFoundation.lib, even though
 # PocoFoundationmd.lib is correctly passed to the linker
 # on a Release build.
-#target_link_libraries(cpp_client
-#    PUBLIC mercury_static
-#           CONAN_PKG::Poco)
+target_link_libraries(cpp_client
+    PUBLIC mercury_static
+           CONAN_PKG::Poco)
