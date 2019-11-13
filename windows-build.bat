@@ -10,16 +10,16 @@
 ::
 
 mkdir build
-mkdir build\debug
+mkdir build\release
 conan remote add dev-server http://dev.kano.me:9300
 conan remote update dev-server http://dev.kano.me:9300
 
-cd build\debug
+cd build\release
+
 conan install -r dev-server --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-devstudio-2019.info ..\..
 conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-devstudio-2019.info ..\..
 
-cmake -DCMAKE_BUILD_TYPE=debug ..\..
+cmake -DCMAKE_BUILD_TYPE=release ..\..
 
-cd build\debug
-msbuild.exe src\mercury_static.vcxproj
-msbuild.exe test\mercury_gtests.vcxproj
+msbuild.exe -p:Configuration=Release src\mercury_static.vcxproj
+msbuild.exe -p:Configuration=Release src\cpp_client.vcxproj
