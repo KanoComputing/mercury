@@ -73,6 +73,17 @@ target_link_libraries(mercury_static
            ${OPENSSL_LIBRARIES}
 )
 
+# FIXME: Does not link correctly yet
+if(MSVC)
+  set(CMAKE_SHARED_LINKER_FLAGS
+      "${CMAKE_SHARED_LINKER_FLAGS}
+      /NODEFAULTLIB:\"PocoFoundation.lib\"
+      /NODEFAULTLIB:\"PocoNet.lib\"
+      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
+      /NODEFAULTLIB:\"PocoUtil.lib\""
+  )
+endif()
+
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
 
@@ -169,6 +180,6 @@ target_include_directories(cpp_client PUBLIC
 # complaining about missing PocoFoundation.lib, even though
 # PocoFoundationmd.lib is correctly passed to the linker
 # on a Release build.
-target_link_libraries(cpp_client
-    PUBLIC mercury_static
-           CONAN_PKG::Poco)
+#target_link_libraries(cpp_client
+#    PUBLIC mercury_static
+#           CONAN_PKG::Poco)
