@@ -9,6 +9,11 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 
 project(Mercury VERSION 0.1)
 
+# Support the MSVCRT linkage version on a per-configuration specification
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+endif()
+
 # Add cmake directory to include path. These are shared modules from
 #     https://github.com/bilke/cmake-modules
 # See the README there for instructions to update

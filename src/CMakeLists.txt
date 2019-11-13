@@ -1,7 +1,6 @@
 project(mercury VERSION 0.1 LANGUAGES CXX)
 
 # Compilation of sources into object
-
 find_package(OpenSSL)
 
 set(mercury_src
@@ -76,6 +75,7 @@ target_link_libraries(mercury_static
 
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
+
     target_compile_options(mercury_obj
         PUBLIC -fsanitize=address,undefined
                -fno-omit-frame-pointer
@@ -165,4 +165,10 @@ target_include_directories(cpp_client PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(cpp_client mercury_static)
+# FIXME: For some reason this will crash the linker
+# complaining about missing PocoFoundation.lib, even though
+# PocoFoundationmd.lib is correctly passed to the linker
+# on a Release build.
+target_link_libraries(cpp_client
+    PUBLIC mercury_static
+           CONAN_PKG::Poco)
