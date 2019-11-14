@@ -41,6 +41,15 @@ set_property(TARGET mercury_obj PROPERTY POSITION_INDEPENDENT_CODE ON)
 add_library(mercury_shared SHARED $<TARGET_OBJECTS:mercury_obj>)
 add_library(mercury_static STATIC $<TARGET_OBJECTS:mercury_obj>)
 
+if (MSVC)
+    GENERATE_EXPORT_HEADER (mercury_shared
+        BASE_NAME mercury_shared
+        EXPORT_MACRO_NAME mercury_shared_EXPORT
+        EXPORT_FILE_NAME mercury_shared_export.h
+        STATIC_DEFINE mercury_shared__BUILT_AS_STATIC
+    )
+endif()
+
 set_target_properties(mercury_shared
     PROPERTIES OUTPUT_NAME mercury
 )
@@ -182,4 +191,6 @@ target_include_directories(cpp_client PUBLIC
 # on a Release build.
 target_link_libraries(cpp_client
     PUBLIC mercury_static
-           CONAN_PKG::Poco)
+           CONAN_PKG::Poco
+           ${CONAN_LIB_DIRS_POCO}/PocoNetSSLWinmd.lib
+    )
