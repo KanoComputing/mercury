@@ -49,8 +49,8 @@ using Mercury::HTTP::HTTPClient;
 
 
 HTTPClient::HTTPClient() {
-    HTTPSessionInstantiator::registerInstantiator();
-    HTTPSSessionInstantiator::registerInstantiator();
+    //HTTPSessionInstantiator::registerInstantiator();
+    //HTTPSSessionInstantiator::registerInstantiator();
 
 #ifdef WIN32
     // Windows implementation for the Context class
@@ -83,8 +83,10 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
     std::unique_ptr<HTTPClientSession> session;
 
     try {
+        /*
         session = std::unique_ptr<HTTPClientSession>(
             HTTPSessionFactory::defaultFactory().createClientSession(uri));
+        */
     } catch (const Poco::DataException& e) {
         throw SessionInitError(e.message());
     } catch (const std::exception& e) {
@@ -110,9 +112,11 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
     std::istream& rs = session->receiveResponse(response);
 
     int status_code = response.getStatus();
+    /*
     if (status_code != HTTPResponse::HTTP_OK) {
         throw HTTPRequestFailedError(status_code, response.getReason());
     }
+    */
 
 // For some reason Windows does not like the statement below
 #ifndef WIN32

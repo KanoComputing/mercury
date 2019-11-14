@@ -12,6 +12,8 @@ project(Mercury VERSION 0.1)
 # Support the MSVCRT linkage version on a per-configuration specification
 if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    include (GenerateExportHeader)
 endif()
 
 # Add cmake directory to include path. These are shared modules from
