@@ -21,5 +21,15 @@ conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Wind
 
 cmake -DCMAKE_BUILD_TYPE=release ..\..
 
+
+msbuild.exe -p:Configuration=Release src\mercury_shared.vcxproj
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 msbuild.exe -p:Configuration=Release src\mercury_static.vcxproj
-msbuild.exe -p:Configuration=Release src\cpp_client.vcxproj
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+msbuild.exe -p:Configuration=Release src\swig\csharp\mercury_csharp.vcxproj
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+:: currently failing
+::msbuild.exe -p:Configuration=Release src\cpp_client.vcxproj
