@@ -13,3 +13,7 @@ endif()
 if (BUILD_PYTHON2)
     add_subdirectory(python2)
 endif()
+
+if (MSVC)
+    add_subdirectory(csharp)
+endif()
