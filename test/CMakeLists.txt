@@ -71,3 +71,15 @@ if (NOT WIN32)
         mercury_gtests
     )
 endif()
+
+# FIXME: Poco library is still giving us obscure linking troubles
+# the code below does not fix the linking stage yet
+if(MSVC)
+  set(CMAKE_STATIC_LINKER_FLAGS
+      "${CMAKE_STATIC_LINKER_FLAGS}
+      /NODEFAULTLIB:\"PocoFoundation.lib\"
+      /NODEFAULTLIB:\"PocoNet.lib\"
+      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
+      /NODEFAULTLIB:\"PocoUtil.lib\""
+  )
+endif()
