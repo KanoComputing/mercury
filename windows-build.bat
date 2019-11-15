@@ -5,8 +5,12 @@
 ::
 :: This Windows batch file will register and download conan prebuilt packages,
 :: then call cmake to generate a release Solution file for Developer Studio.
+:: Finally it will build the Static and Dynamic versions of the library in Release mode.
 ::
 :: See the Windows section on the README file for software requirements.
+::
+:: For cpp client build steps, call windows-cppclient.bat
+:: For Google Test built steps, call windows-gtest.bat
 ::
 
 mkdir build
@@ -22,14 +26,10 @@ conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Wind
 cmake -DCMAKE_BUILD_TYPE=release ..\..
 
 
+@echo ">>> BUILDING MERCURY SHARED" >> build.log
 msbuild.exe -p:Configuration=Release src\mercury_shared.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+@echo ">>> BUILDING MERCURY STATIC" >> build.log
 msbuild.exe -p:Configuration=Release src\mercury_static.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
-
-msbuild.exe -p:Configuration=Release src\swig\csharp\mercury_csharp.vcxproj
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-:: currently failing
-::msbuild.exe -p:Configuration=Release src\cpp_client.vcxproj
