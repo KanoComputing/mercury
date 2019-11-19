@@ -23,7 +23,7 @@ cd build\release
 conan install -r dev-server --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-devstudio-2019.info ..\..
 conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-devstudio-2019.info ..\..
 
-cmake -DCMAKE_BUILD_TYPE=release ..\..
+cmake -DCMAKE_BUILD_TYPE=Release ..\..
 
 
 @echo ">>> BUILDING MERCURY SHARED" >> build.log

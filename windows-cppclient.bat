@@ -4,7 +4,7 @@
 ::
 
 cd build\release
-cmake -DCMAKE_BUILD_TYPE=release ..\..
+cmake -DCMAKE_BUILD_TYPE=Release ..\..
 
 @echo ">>> BUILDING C++ CLIENT"
 msbuild.exe -p:Configuration=Release src\cpp_client.vcxproj
