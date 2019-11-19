@@ -10,3 +10,6 @@ cmake -DCMAKE_BUILD_TYPE=Release ..\..
 @echo ">>> BUILDING GOOGLE TESTS" >> build.log
 msbuild.exe -p:Configuration=Release test\mercury_gtests.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
+
+@echo ">>> RUNNING GOOGLE TESTS" >> build.log
+msbuild.exe -p:Configuration=Release RUN_TESTS.vcxproj

@@ -25,7 +25,6 @@ endif()
 
 # FIXME: Some default libraries are coming during the
 # link stage. remove them as they are not available
-
 if (MSVC)
   set(CMAKE_EXE_LINKER_FLAGS
       "${CMAKE_EXE_LINKER_FLAGS}
