@@ -3,8 +3,9 @@
 :: Requirements: Call the windows-build.bat
 ::
 
+mkdir -p build\release
 cd build\release
-cmake -DCMAKE_BUILD_TYPE=release ..\..
+cmake -DCMAKE_BUILD_TYPE=Release ..\..
 
 @echo ">>> BUILDING GOOGLE TESTS" >> build.log
 msbuild.exe -p:Configuration=Release test\mercury_gtests.vcxproj

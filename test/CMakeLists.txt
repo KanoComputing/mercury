@@ -17,9 +17,24 @@ target_include_directories(mercury_gtests PUBLIC
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
 )
 
+if (NOT MSVC)
 target_link_options(mercury_gtests
     PRIVATE -Wl,-rpath,${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
+endif()
+
+# FIXME: Some default libraries are coming during the
+# link stage. remove them as they are not available
+
+if (MSVC)
+  set(CMAKE_EXE_LINKER_FLAGS
+      "${CMAKE_EXE_LINKER_FLAGS}
+      /NODEFAULTLIB:\"PocoFoundation.lib\"
+      /NODEFAULTLIB:\"PocoNet.lib\"
+      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
+      /NODEFAULTLIB:\"PocoUtil.lib\""
+  )
+endif()
 
 if (UNIX AND NOT APPLE)
     target_link_options(mercury_gtests
@@ -91,16 +106,4 @@ if (NOT WIN32)
         mercury_shared
         mercury_gtests
     )
-endif()
-
-# FIXME: Poco library is still giving us obscure linking troubles
-# the code below does not fix the linking stage yet
-if(MSVC)
-  set(CMAKE_STATIC_LINKER_FLAGS
-      "${CMAKE_STATIC_LINKER_FLAGS}
-      /NODEFAULTLIB:\"PocoFoundation.lib\"
-      /NODEFAULTLIB:\"PocoNet.lib\"
-      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
-      /NODEFAULTLIB:\"PocoUtil.lib\""
-  )
 endif()

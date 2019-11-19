@@ -82,7 +82,7 @@ target_link_libraries(mercury_static
            ${OPENSSL_LIBRARIES}
 )
 
-# FIXME: Does not link correctly yet
+# Remove default libraries coming from someplace else
 if(MSVC)
   set(CMAKE_SHARED_LINKER_FLAGS
       "${CMAKE_SHARED_LINKER_FLAGS}
