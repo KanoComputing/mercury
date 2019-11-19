@@ -9,3 +9,5 @@ cmake -DCMAKE_BUILD_TYPE=Release ..\..
 @echo ">>> BUILDING C++ CLIENT"
 msbuild.exe -p:Configuration=Release src\cpp_client.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
+
+start bin/cpp_client.exe

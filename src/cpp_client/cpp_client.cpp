@@ -10,11 +10,14 @@
  */
 
 #include <stdio.h>
+#include <conio.h>
 
 #include "mercury/kw/kw.h"
 
 int main(int argc, char *argv[])
 {
     Mercury::KanoWorld::KanoWorld kw;
-    printf("hello cpp_client\n");
+
+    printf ("Press a key to terminate cpp_client and release process resources\n");
+    _getch();
 }
