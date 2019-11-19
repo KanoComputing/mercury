@@ -84,6 +84,8 @@ target_link_libraries(mercury_static
 
 # Remove default libraries coming from someplace else
 if(MSVC)
+
+  # For linking the mercury shared library
   set(CMAKE_SHARED_LINKER_FLAGS
       "${CMAKE_SHARED_LINKER_FLAGS}
       /NODEFAULTLIB:\"PocoFoundation.lib\"
@@ -91,6 +93,16 @@ if(MSVC)
       /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
       /NODEFAULTLIB:\"PocoUtil.lib\""
   )
+
+  # For linking the cpp client application
+  set(CMAKE_EXE_LINKER_FLAGS
+      "${CMAKE_EXE_LINKER_FLAGS}
+      /NODEFAULTLIB:\"PocoFoundation.lib\"
+      /NODEFAULTLIB:\"PocoNet.lib\"
+      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
+      /NODEFAULTLIB:\"PocoUtil.lib\""
+  )
+
 endif()
 
 
