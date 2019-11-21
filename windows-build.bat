@@ -25,7 +25,6 @@ conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Wind
 
 cmake -DCMAKE_BUILD_TYPE=Release ..\..
 
-
 @echo ">>> BUILDING MERCURY SHARED" >> build.log
 msbuild.exe -p:Configuration=Release src\mercury_shared.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
@@ -33,3 +32,6 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 @echo ">>> BUILDING MERCURY STATIC" >> build.log
 msbuild.exe -p:Configuration=Release src\mercury_static.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
+
+@echo ">>> BUILDING C SHARP BINDINGS" >> build.log
+msbuild.exe -p:Configuration=Release src\swig\csharp\mercury_csharp.vcxproj
