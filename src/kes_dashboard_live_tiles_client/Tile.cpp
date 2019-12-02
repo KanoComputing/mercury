@@ -21,6 +21,7 @@
 #include "mercury/http/http_client.h"
 #include "mercury/http/http_client_interface.h"
 #include "mercury/utils/Filesystem.h"
+#include "mercury/utils/IFilesystem.h"
 #include "mercury/utils/String.h"
 
 using std::cerr;
@@ -33,9 +34,13 @@ using KESDLTC::Tile;
 
 using Mercury::HTTP::IHTTPClient;
 using Mercury::HTTP::HTTPClient;
+using Mercury::Utils::IFilesystem;
+using Mercury::Utils::Filesystem;
 
 
-Tile::Tile(const shared_ptr<IHTTPClient>& httpClient):
+Tile::Tile(
+    const shared_ptr<IHTTPClient>& httpClient,
+    const std::shared_ptr<IFilesystem>& fs):
     Tile("", "", "", "", "", "", "", "", "", httpClient) {
     // Empty constructor.
 }
@@ -45,14 +50,18 @@ Tile::Tile(
     const string& id, const string& cover, const string& title,
     const string& description, const string& username, const string& app,
     const string& openUrl, const string& fallbackUrl, const string& coverPath,
-    const shared_ptr<IHTTPClient>& httpClient):
+    const shared_ptr<IHTTPClient>& httpClient,
+    const std::shared_ptr<IFilesystem>& fs):
         id(id), cover(cover), title(title),
         description(description), username(username), app(app),
         openUrl(openUrl), fallbackUrl(fallbackUrl), coverPath(coverPath),
-        httpClient(httpClient) {
+        httpClient(httpClient), filesystem(fs) {
     //
     if (this->httpClient == nullptr)
         this->httpClient = make_shared<HTTPClient>();
+
+    if (this->filesystem == nullptr)
+        this->filesystem = make_shared<Filesystem>();
 }
 
 
@@ -118,7 +127,7 @@ bool Tile::download(const string& baseDir) {
     this->coverPath = tileDir + '/' + split(this->cover, '/').back();
 
     // Create the directory path for this tile data.
-    if (!create_directories(tileDir)) {
+    if (!this->filesystem->create_directories(tileDir)) {
         cerr << "Failed to create directories: path: " << tileDir << endl;
         return false;
     }

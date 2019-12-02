@@ -32,6 +32,7 @@
 #include "unit/theme/theme.h"
 
 #include "unit/utils/TestEnvironment.h"
+#include "unit/utils/TestFilesystem.h"
 
 // --- Run thread tests through the address sanitizer ---
 

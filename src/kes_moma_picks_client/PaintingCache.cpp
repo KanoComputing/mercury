@@ -21,6 +21,7 @@
 #include "kes_moma_picks_client/IPaintingFactory.h"
 #include "kes_moma_picks_client/PaintingFactory.h"
 #include "mercury/utils/Filesystem.h"
+#include "mercury/utils/IFilesystem.h"
 #include "mercury/utils/Time.h"
 
 using std::cerr;
@@ -36,18 +37,27 @@ using KESMPC::IPainting;
 using KESMPC::IPaintingFactory;
 using KESMPC::PaintingFactory;
 
+using Mercury::Utils::IFilesystem;
+using Mercury::Utils::Filesystem;
+
 
 PaintingCache::PaintingCache(
     const string& cacheDir,
-    const shared_ptr<IPaintingFactory>& paintingFactory):
+    const shared_ptr<IPaintingFactory>& paintingFactory,
+    const std::shared_ptr<IFilesystem>& fs):
         cacheDir(cacheDir),
         paintingFactory(paintingFactory),
+        filesystem(fs),
         cacheDataRoot(nullptr),
         cacheData(nullptr) {
     //
     this->cachePath = this->cacheDir + "/" + this->CACHE_FILE;
     if (this->paintingFactory == nullptr)
         this->paintingFactory = make_shared<PaintingFactory>();
+
+    if (this->filesystem == nullptr)
+        this->filesystem = make_shared<Filesystem>();
+
     this->load();
 }
 
@@ -118,7 +128,7 @@ void PaintingCache::update(const list<shared_ptr<IPainting>>& paintings) {
     }
 
     // Ensure the directory and write all serialised paintings to the cache.
-    create_directories(this->cacheDir);
+    this->filesystem->create_directories(this->cacheDir);
 
     if (json_serialize_to_file_pretty(
             root.get(), this->cachePath.c_str()) != JSONSuccess) {

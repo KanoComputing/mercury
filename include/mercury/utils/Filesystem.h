@@ -15,46 +15,29 @@
 #include <sys/stat.h>
 #include <string>
 
-// Windows does not understand about file ownership, etc - sys/stat.h
-// Redefine mode_t to int as we are not going to use it
-// And define enum types for compiler to digest correctly, not used anyways
-#ifdef WIN32
-    typedef int mode_t;
-    using namespace std;
+#include "mercury/utils/IFilesystem.h"
 
-    enum modes {
-        S_IRWXU, S_IRWXG, S_IROTH, S_IXOTH, S_ISDIR
-    };
 
-#else
-    using std::string;
-#endif
 
+namespace Mercury {
+namespace Utils {
 
 /**
- * \brief Essentially mkdir on Linux without -p.
- *        Replaceable by create_directory in C++17.
- *
- * param path  The path to the directory to create.
- * param mode  (Optional) as passed to mkdir(3).
- *
- * returns     Whether the operation was successful or not.
+ * \class Filesystem
+ * \brief Utility class which wraps standard C functions for filesystem
+          manipulation.
  */
-bool create_directory(
-    const string& path,
-    mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+class Filesystem : public IFilesystem {
+ public:  // Methods.
+    bool create_directory(
+        const std::string& path,
+        mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) const override;
+    bool create_directories(
+        const std::string& path,
+        mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) const override;
+};
 
-/**
- * \brief Essentially mkdir -p on Linux.
- *        Replaceable by create_directories in C++17.
- *
- * param path  The path to the directory to create.
- * param mode  (Optional) as passed to mkdir(3).
- *
- * returns     Whether the operation was successful or not.
- */
-bool create_directories(
-    const string& path,
-    mode_t mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+}  // namespace Utils
+}  // namespace Mercury
 
 #endif  // INCLUDE_MERCURY_UTILS_FILESYSTEM_H_

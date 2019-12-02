@@ -25,8 +25,10 @@
 using std::string;
 using std::vector;
 
+using Mercury::Utils::Filesystem;
 
-bool create_directory(const string& path, mode_t mode) {
+
+bool Filesystem::create_directory(const string& path, mode_t mode) const {
     bool successful = true;
     struct stat st;
 
@@ -45,21 +47,19 @@ bool create_directory(const string& path, mode_t mode) {
             successful = false;
         }
 #endif
-
+    } else {
 // If path does exist, check if it is a valid directory.
 // On windows, S_ISDIR does not seem to exist, use a native Windows API
 #ifdef WIN32
-        else {
-            DWORD file_type = GetFileAttributesA(path.c_str());
-            if ((file_type != INVALID_FILE_ATTRIBUTES) ||
-                !(file_type & FILE_ATTRIBUTE_DIRECTORY)) {
-                // Either the pathname is not found, or it is not a directory
-                errno = ENOTDIR;
-                successful = false;
-            }
+        DWORD file_type = GetFileAttributesA(path.c_str());
+        if ((file_type != INVALID_FILE_ATTRIBUTES) ||
+            !(file_type & FILE_ATTRIBUTE_DIRECTORY)) {
+            // Either the pathname is not found, or it is not a directory
+            errno = ENOTDIR;
+            successful = false;
         }
 #else
-        else if (!S_ISDIR(st.st_mode)) {
+        if (!S_ISDIR(st.st_mode)) {
             errno = ENOTDIR;
             successful = false;
         }
@@ -69,8 +69,14 @@ bool create_directory(const string& path, mode_t mode) {
 }
 
 
-bool create_directories(const string& path, mode_t mode) {
-    vector<string> directories = split(path, '/');
+bool Filesystem::create_directories(const string& path, mode_t mode) const {
+#ifdef WIN32
+    constexpr char path_separator = '\\';
+#else  // WIN32
+    constexpr char path_separator = '/';
+#endif  // WIN32
+
+    vector<string> directories = split(path, path_separator);
 
     for (int i = 0; i < directories.size(); i++) {
         if (directories[i].empty()) {
@@ -80,7 +86,7 @@ bool create_directories(const string& path, mode_t mode) {
             directories.begin(),
             directories.begin() + i + 1);
 
-        if (!create_directory(join(pathParts, "/"))) {
+        if (!create_directory(join(pathParts, string(1, path_separator)))) {
             return false;
         }
     }

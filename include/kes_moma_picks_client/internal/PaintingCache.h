@@ -20,6 +20,8 @@
 #include "kes_moma_picks_client/IPainting.h"
 #include "kes_moma_picks_client/IPaintingFactory.h"
 
+#include "mercury/utils/IFilesystem.h"
+
 
 namespace KESMPC {
 namespace internal {
@@ -28,7 +30,8 @@ class PaintingCache : public IPaintingCache {
  public:  // Constructors & destructors.
     explicit PaintingCache(
         const std::string& cacheDir,
-        const std::shared_ptr<IPaintingFactory>& paintingFactory = nullptr);
+        const std::shared_ptr<IPaintingFactory>& paintingFactory = nullptr,
+        const std::shared_ptr<Mercury::Utils::IFilesystem>& fs = nullptr);
 
  public:  // IPaintingLoader Methods.
     std::list<std::shared_ptr<IPainting>> getPaintings() override;
@@ -48,6 +51,7 @@ class PaintingCache : public IPaintingCache {
     std::shared_ptr<JSON_Value> cacheDataRoot;
     JSON_Object* cacheData;
     std::shared_ptr<IPaintingFactory> paintingFactory;
+    std::shared_ptr<Mercury::Utils::IFilesystem> filesystem;
 
  private:  // Constants.
     const std::string CACHE_FILE = "cache.json";

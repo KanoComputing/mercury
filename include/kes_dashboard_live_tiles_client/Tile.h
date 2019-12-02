@@ -19,6 +19,7 @@
 
 #include "kes_dashboard_live_tiles_client/ITile.h"
 #include "mercury/http/http_client_interface.h"
+#include "mercury/utils/IFilesystem.h"
 
 
 namespace KESDLTC {
@@ -26,7 +27,8 @@ namespace KESDLTC {
 class Tile : public ITile {
  public:  // Constructors & destructors.
     explicit Tile(
-        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr);  // NOLINT
+        const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr,  // NOLINT
+        const std::shared_ptr<Mercury::Utils::IFilesystem>& fs = nullptr);
 
     Tile(const std::string& id,
          const std::string& cover,
@@ -37,7 +39,8 @@ class Tile : public ITile {
          const std::string& openUrl,
          const std::string& fallbackUrl,
          const std::string& coverPath = "",
-         const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr);  // NOLINT
+         const std::shared_ptr<Mercury::HTTP::IHTTPClient>& httpClient = nullptr,  // NOLINT
+         const std::shared_ptr<Mercury::Utils::IFilesystem>& fs = nullptr);
 
  public:  // ISerialisable Methods.
     bool initialise(JSON_Value* serialisedData) override;
@@ -68,6 +71,7 @@ class Tile : public ITile {
     std::string openUrl;
     std::string fallbackUrl;
     std::shared_ptr<Mercury::HTTP::IHTTPClient> httpClient;
+    std::shared_ptr<Mercury::Utils::IFilesystem> filesystem;
 };
 
 }  // namespace KESDLTC

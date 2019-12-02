@@ -21,6 +21,7 @@
 #include "kes_dashboard_live_tiles_client/ITileFactory.h"
 #include "kes_dashboard_live_tiles_client/TileFactory.h"
 #include "mercury/utils/Filesystem.h"
+#include "mercury/utils/IFilesystem.h"
 #include "mercury/utils/Time.h"
 
 using std::cerr;
@@ -36,18 +37,26 @@ using KESDLTC::ITile;
 using KESDLTC::ITileFactory;
 using KESDLTC::TileFactory;
 
+using Mercury::Utils::IFilesystem;
+using Mercury::Utils::Filesystem;
+
 
 TileCache::TileCache(
     const string& cacheDir,
-    const shared_ptr<ITileFactory>& tileFactory):
+    const shared_ptr<ITileFactory>& tileFactory,
+    const std::shared_ptr<IFilesystem>& fs):
         cacheDir(cacheDir),
         tileFactory(tileFactory),
         cacheDataRoot(nullptr),
-        cacheData(nullptr) {
+        cacheData(nullptr),
+        filesystem(fs) {
     //
     this->cachePath = this->cacheDir + "/" + this->CACHE_FILE;
     if (this->tileFactory == nullptr)
         this->tileFactory = make_shared<TileFactory>();
+
+    if (this->filesystem == nullptr)
+        this->filesystem = make_shared<Filesystem>();
 
     this->load();
 }
@@ -119,7 +128,7 @@ void TileCache::update(const list<shared_ptr<ITile>>& tiles) {
     }
 
     // Ensure the directory and write all serialised tiles to the cache.
-    create_directories(this->cacheDir);
+    this->filesystem->create_directories(this->cacheDir);
 
     if (json_serialize_to_file_pretty(
             root.get(), this->cachePath.c_str()) != JSONSuccess) {

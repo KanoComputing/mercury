@@ -31,11 +31,11 @@ TEST_F(APIConfigFixture, NoOverrides)
     Mercury::KanoWorld::APIConfig config({BASE_CONFIG});
 
     EXPECT_EQ(config.get_api_url(), "test_url");
-    EXPECT_EQ(config.get_value<string>("no_override"),
+    EXPECT_EQ(config.get_value<std::string>("no_override"),
               "base no_override value");
-    EXPECT_EQ(config.get_value<string>("override"),
+    EXPECT_EQ(config.get_value<std::string>("override"),
               "base override value");
-    EXPECT_EQ(config.get_value<string>("missing_key"),
+    EXPECT_EQ(config.get_value<std::string>("missing_key"),
               "");
 }
 
@@ -45,11 +45,11 @@ TEST_F(APIConfigFixture, OverrideValues)
     Mercury::KanoWorld::APIConfig config({OVERRIDE_CONFIG, BASE_CONFIG});
 
     EXPECT_EQ(config.get_api_url(), "test_url");
-    EXPECT_EQ(config.get_value<string>("no_override"),
+    EXPECT_EQ(config.get_value<std::string>("no_override"),
               "base no_override value");
-    EXPECT_EQ(config.get_value<string>("override"),
+    EXPECT_EQ(config.get_value<std::string>("override"),
               "overriden override value");
-    EXPECT_EQ(config.get_value<string>("missing_key"),
+    EXPECT_EQ(config.get_value<std::string>("missing_key"),
               "");
 }
 
@@ -62,11 +62,11 @@ TEST_F(APIConfigFixture, MalformedConfig)
                       BASE_CONFIG});
 
     EXPECT_EQ(config.get_api_url(), "test_url");
-    EXPECT_EQ(config.get_value<string>("no_override"),
+    EXPECT_EQ(config.get_value<std::string>("no_override"),
               "base no_override value");
-    EXPECT_EQ(config.get_value<string>("override"),
+    EXPECT_EQ(config.get_value<std::string>("override"),
               "overriden override value");
-    EXPECT_EQ(config.get_value<string>("missing_key"),
+    EXPECT_EQ(config.get_value<std::string>("missing_key"),
               "");
 }
 

@@ -45,7 +45,8 @@ class PaintingCacheFixture : public KesMpResponsesFixture {
 
  protected:
     void initialiseCache(const std::string& data) const {
-        create_directories(this->cacheDir);
+        Mercury::Utils::Filesystem fs;
+        fs.create_directories(this->cacheDir);
 
         // TODO: Add this to mercury/utils/filesystem.
         std::ofstream file(this->cachePath);
