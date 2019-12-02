@@ -19,6 +19,10 @@
 #include <map>
 #include <string>
 
+#ifdef WIN32
+#include <windows.h>
+#endif  // WIN32
+
 
 namespace Mercury {
 namespace Utils {
@@ -50,11 +54,13 @@ class EnvironmentFixture :
         ASSERT_TRUE(variableNotSet);
 
 // TODO: translate setenv to windows counterparts
-#ifndef WIN32
+#ifdef WIN32
+        SetEnvironmentVariable(this->variable.c_str(), this->value.c_str());
+#else  // WIN32
         int rv = setenv(this->variable.c_str(), this->value.c_str(), 0);
         bool setSuccessfully = rv == 0;
         ASSERT_TRUE(setSuccessfully);
-#endif
+#endif  // WIN32
     }
 
     virtual void TearDown() {
