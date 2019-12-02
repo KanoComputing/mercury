@@ -43,6 +43,10 @@ endif ()
 
 enable_testing()
 gtest_discover_tests(mercury_gtests)
+if (NOT DEFINED ENV{CTEST_OUTPUT_ON_FAILURE})
+    message(WARNING "Environment variable 'CTEST_OUTPUT_ON_FAILURE' not set")
+    message(WARNING "Set environment variable 'CTEST_OUTPUT_ON_FAILURE=ON' for more helpful test failures")
+endif()
 
 # Thread tests
 

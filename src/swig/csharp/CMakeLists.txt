@@ -22,4 +22,4 @@ else()
     swig_add_module(${CSHARP_NAME} csharp ../${PROJECT_NAME}.i)
 endif()
 
-swig_link_libraries(${CSHARP_NAME} mercury_shared)
+swig_link_libraries(${CSHARP_NAME} mercury_static)

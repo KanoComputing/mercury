@@ -49,26 +49,25 @@ using Mercury::HTTP::HTTPClient;
 
 
 HTTPClient::HTTPClient() {
-    //HTTPSessionInstantiator::registerInstantiator();
-    //HTTPSSessionInstantiator::registerInstantiator();
+    HTTPSessionInstantiator::registerInstantiator();
+    HTTPSSessionInstantiator::registerInstantiator();
+
+    Poco::SharedPtr<AcceptCertificateHandler> cert =
+        new AcceptCertificateHandler(false);
 
 #ifdef WIN32
     // Windows implementation for the Context class
     // is different to that on Linux.
-    Poco::SharedPtr<AcceptCertificateHandler> cert =
-        new AcceptCertificateHandler(false);
     const Poco::Net::Context::Ptr context = new Context(
         Context::CLIENT_USE, "", Context::VERIFY_NONE,
         Context::Options::OPT_DEFAULTS, "");
-    SSLManager::instance().initializeClient(0, cert, context);
-#else
-    Poco::SharedPtr<AcceptCertificateHandler> cert =
-        new AcceptCertificateHandler(false);
+#else  // WIN32
     const Poco::Net::Context::Ptr context = new Context(
         Context::CLIENT_USE, "", "", "", Context::VERIFY_NONE, 9, false,
         "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
+#endif  // WIN32
+
     SSLManager::instance().initializeClient(0, cert, context);
-#endif
 }
 
 
@@ -79,14 +78,11 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
     const std::string& body
 ) {
     const Poco::URI uri(url);
-    std::string data_stream;
     std::unique_ptr<HTTPClientSession> session;
 
     try {
-        /*
         session = std::unique_ptr<HTTPClientSession>(
             HTTPSessionFactory::defaultFactory().createClientSession(uri));
-        */
     } catch (const Poco::DataException& e) {
         throw SessionInitError(e.message());
     } catch (const std::exception& e) {
@@ -112,19 +108,23 @@ std::shared_ptr<JSON_Value> HTTPClient::send_request(
     std::istream& rs = session->receiveResponse(response);
 
     int status_code = response.getStatus();
-    /*
     if (status_code != HTTPResponse::HTTP_OK) {
         throw HTTPRequestFailedError(status_code, response.getReason());
     }
-    */
 
-// For some reason Windows does not like the statement below
-#ifndef WIN32
-    data_stream << std::string(rs.rdbuf());
-#endif
+#ifdef WIN32
+    std::string data_stream;
+    data_stream += std::string(std::istreambuf_iterator<char>(rs), {});
 
     return std::shared_ptr<JSON_Value>(
         json_parse_string(data_stream.c_str()), json_value_free);
+#else  // WIN32
+    std::ostringstream data_stream;
+    data_stream << rs.rdbuf();
+
+    return std::shared_ptr<JSON_Value>(
+        json_parse_string(data_stream.str().c_str()), json_value_free);
+#endif  // WIN32
 }
 
 

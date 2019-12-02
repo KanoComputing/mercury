@@ -48,6 +48,7 @@ if (MSVC)
         EXPORT_FILE_NAME mercury_shared_export.h
         STATIC_DEFINE mercury_shared__BUILT_AS_STATIC
     )
+    add_definitions(-DPOCO_STATIC)
 endif()
 
 set_target_properties(mercury_shared
@@ -81,29 +82,6 @@ target_link_libraries(mercury_static
            CONAN_PKG::yaml-cpp
            ${OPENSSL_LIBRARIES}
 )
-
-# Remove default libraries coming from someplace else
-if(MSVC)
-
-  # For linking the mercury shared library
-  set(CMAKE_SHARED_LINKER_FLAGS
-      "${CMAKE_SHARED_LINKER_FLAGS}
-      /NODEFAULTLIB:\"PocoFoundation.lib\"
-      /NODEFAULTLIB:\"PocoNet.lib\"
-      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
-      /NODEFAULTLIB:\"PocoUtil.lib\""
-  )
-
-  # For linking the cpp client application
-  set(CMAKE_EXE_LINKER_FLAGS
-      "${CMAKE_EXE_LINKER_FLAGS}
-      /NODEFAULTLIB:\"PocoFoundation.lib\"
-      /NODEFAULTLIB:\"PocoNet.lib\"
-      /NODEFAULTLIB:\"PocoNetSSLWin.lib\"
-      /NODEFAULTLIB:\"PocoUtil.lib\""
-  )
-
-endif()
 
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)

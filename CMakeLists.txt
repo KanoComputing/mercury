@@ -48,7 +48,6 @@ endif (CMAKE_BUILD_TYPE MATCHES Debug)
 # For some reason this is mandatory on Windows, or above if() fails
 if (WIN32)
     add_subdirectory(test)
-    add_test(NAME mercury_tests COMMAND mercury_gtest)
 endif()
 
 enable_testing()
