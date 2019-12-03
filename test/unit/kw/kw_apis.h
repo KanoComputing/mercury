@@ -54,9 +54,13 @@ TEST(kw, ConstructorCallsEnvironmentGetEnvWithHome) {
 
     ON_CALL(*mockEnvironment, get)
         .WillByDefault(::testing::Return(""));
-
+#ifdef WIN32
+    EXPECT_CALL(*mockEnvironment, get("LocalAppData"))
+        .Times(1);
+#else  // WIN32
     EXPECT_CALL(*mockEnvironment, get("HOME"))
         .Times(1);
+#endif  // WIN32
 
     Mercury::KanoWorld::KanoWorld kw("", nullptr, mockEnvironment);
 }

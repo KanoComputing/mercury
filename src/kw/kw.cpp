@@ -70,7 +70,13 @@ KanoWorld::KanoWorld(
         this->http_client = make_shared<HTTPClient>();
 
     auto environment = (env == nullptr) ? make_shared<Environment>() : env;
-    this->data_filename = environment->get("HOME") + "/.mercury_kw.json";
+    this->data_filename =
+#ifdef WIN32
+        environment->get("LocalAppData") + "\\.mercury_kw.json";
+#else  // WIN32
+        environment->get("HOME") + "/.mercury_kw.json";
+#endif  // WIN32
+
     load_data();
 }
 

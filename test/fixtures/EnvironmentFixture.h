@@ -67,11 +67,13 @@ class EnvironmentFixture :
         this->initParams();
 
 // TODO: translate unsetenv to windows counterparts
-#ifndef WIN32
+#ifdef WIN32
+        SetEnvironmentVariable(this->variable.c_str(), "");
+#else  // WIN32
         int rv = unsetenv(this->variable.c_str());
         bool unsetSuccessfully = rv == 0;
         ASSERT_TRUE(unsetSuccessfully);
-#endif
+#endif  // WIN32
     }
 
  private:
