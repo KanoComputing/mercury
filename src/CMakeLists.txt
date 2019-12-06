@@ -54,9 +54,17 @@ endif()
 set_target_properties(mercury_shared
     PROPERTIES OUTPUT_NAME mercury
 )
-set_target_properties(mercury_static
-    PROPERTIES OUTPUT_NAME mercury
-)
+# For now, under Windows we rename the static library since the import
+# library for the DLL will have the same name and overwrite it.
+if (MSVC)
+    set_target_properties(mercury_static
+        PROPERTIES OUTPUT_NAME mercury_static
+    )
+else()
+    set_target_properties(mercury_static
+        PROPERTIES OUTPUT_NAME mercury
+    )
+endif()
 set_property(TARGET mercury_static PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(mercury_shared PUBLIC

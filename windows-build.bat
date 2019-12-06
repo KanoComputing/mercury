@@ -20,18 +20,18 @@ conan remote update dev-server http://dev.kano.me:9300
 
 cd build\release
 
-conan install -r dev-server --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-devstudio-2019.info ..\..
-conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-devstudio-2019.info ..\..
+conan install -r dev-server --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-VS2019-x86.info ..\..
+conan install --build=missing --profile=..\..\conan-platforms\conan-profile-Windows-VS2019-x86.info ..\..
 
 cmake -DCMAKE_BUILD_TYPE=Release ..\..
 
 @echo ">>> BUILDING MERCURY SHARED" >> build.log
-msbuild.exe -p:Configuration=Release src\mercury_shared.vcxproj
+msbuild.exe -p:Configuration=Release -p:Platform=x86 src\mercury_shared.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 @echo ">>> BUILDING MERCURY STATIC" >> build.log
-msbuild.exe -p:Configuration=Release src\mercury_static.vcxproj
+msbuild.exe -p:Configuration=Release -p:Platform=x86 src\mercury_static.vcxproj
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-@echo ">>> BUILDING C SHARP BINDINGS" >> build.log
-msbuild.exe -p:Configuration=Release src\swig\csharp\mercury_csharp.vcxproj
+:: @echo ">>> BUILDING C SHARP BINDINGS" >> build.log
+:: msbuild.exe -p:Configuration=Release src\swig\csharp\mercury_csharp.vcxproj
