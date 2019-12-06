@@ -1,3 +1,4 @@
+import os
 from conans import ConanFile, CMake, tools
 
 
@@ -38,20 +39,26 @@ class MercuryConan(ConanFile):
             defs={
                 "BUILD_PYTHON": "OFF",
                 "BUILD_PYTHON2": "OFF",
+                "BUILD_CSHARP": "OFF"
             }
         )
         cmake.build()
 
     def package(self):
         self.copy("*.h", dst="include", src="include")
-        self.copy("*mercury.lib", dst="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
 
         if self.options.shared:
             self.copy("*.so", dst="lib", keep_path=False)
             self.copy("*.dylib", dst="lib", keep_path=False)
+            self.copy("*.dll", dst="bin", keep_path=False)
+            self.copy("*mercury.lib", dst="lib", keep_path=False)
         else:
             self.copy("*.a", dst="lib", keep_path=False)
+            self.copy("*static.lib", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["mercury"]
+        # Only on Windows, for now, the static library is called mercury_static.lib
+        if not self.options.shared and os.name == 'nt':
+            self.cpp_info.libs = ["mercury_static"]
+        else:
+            self.cpp_info.libs = ["mercury"]
