@@ -72,7 +72,7 @@ KanoWorld::KanoWorld(
     auto environment = (env == nullptr) ? make_shared<Environment>() : env;
     this->data_filename =
 #ifdef WIN32
-        environment->get("LocalAppData") + "\\.mercury_kw.json";
+        environment->get("AppData") + "\\.mercury_kw.json";
 #else  // WIN32
         environment->get("HOME") + "/.mercury_kw.json";
 #endif  // WIN32
