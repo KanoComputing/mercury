@@ -49,6 +49,9 @@ if (MSVC)
         STATIC_DEFINE mercury_shared__BUILT_AS_STATIC
     )
     add_definitions(-DPOCO_STATIC)
+    target_link_options(mercury_shared PUBLIC
+        /APPCONTAINER /SAFESEH /DYNAMICBASE /NXCOMPAT
+    )
 endif()
 
 set_target_properties(mercury_shared
